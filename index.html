@@ -1,76 +1,36 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Executor - Trình Thực Thi Mã</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Download Hub</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <div class="logo">
-                <span class="logo-icon">⚡</span>
-                <h1>Executor</h1>
-            </div>
-            <div class="header-actions">
-                <button class="btn btn-secondary" id="clearBtn">
-                    <span class="btn-icon">🗑️</span> Xóa
-                </button>
-                <button class="btn btn-primary" id="executeBtn">
-                    <span class="btn-icon">▶️</span> Thực Thi
-                </button>
-            </div>
-        </header>
 
-        <main class="main-content">
-            <div class="editor-panel">
-                <div class="panel-header">
-                    <span class="panel-title">Trình Soạn Thảo</span>
-                    <div class="panel-actions">
-                        <button class="icon-btn" id="copyBtn" title="Sao chép">
-                            <span>📋</span>
-                        </button>
-                        <button class="icon-btn" id="pasteBtn" title="Dán">
-                            <span>📥</span>
-                        </button>
-                    </div>
-                </div>
-                <div class="editor-container">
-                    <div class="line-numbers" id="lineNumbers">1</div>
-                    <textarea id="codeEditor" class="code-editor" placeholder="Nhập mã của bạn tại đây..." spellcheck="false"></textarea>
-                </div>
-            </div>
+<header>
+  <h1>Download Hub</h1>
+  <p>Fast • Secure • Modern</p>
+</header>
 
-            <div class="output-panel">
-                <div class="panel-header">
-                    <span class="panel-title">Kết Quả</span>
-                    <div class="output-status">
-                        <span class="status-dot" id="statusDot"></span>
-                        <span class="status-text" id="statusText">Sẵn sàng</span>
-                    </div>
-                </div>
-                <div class="output-container">
-                    <div class="output-content" id="output">
-                        <span class="placeholder-text">Kết quả sẽ hiển thị tại đây...</span>
-                    </div>
-                </div>
-            </div>
-        </main>
+<section class="hero">
+  <div class="card">
+    <h2>Download</h2>
+    <p>Tải phiên bản mới nhất.</p>
 
-        <footer class="footer">
-            <div class="footer-left">
-                <span class="footer-text">Executor v1.0</span>
-            </div>
-            <div class="footer-right">
-                <button class="btn btn-small" id="exampleBtn">
-                    <span class="btn-icon">📝</span> Ví dụ
-                </button>
-            </div>
-        </footer>
+    <button id="downloadBtn">Download</button>
+
+    <div class="info">
+      <span>Version: v1.0</span>
+      <span>Status: Online</span>
     </div>
+  </div>
+</section>
 
-    <script src="script.js"></script>
+<footer>
+  © 2026 Download Hub
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>
