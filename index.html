@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Download Delta</title>
+  <title>Executor Download</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
 
@@ -23,13 +23,16 @@
         --text:#f8fafc;
         --muted:#94a3b8;
         --green:#10b981;
+        --purple:#8b5cf6;
+        --pink:#ec4899;
     }
 
     body{
         min-height:100vh;
         background:
-            radial-gradient(circle at top,#1d4ed822 0%,transparent 45%),
-            radial-gradient(circle at bottom,#06b6d422 0%,transparent 40%),
+            radial-gradient(circle at top,#7c3aed22 0%,transparent 45%),
+            radial-gradient(circle at bottom,#ec489922 0%,transparent 40%),
+            radial-gradient(circle at right,#1d4ed822 0%,transparent 45%),
             var(--bg);
         color:var(--text);
         animation: backgroundShift 10s ease-in-out infinite;
@@ -65,13 +68,14 @@
     .loader-percentage {
         font-size: 5rem;
         font-weight: 800;
-        background: linear-gradient(135deg, var(--blue), var(--cyan));
+        background: linear-gradient(135deg, var(--purple), var(--pink), var(--blue), var(--cyan));
+        background-size: 300% 300%;
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
         margin-bottom: 25px;
-        animation: pulseText 1.2s ease-in-out infinite;
-        text-shadow: 0 0 30px rgba(34,211,238,.3);
+        animation: gradientShift 2s ease infinite, pulseText 1.2s ease-in-out infinite;
+        text-shadow: 0 0 30px rgba(236,72,153,.3);
     }
 
     @keyframes pulseText {
@@ -92,19 +96,21 @@
         border-radius: 20px;
         overflow: hidden;
         position: relative;
-        border: 1px solid rgba(59,130,246,.2);
+        border: 1px solid rgba(139,92,246,.2);
     }
 
     .loader-bar {
         height: 100%;
         width: 0%;
-        background: linear-gradient(90deg, var(--blue), var(--cyan));
+        background: linear-gradient(90deg, var(--purple), var(--pink), var(--blue), var(--cyan));
+        background-size: 300% 100%;
         border-radius: 20px;
         transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         box-shadow: 
-            0 0 20px rgba(34, 211, 238, 0.6),
-            0 0 40px rgba(59, 130, 246, 0.4);
+            0 0 20px rgba(236, 72, 153, 0.6),
+            0 0 40px rgba(139, 92, 246, 0.4);
         position: relative;
+        animation: gradientShift 3s ease infinite;
     }
 
     .loader-bar::after {
@@ -149,14 +155,16 @@
     @keyframes backgroundShift {
         0%, 100% {
             background:
-                radial-gradient(circle at top,#1d4ed822 0%,transparent 45%),
-                radial-gradient(circle at bottom,#06b6d422 0%,transparent 40%),
+                radial-gradient(circle at top,#7c3aed22 0%,transparent 45%),
+                radial-gradient(circle at bottom,#ec489922 0%,transparent 40%),
+                radial-gradient(circle at right,#1d4ed822 0%,transparent 45%),
                 var(--bg);
         }
         50% {
             background:
-                radial-gradient(circle at top,#06b6d422 0%,transparent 45%),
-                radial-gradient(circle at bottom,#1d4ed822 0%,transparent 40%),
+                radial-gradient(circle at top,#ec489922 0%,transparent 45%),
+                radial-gradient(circle at bottom,#7c3aed22 0%,transparent 40%),
+                radial-gradient(circle at left,#06b6d422 0%,transparent 45%),
                 var(--bg);
         }
     }
@@ -173,6 +181,15 @@
     }
 
     @keyframes pulse {
+        0%, 100% {
+            box-shadow: 0 0 25px rgba(236,72,153,.35);
+        }
+        50% {
+            box-shadow: 0 0 50px rgba(236,72,153,.65);
+        }
+    }
+
+    @keyframes pulseBlue {
         0%, 100% {
             box-shadow: 0 0 25px rgba(34,211,238,.35);
         }
@@ -209,8 +226,8 @@
     header h1{
         font-size:3rem;
         font-weight:800;
-        background:linear-gradient(90deg,var(--blue),var(--cyan),var(--blue));
-        background-size: 200% auto;
+        background:linear-gradient(90deg,var(--purple),var(--pink),var(--blue),var(--cyan));
+        background-size: 300% auto;
         -webkit-background-clip:text;
         background-clip: text;
         color:transparent;
@@ -228,7 +245,9 @@
         display:flex;
         justify-content:center;
         align-items:center;
+        gap: 30px;
         padding:30px 20px 60px;
+        flex-wrap: wrap;
         animation: fadeInUp 0.8s ease-out 0.4s both;
     }
 
@@ -237,23 +256,18 @@
         max-width:430px;
         background:rgba(18,26,43,.88);
         backdrop-filter:blur(18px);
-        border:1px solid rgba(59,130,246,.25);
+        border:1px solid rgba(139,92,246,.25);
         border-radius:24px;
         padding:35px;
         box-shadow:
-            0 0 35px rgba(59,130,246,.15),
+            0 0 35px rgba(139,92,246,.15),
             inset 0 0 20px rgba(255,255,255,.03);
-        animation: float 6s ease-in-out infinite;
         transition: all 0.3s ease;
         position: relative;
         overflow: hidden;
     }
 
     .card:hover {
-        border-color: rgba(59,130,246,.5);
-        box-shadow:
-            0 0 50px rgba(59,130,246,.25),
-            inset 0 0 30px rgba(255,255,255,.05);
         transform: translateY(-5px);
     }
 
@@ -285,8 +299,15 @@
         left: 0;
         width: 0;
         height: 3px;
-        background: linear-gradient(90deg, var(--blue), var(--cyan));
         animation: lineGrow 1s ease-out 1s forwards;
+    }
+
+    .card-pro h2::after {
+        background: linear-gradient(90deg, var(--purple), var(--pink));
+    }
+
+    .card-client h2::after {
+        background: linear-gradient(90deg, var(--blue), var(--cyan));
     }
 
     @keyframes lineGrow {
@@ -306,26 +327,50 @@
         color: var(--text);
     }
 
-    /* BUTTON */
-    button{
+    .card-pro {
+        border-color: rgba(139,92,246,.25);
+        animation: float 6s ease-in-out infinite;
+    }
+
+    .card-pro:hover {
+        border-color: rgba(139,92,246,.5);
+        box-shadow:
+            0 0 50px rgba(139,92,246,.25),
+            inset 0 0 30px rgba(255,255,255,.05);
+    }
+
+    .card-client {
+        border-color: rgba(59,130,246,.25);
+        animation: float 6s ease-in-out infinite 1s;
+    }
+
+    .card-client:hover {
+        border-color: rgba(59,130,246,.5);
+        box-shadow:
+            0 0 50px rgba(59,130,246,.25),
+            inset 0 0 30px rgba(255,255,255,.05);
+    }
+
+    /* BUTTONS */
+    .btn-pro {
         width:100%;
         padding:15px;
         border:none;
         border-radius:14px;
-        background:linear-gradient(135deg,var(--blue),var(--cyan));
+        background:linear-gradient(135deg,var(--purple),var(--pink));
         background-size: 200% 200%;
         color:white;
         font-size:1rem;
         font-weight:700;
         cursor:pointer;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow:0 0 25px rgba(34,211,238,.35);
+        box-shadow:0 0 25px rgba(236,72,153,.35);
         animation: pulse 3s ease-in-out infinite;
         position: relative;
         overflow: hidden;
     }
 
-    button::before {
+    .btn-pro::before {
         content: '';
         position: absolute;
         top: 50%;
@@ -338,7 +383,45 @@
         transition: width 0.6s, height 0.6s;
     }
 
-    button:hover{
+    .btn-pro:hover {
+        transform:translateY(-3px) scale(1.02);
+        box-shadow:0 0 40px rgba(236,72,153,.7);
+        background-position: 100% 0%;
+        animation: none;
+    }
+
+    .btn-client {
+        width:100%;
+        padding:15px;
+        border:none;
+        border-radius:14px;
+        background:linear-gradient(135deg,var(--blue),var(--cyan));
+        background-size: 200% 200%;
+        color:white;
+        font-size:1rem;
+        font-weight:700;
+        cursor:pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow:0 0 25px rgba(34,211,238,.35);
+        animation: pulseBlue 3s ease-in-out infinite;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-client::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255,255,255,.3);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+    }
+
+    .btn-client:hover {
         transform:translateY(-3px) scale(1.02);
         box-shadow:0 0 40px rgba(34,211,238,.7);
         background-position: 100% 0%;
@@ -382,8 +465,15 @@
     }
 
     .info span:hover {
-        color: var(--cyan);
         transform: translateY(-2px);
+    }
+
+    .info-pro span:hover {
+        color: var(--pink);
+    }
+
+    .info-client span:hover {
+        color: var(--cyan);
     }
 
     .online-dot {
@@ -420,7 +510,7 @@
 
         .card{
             padding:28px;
-            animation: float 4s ease-in-out infinite;
+            animation: float 4s ease-in-out infinite !important;
         }
         
         button {
@@ -435,6 +525,18 @@
             flex-direction: column;
             gap: 10px;
             align-items: flex-start;
+        }
+
+        .hero {
+            padding: 20px 10px 40px;
+            gap: 20px;
+        }
+    }
+
+    @media(max-width:900px) {
+        .hero {
+            flex-direction: column;
+            align-items: center;
         }
     }
   </style>
@@ -453,18 +555,32 @@
 </div>
 
 <header>
-  <h1>Download Client</h1>
-  <p>Best Mobile Executor</p>
+  <h1>Download Delta Pro & Client</h1>
+  <p>Premium Mobile Executor & Best Client</p>
 </header>
 
 <section class="hero">
-  <div class="card">
+  <!-- Card Pro -->
+  <div class="card card-pro">
+    <h2>Download Delta Lite</h2>
+    <p>Tải phiên bản Lite mới nhất với nhiều tính năng nâng cao.</p>
+
+    <button class="btn-pro" id="downloadBtnPro">Download Pro</button>
+
+    <div class="info info-pro">
+      <span>Version: 2.735.1138</span>
+      <span>Status: <span class="online-dot"></span> Online</span>
+    </div>
+  </div>
+
+  <!-- Card Client -->
+  <div class="card card-client">
     <h2>Download Delta</h2>
     <p>Tải phiên bản mới nhất.</p>
 
-    <button id="downloadBtn">Download</button>
+    <button class="btn-client" id="downloadBtnClient">Download Client</button>
 
-    <div class="info">
+    <div class="info info-client">
       <span>Version: 2.735.1138</span>
       <span>Status: <span class="online-dot"></span> Online</span>
     </div>
@@ -472,7 +588,7 @@
 </section>
 
 <footer>
-  © 2026 Matchat67
+  © 2026 Matchat67 - Executor
 </footer>
 
 <script>
@@ -484,55 +600,78 @@ window.addEventListener('load', () => {
     let progress = 0;
     
     const interval = setInterval(() => {
-        // Tăng ngẫu nhiên từ 1-20% để tạo cảm giác tự nhiên
         progress += Math.floor(Math.random() * 20) + 1;
         
         if (progress >= 100) {
             progress = 100;
             clearInterval(interval);
             
-            // Cập nhật UI
             percentage.textContent = progress + '%';
             loaderBar.style.width = progress + '%';
-            
-            // Thêm class hoàn thành
             loaderBar.style.background = 'linear-gradient(90deg, #10b981, #34d399)';
             
-            // Ẩn loader sau 600ms
             setTimeout(() => {
                 loader.classList.add('hidden');
             }, 600);
         } else {
-            // Cập nhật UI
             percentage.textContent = progress + '%';
             loaderBar.style.width = progress + '%';
         }
-    }, 250); // Cập nhật mỗi 250ms
+    }, 250);
 });
 
-// Download button functionality
-document.getElementById('downloadBtn').addEventListener('click', function() {
+// Download button Pro - THAY URL CỦA BẠN VÀO ĐÂY
+document.getElementById('downloadBtnPro').addEventListener('click', function() {
     const btn = this;
     const originalText = btn.textContent;
     
-    // Disable button
     btn.disabled = true;
     btn.textContent = 'Đang tải...';
     
-    // Giả lập quá trình tải
     setTimeout(() => {
         btn.textContent = 'Đang chuẩn bị...';
         
         setTimeout(() => {
-            // Tạo link download giả
+            // ⬇️ THAY URL CỦA DELTA PRO VÀO ĐÂY ⬇️
             const link = document.createElement('a');
-            link.href = 'https://link4sub.com/HeQ0kBagzW'; // Thay bằng link download thực tế
-            link.download = 'Delta-v2.733.988.apk';
+            link.href = 'https://vuotnhanh.com/GraiRoblox'; // 👈 DÁN URL DELTA PRO CỦA BẠN VÀO ĐÂY
+            link.download = 'Delta-Pro-v3.245.1782.apk';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
             
-            // Khôi phục button
+            btn.textContent = 'Tải xuống thành công! ✓';
+            btn.style.background = 'linear-gradient(135deg, #10b981, #34d399)';
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.disabled = false;
+                btn.style.background = '';
+            }, 2000);
+        }, 1000);
+    }, 500);
+});
+
+// Download button Client - THAY URL CỦA BẠN VÀO ĐÂY
+document.getElementById('downloadBtnClient').addEventListener('click', function() {
+    const btn = this;
+    const originalText = btn.textContent;
+    
+    btn.disabled = true;
+    btn.textContent = 'Đang tải...';
+    
+    setTimeout(() => {
+        btn.textContent = 'Đang chuẩn bị...';
+        
+        setTimeout(() => {
+            // ⬇️ THAY URL CỦA DELTA CLIENT VÀO ĐÂY ⬇️
+            const link = document.createElement('a');
+            link.href = 'https://vuotnhanh.com/TbFi'; // 👈 DÁN URL DELTA CLIENT CỦA BẠN VÀO ĐÂY
+            link.download = 'Delta-v2.735.1138.apk';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
             btn.textContent = 'Tải xuống thành công! ✓';
             btn.style.background = 'linear-gradient(135deg, #10b981, #34d399)';
             
