@@ -27,6 +27,8 @@
         --pink:#ec4899;
         --orange:#f59e0b;
         --red:#ef4444;
+        --teal:#14b8a6;
+        --amber:#fbbf24;
     }
 
     body{
@@ -327,6 +329,15 @@
         }
     }
 
+    @keyframes pulseTeal {
+        0%, 100% {
+            box-shadow: 0 0 25px rgba(20,184,166,.35);
+        }
+        50% {
+            box-shadow: 0 0 50px rgba(20,184,166,.65);
+        }
+    }
+
     @keyframes float {
         0%, 100% {
             transform: translateY(0);
@@ -439,6 +450,10 @@
         background: linear-gradient(90deg, var(--blue), var(--cyan));
     }
 
+    .card-nx h2::after {
+        background: linear-gradient(90deg, var(--teal), var(--amber));
+    }
+
     @keyframes lineGrow {
         to {
             width: 100%;
@@ -477,6 +492,18 @@
         border-color: rgba(59,130,246,.5);
         box-shadow:
             0 0 50px rgba(59,130,246,.25),
+            inset 0 0 30px rgba(255,255,255,.05);
+    }
+
+    .card-nx {
+        border-color: rgba(20,184,166,.25);
+        animation: float 6s ease-in-out infinite 0.5s;
+    }
+
+    .card-nx:hover {
+        border-color: rgba(20,184,166,.5);
+        box-shadow:
+            0 0 50px rgba(20,184,166,.25),
             inset 0 0 30px rgba(255,255,255,.05);
     }
 
@@ -553,6 +580,44 @@
     .btn-client:hover {
         transform:translateY(-3px) scale(1.02);
         box-shadow:0 0 40px rgba(34,211,238,.7);
+        background-position: 100% 0%;
+        animation: none;
+    }
+
+    .btn-nx {
+        width:100%;
+        padding:15px;
+        border:none;
+        border-radius:14px;
+        background:linear-gradient(135deg,var(--teal),var(--amber));
+        background-size: 200% 200%;
+        color:white;
+        font-size:1rem;
+        font-weight:700;
+        cursor:pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow:0 0 25px rgba(20,184,166,.35);
+        animation: pulseTeal 3s ease-in-out infinite;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-nx::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255,255,255,.3);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+    }
+
+    .btn-nx:hover {
+        transform:translateY(-3px) scale(1.02);
+        box-shadow:0 0 40px rgba(20,184,166,.7);
         background-position: 100% 0%;
         animation: none;
     }
@@ -644,6 +709,10 @@
 
     .info-client span:hover {
         color: var(--cyan);
+    }
+
+    .info-nx span:hover {
+        color: var(--amber);
     }
 
     .online-dot {
@@ -774,7 +843,7 @@
 </div>
 
 <header>
-  <h1>Download Delta & Client</h1>
+  <h1>Download Executor & Client</h1>
   <p>Mobile Executor & Best Client</p>
 </header>
 
@@ -783,14 +852,10 @@
   <div class="card card-pro">
     <h2>
       Download Delta Lite
-      <!-- ===== BADGE BẢO TRÌ (TỰ ĐỘNG HIỆN) ===== -->
       <span class="maintenance-badge" id="badgePro">🔧 Bảo trì</span>
     </h2>
     <p>Tải phiên bản Lite mới nhất.</p>
-
-    <!-- ===== BUTTON BẢO TRÌ ===== -->
     <button class="btn-pro" id="downloadBtnPro">Download</button>
-
     <div class="info info-pro">
       <span>Version: 2.735.1138</span>
       <span id="statusPro">Status: <span class="online-dot"></span> Online</span>
@@ -801,17 +866,27 @@
   <div class="card card-client">
     <h2>
       Download Delta
-      <!-- ===== BADGE BẢO TRÌ (TỰ ĐỘNG HIỆN) ===== -->
       <span class="maintenance-badge" id="badgeClient">🔧 Bảo trì</span>
     </h2>
     <p>Tải phiên bản mới nhất.</p>
-
-    <!-- ===== BUTTON BẢO TRÌ ===== -->
     <button class="btn-client" id="downloadBtnClient">Download</button>
-
     <div class="info info-client">
       <span>Version: 2.735.1138</span>
       <span id="statusClient">Status: <span class="online-dot"></span> Online</span>
+    </div>
+  </div>
+
+  <!-- Card Roblox Lite NX (MỚI) -->
+  <div class="card card-nx">
+    <h2>
+      Roblox Lite NX
+      <span class="maintenance-badge" id="badgeNx">🔧 Bảo trì</span>
+    </h2>
+    <p>Phiên bản nhẹ tối ưu cho Roblox.</p>
+    <button class="btn-nx" id="downloadBtnNx">Download</button>
+    <div class="info info-nx">
+      <span>Version: 3.0.1</span>
+      <span id="statusNx">Status: <span class="online-dot"></span> Online</span>
     </div>
   </div>
 </section>
@@ -822,11 +897,12 @@
 
 <script>
 // =====================================================
-// 🛠️ CHỈ CẦN SỬA 2 DÒNG NÀY ĐỂ BẬT/TẮT BẢO TRÌ 🛠️
+// 🛠️ CHỈ CẦN SỬA 3 DÒNG NÀY ĐỂ BẬT/TẮT BẢO TRÌ 🛠️
 // =====================================================
 const MAINTENANCE_MODE = {
-    lite: true,    // true = bảo trì Delta Pro, false = bình thường
-    normal: false  // true = bảo trì Delta Client, false = bình thường
+    pro: false,      // true = bảo trì Delta Lite, false = bình thường
+    client: false,  // true = bảo trì Delta Client, false = bình thường
+    nx: false       // true = bảo trì Roblox Lite NX, false = bình thường
 };
 // =====================================================
 
@@ -899,11 +975,29 @@ function applyMaintenanceMode() {
         badgeClient.style.display = 'none';
         statusClient.innerHTML = 'Status: <span class="online-dot"></span> Online';
     }
+
+    // Xử lý Roblox Lite NX
+    const btnNx = document.getElementById('downloadBtnNx');
+    const badgeNx = document.getElementById('badgeNx');
+    const statusNx = document.getElementById('statusNx');
+    
+    if (MAINTENANCE_MODE.nx) {
+        btnNx.classList.add('btn-maintenance');
+        btnNx.textContent = '⛔ Đang bảo trì';
+        btnNx.disabled = true;
+        badgeNx.style.display = 'inline-block';
+        statusNx.innerHTML = 'Status: <span class="maintenance-dot"></span> Bảo trì';
+    } else {
+        btnNx.classList.remove('btn-maintenance');
+        btnNx.textContent = 'Download';
+        btnNx.disabled = false;
+        badgeNx.style.display = 'none';
+        statusNx.innerHTML = 'Status: <span class="online-dot"></span> Online';
+    }
 }
 
 // ===== DOWNLOAD BUTTON PRO (CHỈ CHẠY KHI KHÔNG BẢO TRÌ) =====
 document.getElementById('downloadBtnPro').addEventListener('click', function() {
-    // Kiểm tra nếu đang bảo trì thì không làm gì
     if (MAINTENANCE_MODE.pro) return;
     
     const btn = this;
@@ -937,7 +1031,6 @@ document.getElementById('downloadBtnPro').addEventListener('click', function() {
 
 // ===== DOWNLOAD BUTTON CLIENT (CHỈ CHẠY KHI KHÔNG BẢO TRÌ) =====
 document.getElementById('downloadBtnClient').addEventListener('click', function() {
-    // Kiểm tra nếu đang bảo trì thì không làm gì
     if (MAINTENANCE_MODE.client) return;
     
     const btn = this;
@@ -968,6 +1061,39 @@ document.getElementById('downloadBtnClient').addEventListener('click', function(
         }, 1000);
     }, 500);
 });
+
+// ===== DOWNLOAD BUTTON NX (CHỈ CHẠY KHI KHÔNG BẢO TRÌ) =====
+document.getElementById('downloadBtnNx').addEventListener('click', function() {
+    if (MAINTENANCE_MODE.nx) return;
+    
+    const btn = this;
+    const originalText = btn.textContent;
+    
+    btn.disabled = true;
+    btn.textContent = 'Đang tải...';
+    
+    setTimeout(() => {
+        btn.textContent = 'Đang chuẩn bị...';
+        
+        setTimeout(() => {
+            const link = document.createElement('a');
+            link.href = 'https://vuotnhanh.com/TxPF';
+            link.download = 'Roblox-Lite-NX-v3.0.1.apk';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            btn.textContent = 'Tải xuống thành công! ✓';
+            btn.style.background = 'linear-gradient(135deg, #10b981, #34d399)';
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.disabled = false;
+                btn.style.background = '';
+            }, 2000);
+        }, 1000);
+    }, 500);
+});
 </script>
 </body>
-  </html>
+</html>
