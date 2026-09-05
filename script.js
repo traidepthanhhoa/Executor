@@ -128,23 +128,23 @@ function applyMaintenanceMode() {
         badgePx.style.display = 'none';
         statusPx.innerHTML = 'Status: <span class="online-dot"></span> Online';
     }
-}
+
     // --- PC Velocity (Pv) ---
-    const btnPx = document.getElementById('downloadBtnPv');
-    const badgePx = document.getElementById('badgePv');
-    const statusPx = document.getElementById('statusPv');
+    const btnPv = document.getElementById('downloadBtnPv');
+    const badgePv = document.getElementById('badgePv');
+    const statusPv = document.getElementById('statusPv');
     if (MAINTENANCE_MODE.pv) {
-        btnPx.classList.add('btn-maintenance');
-        btnPx.textContent = '⛔ Đang bảo trì';
-        btnPx.disabled = true;
-        badgePx.style.display = 'inline-block';
-        statusPx.innerHTML = 'Status: <span class="maintenance-dot"></span> Bảo trì';
+        btnPv.classList.add('btn-maintenance');
+        btnPv.textContent = '⛔ Đang bảo trì';
+        btnPv.disabled = true;
+        badgePv.style.display = 'inline-block';
+        statusPv.innerHTML = 'Status: <span class="maintenance-dot"></span> Bảo trì';
     } else {
-        btnPx.classList.remove('btn-maintenance');
-        btnPx.textContent = 'Download';
-        btnPx.disabled = false;
-        badgePx.style.display = 'none';
-        statusPx.innerHTML = 'Status: <span class="online-dot"></span> Online';
+        btnPv.classList.remove('btn-maintenance');
+        btnPv.textContent = 'Download';
+        btnPv.disabled = false;
+        badgePv.style.display = 'none';
+        statusPv.innerHTML = 'Status: <span class="online-dot"></span> Online';
     }
 }
 
@@ -281,7 +281,7 @@ document.getElementById('downloadBtnPx').addEventListener('click', function() {
         btn.textContent = 'Đang chuẩn bị...';
         setTimeout(() => {
             const link = document.createElement('a');
-            link.href = 'https://vuotnhanh.com/G94y'; // bạn có thể đổi link riêng
+            link.href = 'https://vuotnhanh.com/G94y';
             link.download = 'Executor-PC-Medium-v1.5.0.zip';
             document.body.appendChild(link);
             link.click();
@@ -296,7 +296,8 @@ document.getElementById('downloadBtnPx').addEventListener('click', function() {
         }, 1000);
     }, 500);
 });
-// ===== DOWNLOAD PC velocity (Pv) =====
+
+// ===== DOWNLOAD PC VELOCITY (PV) =====
 document.getElementById('downloadBtnPv').addEventListener('click', function() {
     if (MAINTENANCE_MODE.pv) return;
     const btn = this, orig = btn.textContent;
@@ -306,8 +307,8 @@ document.getElementById('downloadBtnPv').addEventListener('click', function() {
         btn.textContent = 'Đang chuẩn bị...';
         setTimeout(() => {
             const link = document.createElement('a');
-            link.href = 'https://vuotnhanh.com/zij1'; // bạn có thể đổi link riêng
-            link.download = 'Executor-PC-Medium-v1.5.0.zip';
+            link.href = 'https://vuotnhanh.com/zij1';
+            link.download = 'Executor-PC-Velocity-v1.6.0.zip';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
