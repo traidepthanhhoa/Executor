@@ -2,7 +2,7 @@
 // 🛠️ CẤU HÌNH BẢO TRÌ – SỬA TRUE/FALSE 🛠️
 // ============================================================
 const MAINTENANCE_MODE = {
-    pro: true,     // Delta Lite
+    pro: false,     // Delta Lite
     client: false,  // Delta Client
     nx: false,      // Roblox Lite NX
     pc: false,      // ⭐ Real (PC)
@@ -158,7 +158,7 @@ document.getElementById('downloadBtnPro').addEventListener('click', function() {
         btn.textContent = 'Đang chuẩn bị...';
         setTimeout(() => {
             const link = document.createElement('a');
-            link.href = 'https://vuotnhanh.com/GraiRoblox';
+            link.href = 'https://vuotnhanh.com/dICD';
             link.download = 'Delta-Pro-v3.245.1782.apk';
             document.body.appendChild(link);
             link.click();
