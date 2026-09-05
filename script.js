@@ -6,7 +6,8 @@ const MAINTENANCE_MODE = {
     client: false,  // Delta Client
     nx: false,      // Roblox Lite NX
     pc: false,      // ⭐ Real (PC)
-    px: true       // ⭐ Medium (PX)
+    px: true,       // ⭐ Medium (PX)
+    pv: false
 };
 // ============================================================
 
@@ -128,6 +129,24 @@ function applyMaintenanceMode() {
         statusPx.innerHTML = 'Status: <span class="online-dot"></span> Online';
     }
 }
+    // --- PC Velocity (Pv) ---
+    const btnPx = document.getElementById('downloadBtnPv');
+    const badgePx = document.getElementById('badgePv');
+    const statusPx = document.getElementById('statusPv');
+    if (MAINTENANCE_MODE.pv) {
+        btnPx.classList.add('btn-maintenance');
+        btnPx.textContent = '⛔ Đang bảo trì';
+        btnPx.disabled = true;
+        badgePx.style.display = 'inline-block';
+        statusPx.innerHTML = 'Status: <span class="maintenance-dot"></span> Bảo trì';
+    } else {
+        btnPx.classList.remove('btn-maintenance');
+        btnPx.textContent = 'Download';
+        btnPx.disabled = false;
+        badgePx.style.display = 'none';
+        statusPx.innerHTML = 'Status: <span class="online-dot"></span> Online';
+    }
+}
 
 // ===== TAB SWITCHING =====
 const tabBtns = document.querySelectorAll('.tab-btn');
@@ -236,7 +255,7 @@ document.getElementById('downloadBtnPc').addEventListener('click', function() {
         btn.textContent = 'Đang chuẩn bị...';
         setTimeout(() => {
             const link = document.createElement('a');
-            link.href = 'https://vuotnhanh.com/G94y';
+            link.href = 'https://vuotnhanh.com/CEGE';
             link.download = 'Executor-PC-Real-v1.7.0.zip';
             document.body.appendChild(link);
             link.click();
@@ -263,6 +282,31 @@ document.getElementById('downloadBtnPx').addEventListener('click', function() {
         setTimeout(() => {
             const link = document.createElement('a');
             link.href = 'https://vuotnhanh.com/G94y'; // bạn có thể đổi link riêng
+            link.download = 'Executor-PC-Medium-v1.5.0.zip';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            btn.textContent = 'Tải xuống thành công! ✓';
+            btn.style.background = 'linear-gradient(135deg, #10b981, #34d399)';
+            setTimeout(() => {
+                btn.textContent = orig;
+                btn.disabled = false;
+                btn.style.background = '';
+            }, 2000);
+        }, 1000);
+    }, 500);
+});
+// ===== DOWNLOAD PC velocity (Pv) =====
+document.getElementById('downloadBtnPv').addEventListener('click', function() {
+    if (MAINTENANCE_MODE.pv) return;
+    const btn = this, orig = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Đang tải...';
+    setTimeout(() => {
+        btn.textContent = 'Đang chuẩn bị...';
+        setTimeout(() => {
+            const link = document.createElement('a');
+            link.href = 'https://vuotnhanh.com/zij1'; // bạn có thể đổi link riêng
             link.download = 'Executor-PC-Medium-v1.5.0.zip';
             document.body.appendChild(link);
             link.click();
