@@ -184,7 +184,7 @@ document.getElementById('downloadBtnClient').addEventListener('click', function(
         btn.textContent = 'Đang chuẩn bị...';
         setTimeout(() => {
             const link = document.createElement('a');
-            link.href = 'https://vuotnhanh.com/TbFi';
+            link.href = 'https://vuotnhanh.com/9G1D';
             link.download = 'Delta-v2.735.1138.apk';
             document.body.appendChild(link);
             link.click();
