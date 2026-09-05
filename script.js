@@ -2,7 +2,7 @@
 // 🛠️ CẤU HÌNH BẢO TRÌ – SỬA TRUE/FALSE 🛠️
 // ============================================================
 const MAINTENANCE_MODE = {
-    pro: false,     // Delta Lite
+    pro: true,     // Delta Lite
     client: false,  // Delta Client
     nx: false,      // Roblox Lite NX
     pc: false,      // ⭐ Real (PC)
