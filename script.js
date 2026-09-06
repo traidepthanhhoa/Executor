@@ -248,7 +248,7 @@ document.getElementById('downloadBtnD32').addEventListener('click', function() {
         btn.textContent = 'Đang chuẩn bị...';
         setTimeout(() => {
             const link = document.createElement('a');
-            link.href = 'https://vuotnhanh.com/your_d32_link'; // 👈 Đổi link thật của D32
+            link.href = 'https://vuotnhanh.com/oJou'; // 👈 Đổi link thật của D32
             link.download = 'Delta-32bit-v2.736.1408.apk';      // 👈 Đổi tên file cho đúng
             document.body.appendChild(link);
             link.click();
