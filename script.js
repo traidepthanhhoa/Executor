@@ -7,7 +7,8 @@ const MAINTENANCE_MODE = {
     nx: false,      // Roblox Lite NX
     pc: false,      // ⭐ Real (PC)
     px: false,       // ⭐ Medium (PX)
-    pv: false
+    pv: false,
+    D32: false
 };
 // ============================================================
 
