@@ -6,7 +6,7 @@ const MAINTENANCE_MODE = {
     client: false,  // Delta Client
     nx: false,      // Roblox Lite NX
     pc: false,      // ⭐ Real (PC)
-    px: true,       // ⭐ Medium (PX)
+    px: false,       // ⭐ Medium (PX)
     pv: false
 };
 // ============================================================
