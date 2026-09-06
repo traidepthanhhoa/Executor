@@ -74,6 +74,23 @@ function applyMaintenanceMode() {
         badgeClient.style.display = 'none';
         statusClient.innerHTML = 'Status: <span class="online-dot"></span> Online';
     }
+     // --- Delta Client 32 bit ---
+    const btnClient = document.getElementById('downloadBtnD32');
+    const badgeClient = document.getElementById('badgeD32');
+    const statusClient = document.getElementById('statusD32');
+    if (MAINTENANCE_MODE.D32) {
+        btnClient.classList.add('btn-maintenance');
+        btnClient.textContent = '⛔ Đang bảo trì';
+        btnClient.disabled = true;
+        badgeClient.style.display = 'inline-block';
+        statusClient.innerHTML = 'Status: <span class="maintenance-dot"></span> Bảo trì';
+    } else {
+        btnClient.classList.remove('btn-maintenance');
+        btnClient.textContent = 'Download';
+        btnClient.disabled = false;
+        badgeClient.style.display = 'none';
+        statusClient.innerHTML = 'Status: <span class="online-dot"></span> Online';
+    }
 
     // --- Roblox Lite NX ---
     const btnNx = document.getElementById('downloadBtnNx');
@@ -196,6 +213,31 @@ document.getElementById('downloadBtnPro').addEventListener('click', function() {
 // ===== DOWNLOAD BUTTON CLIENT =====
 document.getElementById('downloadBtnClient').addEventListener('click', function() {
     if (MAINTENANCE_MODE.client) return;
+    const btn = this, orig = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Đang tải...';
+    setTimeout(() => {
+        btn.textContent = 'Đang chuẩn bị...';
+        setTimeout(() => {
+            const link = document.createElement('a');
+            link.href = 'https://vuotnhanh.com/9G1D';
+            link.download = 'Delta-v2.735.1138.apk';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            btn.textContent = 'Tải xuống thành công! ✓';
+            btn.style.background = 'linear-gradient(135deg, #10b981, #34d399)';
+            setTimeout(() => {
+                btn.textContent = orig;
+                btn.disabled = false;
+                btn.style.background = '';
+            }, 2000);
+        }, 1000);
+    }, 500);
+});
+// ===== DOWNLOAD Delta 32 bit =====
+document.getElementById('downloadBtnD32').addEventListener('click', function() {
+    if (MAINTENANCE_MODE.D32) return;
     const btn = this, orig = btn.textContent;
     btn.disabled = true;
     btn.textContent = 'Đang tải...';
