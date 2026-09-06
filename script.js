@@ -6,9 +6,9 @@ const MAINTENANCE_MODE = {
     client: false,  // Delta Client
     nx: false,      // Roblox Lite NX
     pc: false,      // ⭐ Real (PC)
-    px: false,       // ⭐ Medium (PX)
-    pv: false,
-    D32: false
+    px: false,      // ⭐ Medium (PX)
+    pv: false,      // ⭐ Velocity (PV)
+    D32: false      // Delta 32 Bit (chú ý viết hoa D)
 };
 // ============================================================
 
@@ -75,22 +75,23 @@ function applyMaintenanceMode() {
         badgeClient.style.display = 'none';
         statusClient.innerHTML = 'Status: <span class="online-dot"></span> Online';
     }
-     // --- Delta Client 32 bit ---
-    const btnClient = document.getElementById('downloadBtnD32');
-    const badgeClient = document.getElementById('badgeD32');
-    const statusClient = document.getElementById('statusD32');
+
+    // --- Delta 32 Bit (ĐÃ SỬA TÊN BIẾN) ---
+    const btnD32 = document.getElementById('downloadBtnD32');
+    const badgeD32 = document.getElementById('badgeD32');
+    const statusD32 = document.getElementById('statusD32');
     if (MAINTENANCE_MODE.D32) {
-        btnClient.classList.add('btn-maintenance');
-        btnClient.textContent = '⛔ Đang bảo trì';
-        btnClient.disabled = true;
-        badgeClient.style.display = 'inline-block';
-        statusClient.innerHTML = 'Status: <span class="maintenance-dot"></span> Bảo trì';
+        btnD32.classList.add('btn-maintenance');
+        btnD32.textContent = '⛔ Đang bảo trì';
+        btnD32.disabled = true;
+        badgeD32.style.display = 'inline-block';
+        statusD32.innerHTML = 'Status: <span class="maintenance-dot"></span> Bảo trì';
     } else {
-        btnClient.classList.remove('btn-maintenance');
-        btnClient.textContent = 'Download';
-        btnClient.disabled = false;
-        badgeClient.style.display = 'none';
-        statusClient.innerHTML = 'Status: <span class="online-dot"></span> Online';
+        btnD32.classList.remove('btn-maintenance');
+        btnD32.textContent = 'Download';
+        btnD32.disabled = false;
+        badgeD32.style.display = 'none';
+        statusD32.innerHTML = 'Status: <span class="online-dot"></span> Online';
     }
 
     // --- Roblox Lite NX ---
@@ -236,7 +237,8 @@ document.getElementById('downloadBtnClient').addEventListener('click', function(
         }, 1000);
     }, 500);
 });
-// ===== DOWNLOAD Delta 32 bit =====
+
+// ===== DOWNLOAD DELTA 32 BIT (ĐÃ SỬA TÊN BIẾN & LINK RIÊNG) =====
 document.getElementById('downloadBtnD32').addEventListener('click', function() {
     if (MAINTENANCE_MODE.D32) return;
     const btn = this, orig = btn.textContent;
@@ -246,8 +248,8 @@ document.getElementById('downloadBtnD32').addEventListener('click', function() {
         btn.textContent = 'Đang chuẩn bị...';
         setTimeout(() => {
             const link = document.createElement('a');
-            link.href = 'https://vuotnhanh.com/9G1D';
-            link.download = 'Delta-v2.735.1138.apk';
+            link.href = 'https://vuotnhanh.com/your_d32_link'; // 👈 Đổi link thật của D32
+            link.download = 'Delta-32bit-v2.736.1408.apk';      // 👈 Đổi tên file cho đúng
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
