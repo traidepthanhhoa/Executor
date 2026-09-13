@@ -11,11 +11,10 @@
     <meta name="author" content="Matchat67" />
     <link rel="canonical" href="https://kenhmatchat-executor.vercel.app/" />
 
-    <!-- ===== THEME COLOR (tự đổi theo theme) ===== -->
     <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#f7f7f8" media="(prefers-color-scheme: light)" />
 
-    <!-- ===== CHỐNG FLASH THEME (FOUC) — chạy TRƯỚC CSS ===== -->
+    <!-- Chống FOUC theme -->
     <script>
       (function () {
         try {
@@ -29,7 +28,7 @@
       })();
     </script>
 
-    <!-- ===== Open Graph ===== -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Executor Download 2026 – Delta, Solara, Xeno, Roblox Lite" />
     <meta property="og:description" content="Tải Executor & Client Roblox miễn phí, cập nhật mới nhất 2026." />
@@ -37,20 +36,20 @@
     <meta property="og:image" content="https://kenhmatchat-executor.vercel.app/og-image.png" />
     <meta property="og:locale" content="vi_VN" />
 
-    <!-- ===== Twitter ===== -->
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Executor Download 2026 – Matchat67" />
     <meta name="twitter:description" content="Tải Executor & Client Roblox miễn phí, cập nhật mới nhất 2026." />
     <meta name="twitter:image" content="https://kenhmatchat-executor.vercel.app/og-image.png" />
 
-    <!-- ===== FAVICON ===== -->
+    <!-- Favicon -->
     <link rel="icon" href="data:," />
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
     <link rel="manifest" href="site.webmanifest" />
 
-    <!-- ===== FONTS ===== -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -58,10 +57,17 @@
         rel="stylesheet"
     />
 
-    <!-- ===== STYLE ===== -->
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
+    <!-- ===== READING PROGRESS BAR ===== -->
+    <div class="reading-progress" id="readingProgress" aria-hidden="true">
+        <div class="reading-progress-fill" id="readingProgressFill"></div>
+    </div>
+
+    <!-- ===== TOAST CONTAINER ===== -->
+    <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
 
     <!-- ===== NOTIFICATION MODAL ===== -->
     <div class="notif-overlay" id="notifOverlay" aria-hidden="true">
@@ -106,6 +112,166 @@
         </div>
     </div>
 
+    <!-- ===== GUIDE MODAL ===== -->
+    <div class="guide-overlay" id="guideOverlay" aria-hidden="true">
+        <div class="guide-modal" role="dialog" aria-modal="true" aria-labelledby="guideTitle">
+            <div class="guide-head">
+                <div class="guide-head-left">
+                    <svg class="guide-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                    </svg>
+                    <h3 id="guideTitle">Hướng dẫn cài đặt &amp; sử dụng</h3>
+                </div>
+                <button class="guide-close" id="guideClose" aria-label="Đóng hướng dẫn" type="button">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" aria-hidden="true">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="guide-body">
+                <div class="guide-tabs" role="tablist" aria-label="Chọn nền tảng hướng dẫn">
+                    <button class="guide-tab active" data-guide-tab="mobile" role="tab"
+                            aria-selected="true" aria-controls="guide-mobile" id="guide-mobile-btn" type="button">
+                        📱 Mobile
+                    </button>
+                    <button class="guide-tab" data-guide-tab="pc" role="tab"
+                            aria-selected="false" aria-controls="guide-pc" id="guide-pc-btn" type="button">
+                        💻 PC
+                    </button>
+                </div>
+
+                <div class="guide-content active" id="guide-mobile" role="tabpanel"
+                     aria-labelledby="guide-mobile-btn">
+                    <ol class="guide-steps">
+                        <li>
+                            <span class="step-num">1</span>
+                            <div class="step-body">
+                                <strong>Tải file APK</strong>
+                                <p>Nhấn nút <b>Download</b> trên card bạn muốn. File sẽ được tải về thư mục <code>Downloads</code>.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="step-num">2</span>
+                            <div class="step-body">
+                                <strong>Cho phép cài đặt từ nguồn không xác định</strong>
+                                <p>Vào <code>Settings → Security → Install unknown apps</code> và cho phép ứng dụng <b>Files</b> hoặc <b>Chrome</b> cài đặt APK.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="step-num">3</span>
+                            <div class="step-body">
+                                <strong>Cài đặt APK</strong>
+                                <p>Mở file vừa tải → nhấn <b>Install</b> → chờ 10–30 giây.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="step-num">4</span>
+                            <div class="step-body">
+                                <strong>Mở Roblox</strong>
+                                <p>Đăng nhập tài khoản Roblox như bình thường và vào 1 game bất kỳ.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="step-num">5</span>
+                            <div class="step-body">
+                                <strong>Mở Executor &amp; Attach</strong>
+                                <p>Mở app executor → nhấn <b>Attach</b> → chọn Roblox process.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="step-num">6</span>
+                            <div class="step-body">
+                                <strong>Dán script &amp; Execute</strong>
+                                <p>Copy script → Paste vào ô editor → nhấn <b>Execute</b>.</p>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="guide-content" id="guide-pc" role="tabpanel" aria-labelledby="guide-pc-btn">
+                    <ol class="guide-steps">
+                        <li>
+                            <span class="step-num">1</span>
+                            <div class="step-body">
+                                <strong>Tải file ZIP/EXE</strong>
+                                <p>Nhấn <b>Download</b> trên card executor PC. File về thư mục <code>Downloads</code>.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="step-num">2</span>
+                            <div class="step-body">
+                                <strong>Giải nén (nếu là ZIP)</strong>
+                                <p>Dùng <b>7-Zip</b> hoặc <b>WinRAR</b> để giải nén ra thư mục riêng.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="step-num">3</span>
+                            <div class="step-body">
+                                <strong>Tắt antivirus tạm thời</strong>
+                                <p>Windows Defender có thể báo nhầm. Thêm file vào whitelist hoặc tắt tạm thời.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="step-num">4</span>
+                            <div class="step-body">
+                                <strong>Chạy file .exe với quyền Admin</strong>
+                                <p>Right-click file <code>.exe</code> → <b>Run as administrator</b>.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="step-num">5</span>
+                            <div class="step-body">
+                                <strong>Mở Roblox &amp; vào game</strong>
+                                <p>Vào 1 game bất kỳ trên Roblox PC.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="step-num">6</span>
+                            <div class="step-body">
+                                <strong>Attach &amp; Execute</strong>
+                                <p>Nhấn <b>Attach</b> trong executor → chọn Roblox → dán script → <b>Execute</b>.</p>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+
+                <details class="guide-faq" open>
+                    <summary>❓ Câu hỏi thường gặp</summary>
+                    <div class="faq-list">
+                        <div class="faq-item">
+                            <strong>Executor không attach được?</strong>
+                            <p>Chạy executor với quyền Admin. Tắt antivirus tạm thời. Đảm bảo Roblox đang mở.</p>
+                        </div>
+                        <div class="faq-item">
+                            <strong>Antivirus báo virus?</strong>
+                            <p>False positive — executor thường bị nhận nhầm. Thêm file vào whitelist.</p>
+                        </div>
+                        <div class="faq-item">
+                            <strong>Roblox bị crash sau khi inject?</strong>
+                            <p>Cập nhật executor lên bản mới nhất. Nếu vẫn lỗi, đổi executor khác.</p>
+                        </div>
+                        <div class="faq-item">
+                            <strong>Có bị ban tài khoản không?</strong>
+                            <p>Có thể. Khuyến nghị dùng tài khoản phụ (alt) để test script trước.</p>
+                        </div>
+                    </div>
+                </details>
+            </div>
+
+            <div class="guide-foot">
+                <p class="guide-warning">
+                    ⚠️ Sử dụng executor có thể vi phạm ToS của Roblox. Tự chịu rủi ro.
+                </p>
+                <button class="guide-btn-ok" id="guideOk" type="button">Đã hiểu ✓</button>
+            </div>
+        </div>
+    </div>
+
     <!-- ===== LOADING SCREEN ===== -->
     <div id="loader" role="status" aria-live="polite" aria-label="Đang tải trang">
         <div class="loader-container">
@@ -135,29 +301,40 @@
         <h1>Download Executor &amp; Client</h1>
         <p>Mobile Executor &amp; Best Client – PC Executor</p>
 
-        <!-- ===== THEME TOGGLE ===== -->
-        <button
-            class="theme-toggle"
-            id="themeToggle"
-            type="button"
-            aria-label="Chuyển chế độ sáng/tối"
-            title="Chuyển chế độ sáng/tối (Ctrl+Shift+L)"
-        >
-            <span class="theme-toggle-track" aria-hidden="true">
-                <span class="theme-toggle-thumb">
-                    <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <circle cx="12" cy="12" r="4"/>
-                        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-                    </svg>
-                    <svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-                    </svg>
+        <div class="header-actions">
+            <button
+                class="theme-toggle"
+                id="themeToggle"
+                type="button"
+                aria-label="Chuyển chế độ sáng/tối"
+                title="Chuyển chế độ sáng/tối (Ctrl+Shift+L)"
+            >
+                <span class="theme-toggle-track" aria-hidden="true">
+                    <span class="theme-toggle-thumb">
+                        <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="12" cy="12" r="4"/>
+                            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+                        </svg>
+                        <svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                        </svg>
+                    </span>
                 </span>
-            </span>
-            <span class="theme-toggle-label" data-role="theme-label">Dark</span>
-        </button>
+                <span class="theme-toggle-label" data-role="theme-label">Dark</span>
+            </button>
+
+            <button class="guide-open-btn" id="guideOpen" type="button"
+                    aria-label="Mở hướng dẫn cài đặt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                </svg>
+                <span>Hướng dẫn</span>
+            </button>
+        </div>
     </header>
 
     <!-- ===== TAB BAR ===== -->
@@ -188,10 +365,51 @@
         </button>
     </div>
 
+    <!-- ===== SEARCH BAR ===== -->
+    <div class="search-wrap">
+        <div class="search-box">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input
+                type="text"
+                class="search-input"
+                id="searchInput"
+                placeholder="Tìm executor... (Delta, Solara, Xeno...)"
+                aria-label="Tìm kiếm executor"
+                autocomplete="off"
+                spellcheck="false"
+            />
+            <button class="search-clear" id="searchClear" type="button"
+                    aria-label="Xóa tìm kiếm" hidden>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" aria-hidden="true">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+        </div>
+        <p class="search-empty" id="searchEmpty" hidden>
+            Không tìm thấy executor nào phù hợp 😢
+        </p>
+    </div>
+
     <!-- ===== TAB MOBILE ===== -->
     <div class="tab-content active" id="tab-mobile" role="tabpanel" aria-labelledby="tab-mobile-btn">
         <section class="hero" aria-label="Executor cho Mobile">
-            <article class="card card-pro" data-executor="pro">
+            <article class="card card-pro" data-executor="pro" data-name="Delta Lite">
+                <div class="card-actions">
+                    <button class="icon-btn copy-btn" data-role="copy" type="button"
+                            aria-label="Copy link Delta Lite" title="Copy link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                        </svg>
+                    </button>
+                </div>
                 <h2>
                     Download Delta Lite
                     <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
@@ -207,7 +425,17 @@
                 </div>
             </article>
 
-            <article class="card card-client" data-executor="client">
+            <article class="card card-client" data-executor="client" data-name="Delta">
+                <div class="card-actions">
+                    <button class="icon-btn copy-btn" data-role="copy" type="button"
+                            aria-label="Copy link Delta" title="Copy link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                        </svg>
+                    </button>
+                </div>
                 <h2>
                     Download Delta
                     <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
@@ -223,7 +451,17 @@
                 </div>
             </article>
 
-            <article class="card card-client" data-executor="D32">
+            <article class="card card-client" data-executor="D32" data-name="Delta 32 bit">
+                <div class="card-actions">
+                    <button class="icon-btn copy-btn" data-role="copy" type="button"
+                            aria-label="Copy link Delta 32 bit" title="Copy link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                        </svg>
+                    </button>
+                </div>
                 <h2>
                     Download Delta 32 bit
                     <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
@@ -239,7 +477,17 @@
                 </div>
             </article>
 
-            <article class="card card-nx" data-executor="nx">
+            <article class="card card-nx" data-executor="nx" data-name="Roblox Lite">
+                <div class="card-actions">
+                    <button class="icon-btn copy-btn" data-role="copy" type="button"
+                            aria-label="Copy link Roblox Lite" title="Copy link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                        </svg>
+                    </button>
+                </div>
                 <h2>
                     Roblox Lite
                     <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
@@ -260,7 +508,17 @@
     <!-- ===== TAB PC ===== -->
     <div class="tab-content" id="tab-pc" role="tabpanel" aria-labelledby="tab-pc-btn">
         <section class="hero" aria-label="Executor cho PC">
-            <article class="card card-pc" data-executor="pc">
+            <article class="card card-pc" data-executor="pc" data-name="Executor Real">
+                <div class="card-actions">
+                    <button class="icon-btn copy-btn" data-role="copy" type="button"
+                            aria-label="Copy link Executor Real" title="Copy link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                        </svg>
+                    </button>
+                </div>
                 <h2>
                     Executor Real
                     <span class="pc-icon" aria-label="Chỉ hỗ trợ PC">
@@ -282,7 +540,17 @@
                 </div>
             </article>
 
-            <article class="card card-pc" data-executor="px">
+            <article class="card card-pc" data-executor="px" data-name="Executor Medium">
+                <div class="card-actions">
+                    <button class="icon-btn copy-btn" data-role="copy" type="button"
+                            aria-label="Copy link Executor Medium" title="Copy link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                        </svg>
+                    </button>
+                </div>
                 <h2>
                     Executor Medium
                     <span class="pc-icon" aria-label="Chỉ hỗ trợ PC">
@@ -304,7 +572,17 @@
                 </div>
             </article>
 
-            <article class="card card-pc" data-executor="pv">
+            <article class="card card-pc" data-executor="pv" data-name="Executor Velocity">
+                <div class="card-actions">
+                    <button class="icon-btn copy-btn" data-role="copy" type="button"
+                            aria-label="Copy link Executor Velocity" title="Copy link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                        </svg>
+                    </button>
+                </div>
                 <h2>
                     Executor Velocity
                     <span class="pc-icon" aria-label="Chỉ hỗ trợ PC">
@@ -326,7 +604,17 @@
                 </div>
             </article>
 
-            <article class="card card-solara" data-executor="solara">
+            <article class="card card-solara" data-executor="solara" data-name="Solara">
+                <div class="card-actions">
+                    <button class="icon-btn copy-btn" data-role="copy" type="button"
+                            aria-label="Copy link Solara" title="Copy link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                        </svg>
+                    </button>
+                </div>
                 <h2>
                     Solara Executor
                     <span class="pc-icon" aria-label="Chỉ hỗ trợ PC">
@@ -348,7 +636,17 @@
                 </div>
             </article>
 
-            <article class="card card-xeno" data-executor="xeno">
+            <article class="card card-xeno" data-executor="xeno" data-name="Xeno">
+                <div class="card-actions">
+                    <button class="icon-btn copy-btn" data-role="copy" type="button"
+                            aria-label="Copy link Xeno" title="Copy link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                        </svg>
+                    </button>
+                </div>
                 <h2>
                     Xeno Executor
                     <span class="pc-icon" aria-label="Chỉ hỗ trợ PC">
@@ -372,12 +670,23 @@
         </section>
     </div>
 
+    <!-- ===== BACK TO TOP ===== -->
+    <button class="back-to-top" id="backToTop" type="button"
+            aria-label="Cuộn lên đầu trang" title="Về đầu trang">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="18 15 12 9 6 15"/>
+        </svg>
+    </button>
+
     <!-- ===== FOOTER ===== -->
     <footer>
         &copy; 2026 Matchat67 – Executor
+        <small class="footer-disclaimer">
+            Trang web không liên kết với Roblox Corporation.
+        </small>
     </footer>
 
-    <!-- ===== SCRIPT ===== -->
     <script src="script.js" defer></script>
 </body>
 </html>
