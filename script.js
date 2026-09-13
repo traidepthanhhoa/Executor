@@ -1,5 +1,5 @@
 // ============================================================
-// 🛠️ CẤU HÌNH BẢO TRÌ
+// CẤU HÌNH BẢO TRÌ
 // ============================================================
 const MAINTENANCE_MODE = {
     pro: false,
@@ -14,7 +14,7 @@ const MAINTENANCE_MODE = {
 };
 
 // ============================================================
-// 📦 CẤU HÌNH DOWNLOAD
+// CẤU HÌNH DOWNLOAD
 // ============================================================
 const DOWNLOADS = {
     pro:    { url: 'https://vuotnhanh.com/dICD', filename: 'Delta-Pro-v3.245.1782.apk' },
@@ -32,7 +32,7 @@ const DOWNLOADS = {
 };
 
 // ============================================================
-// 🔔 CẤU HÌNH THÔNG BÁO
+// CẤU HÌNH THÔNG BÁO
 // ============================================================
 const NOTIFICATION_CONFIG = {
     enabled: true,
@@ -42,7 +42,7 @@ const NOTIFICATION_CONFIG = {
 };
 
 // ============================================================
-// 🌗 CẤU HÌNH THEME
+// CẤU HÌNH THEME
 // ============================================================
 const THEME_CONFIG = {
     storageKey: 'theme',
@@ -50,19 +50,19 @@ const THEME_CONFIG = {
 };
 
 // ============================================================
-// 🧰 UTILITIES
+// UTILITIES
 // ============================================================
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // ============================================================
-// 🚀 BOOTSTRAP
+// BOOTSTRAP
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('[App] DOMContentLoaded');
     initTheme();
     initLoader();
     initTabs();
     initSearch();
-    initCopyButtons();
     initDownloadButtons();
     initNotification();
     initGuide();
@@ -211,7 +211,7 @@ function initTabs() {
 }
 
 // ============================================================
-// 4️⃣ SEARCH
+// 4️⃣ SEARCH — fix cứng cho mọi thiết bị
 // ============================================================
 let searchDebounce = null;
 
@@ -219,149 +219,92 @@ function initSearch() {
     const input = document.getElementById('searchInput');
     const clearBtn = document.getElementById('searchClear');
     const emptyMsg = document.getElementById('searchEmpty');
-    if (!input) return;
+
+    if (!input) {
+        console.error('[Search] ❌ Không tìm thấy #searchInput');
+        return;
+    }
+
+    const cards = document.querySelectorAll('.card[data-executor]');
+    console.log('[Search] ✅ Init OK,', cards.length, 'cards');
+
+    if (cards.length === 0) {
+        console.error('[Search] ❌ Không có card nào trong HTML');
+        return;
+    }
 
     const performSearch = () => {
-        const query = input.value.toLowerCase().trim();
-        const cards = document.querySelectorAll('.card[data-executor]');
+        const query = (input.value || '').toLowerCase().trim();
         let visibleCount = 0;
 
         cards.forEach((card) => {
             const name = (card.dataset.name || '').toLowerCase();
-            const title = card.querySelector('h2')?.textContent.toLowerCase() || '';
-            const desc = card.querySelector('p')?.textContent.toLowerCase() || '';
+            const key = (card.dataset.executor || '').toLowerCase();
+            const desc = (card.querySelector('p')?.textContent || '').toLowerCase();
 
-            const matches = !query ||
-                name.includes(query) ||
-                title.includes(query) ||
-                desc.includes(query);
+            // Lấy text thuần từ h2 (bỏ badge)
+            const h2 = card.querySelector('h2');
+            let titleText = '';
+            if (h2) {
+                h2.childNodes.forEach((node) => {
+                    if (node.nodeType === 3) titleText += ' ' + node.textContent;
+                });
+                titleText = titleText.toLowerCase();
+            }
 
-            card.classList.toggle('hidden', !matches);
-            if (matches) visibleCount++;
+            const match = !query
+                || name.includes(query)
+                || key.includes(query)
+                || titleText.includes(query)
+                || desc.includes(query);
+
+            if (match) {
+                card.classList.remove('hidden');
+                visibleCount++;
+            } else {
+                card.classList.add('hidden');
+            }
         });
 
-        // Hiện/ẩn thông báo trống
-        if (emptyMsg) {
-            emptyMsg.hidden = visibleCount > 0 || !query;
-        }
+        if (emptyMsg) emptyMsg.hidden = (visibleCount > 0 || !query);
+        if (clearBtn) clearBtn.hidden = !query;
 
-        // Hiện/ẩn nút clear
-        if (clearBtn) {
-            clearBtn.hidden = !query;
-        }
+        console.log(`[Search] "${query}" → ${visibleCount}/${cards.length}`);
     };
 
-    input.addEventListener('input', () => {
+    // Dùng CẢ 2 event để chắc chắn ăn trên mọi bàn phím
+    const handleInput = () => {
         clearTimeout(searchDebounce);
-        searchDebounce = setTimeout(performSearch, 200);
-    });
+        searchDebounce = setTimeout(performSearch, 150);
+    };
 
-    clearBtn?.addEventListener('click', () => {
-        input.value = '';
-        input.focus();
-        performSearch();
-    });
+    input.addEventListener('input', handleInput);
+    input.addEventListener('keyup', handleInput);
+    input.addEventListener('search', handleInput);
+    input.addEventListener('paste', () => setTimeout(performSearch, 50));
 
-    // ESC để xóa
+    if (clearBtn) {
+        clearBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            input.value = '';
+            performSearch();
+            // Không focus để tránh bàn phím bật lên trên pad
+        });
+    }
+
     input.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             input.value = '';
             performSearch();
         }
     });
+
+    performSearch();
 }
 
 // ============================================================
-// 5️⃣ COPY LINK BUTTONS
-// ============================================================
-function initCopyButtons() {
-    const buttons = document.querySelectorAll('[data-role="copy"]');
-
-    buttons.forEach((btn) => {
-        btn.addEventListener('click', async () => {
-            const card = btn.closest('.card[data-executor]');
-            const key = card?.dataset.executor;
-            const name = card?.dataset.name || 'Executor';
-            if (!key) return;
-
-            const baseUrl = window.location.origin + window.location.pathname;
-            const url = `${baseUrl}#${key}`;
-
-            try {
-                await copyToClipboard(url);
-                btn.classList.add('copied');
-                showToast(`Đã copy link ${name}!`, 'success');
-
-                setTimeout(() => btn.classList.remove('copied'), 1500);
-            } catch (err) {
-                console.error('[Copy]', err);
-                showToast('Không copy được. Thử lại!', 'error');
-            }
-        });
-    });
-}
-
-async function copyToClipboard(text) {
-    // Ưu tiên Clipboard API
-    if (navigator.clipboard && window.isSecureContext) {
-        return navigator.clipboard.writeText(text);
-    }
-    // Fallback cho HTTP / trình duyệt cũ
-    return new Promise((resolve, reject) => {
-        const ta = document.createElement('textarea');
-        ta.value = text;
-        ta.style.position = 'fixed';
-        ta.style.left = '-9999px';
-        ta.setAttribute('readonly', '');
-        document.body.appendChild(ta);
-        ta.select();
-        try {
-            document.execCommand('copy') ? resolve() : reject(new Error('execCommand failed'));
-        } catch (e) {
-            reject(e);
-        } finally {
-            ta.remove();
-        }
-    });
-}
-
-// ============================================================
-// 6️⃣ TOAST
-// ============================================================
-const TOAST_ICONS = {
-    success: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
-    error: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
-    info: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>'
-};
-
-function showToast(message, type = 'info', duration = 3000) {
-    const container = document.getElementById('toastContainer');
-    if (!container) return;
-
-    const toast = document.createElement('div');
-    toast.className = `toast ${type}`;
-    toast.setAttribute('role', 'status');
-
-    const iconWrap = document.createElement('span');
-    iconWrap.innerHTML = TOAST_ICONS[type] || TOAST_ICONS.info;
-
-    const text = document.createElement('span');
-    text.textContent = message;
-
-    toast.appendChild(iconWrap);
-    toast.appendChild(text);
-    container.appendChild(toast);
-
-    setTimeout(() => {
-        toast.classList.add('toast-out');
-        toast.addEventListener('animationend', () => toast.remove(), { once: true });
-        // Safety fallback
-        setTimeout(() => toast.remove(), 500);
-    }, duration);
-}
-
-// ============================================================
-// 7️⃣ MAINTENANCE MODE
+// 5️⃣ MAINTENANCE MODE
 // ============================================================
 function applyMaintenanceMode() {
     const cards = document.querySelectorAll('.card[data-executor]');
@@ -398,7 +341,7 @@ function applyMaintenanceMode() {
 }
 
 // ============================================================
-// 8️⃣ DOWNLOAD BUTTONS
+// 6️⃣ DOWNLOAD BUTTONS
 // ============================================================
 function initDownloadButtons() {
     const buttons = document.querySelectorAll('[data-role="download"]');
@@ -455,7 +398,6 @@ async function handleDownload(key, btn) {
         btn.style.borderColor = 'transparent';
 
         showToast(`Đang tải ${name}...`, 'success');
-
         await sleep(2000);
     } catch (err) {
         console.error('[Download] Lỗi:', err);
@@ -472,7 +414,41 @@ async function handleDownload(key, btn) {
 }
 
 // ============================================================
-// 9️⃣ NOTIFICATION MODAL
+// 7️⃣ TOAST
+// ============================================================
+const TOAST_ICONS = {
+    success: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+    error: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
+    info: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>'
+};
+
+function showToast(message, type = 'info', duration = 3000) {
+    const container = document.getElementById('toastContainer');
+    if (!container) return;
+
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.setAttribute('role', 'status');
+
+    const iconWrap = document.createElement('span');
+    iconWrap.innerHTML = TOAST_ICONS[type] || TOAST_ICONS.info;
+
+    const text = document.createElement('span');
+    text.textContent = message;
+
+    toast.appendChild(iconWrap);
+    toast.appendChild(text);
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.classList.add('toast-out');
+        toast.addEventListener('animationend', () => toast.remove(), { once: true });
+        setTimeout(() => toast.remove(), 500);
+    }, duration);
+}
+
+// ============================================================
+// 8️⃣ NOTIFICATION MODAL
 // ============================================================
 let notifController = null;
 
@@ -526,12 +502,10 @@ function showNotificationIfNeeded() {
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && overlay.classList.contains('show')) close();
     }, { signal });
-
-    setTimeout(() => document.getElementById('notifClose')?.focus(), 100);
 }
 
 // ============================================================
-// 🔟 GUIDE MODAL
+// 9️⃣ GUIDE MODAL
 // ============================================================
 let guideController = null;
 
@@ -566,6 +540,30 @@ function initGuide() {
         });
     });
 
+    // FAQ Accordion
+    const faqToggle = document.getElementById('faqToggle');
+    const faqList = document.getElementById('faqList');
+
+    if (faqToggle && faqList) {
+        faqToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const isExpanded = faqToggle.getAttribute('aria-expanded') === 'true';
+            const willExpand = !isExpanded;
+
+            faqToggle.setAttribute('aria-expanded', String(willExpand));
+            if (willExpand) {
+                faqList.removeAttribute('hidden');
+            } else {
+                faqList.setAttribute('hidden', '');
+            }
+            console.log('[FAQ]', willExpand ? 'Mở' : 'Đóng');
+        });
+    } else {
+        console.warn('[FAQ] Không tìm thấy #faqToggle hoặc #faqList');
+    }
+
     // Close handlers
     document.getElementById('guideClose')?.addEventListener('click', closeGuide);
     document.getElementById('guideOk')?.addEventListener('click', closeGuide);
@@ -589,9 +587,6 @@ function openGuide() {
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && overlay.classList.contains('show')) closeGuide();
     }, { signal });
-
-    // Focus management
-    setTimeout(() => document.getElementById('guideClose')?.focus(), 100);
 }
 
 function closeGuide() {
@@ -605,7 +600,7 @@ function closeGuide() {
 }
 
 // ============================================================
-// 1️⃣1️⃣ BACK TO TOP
+// 🔟 BACK TO TOP
 // ============================================================
 function initBackToTop() {
     const btn = document.getElementById('backToTop');
@@ -617,7 +612,7 @@ function initBackToTop() {
 }
 
 // ============================================================
-// 1️⃣2️⃣ READING PROGRESS + BACK-TO-TOP VISIBILITY
+// 1️⃣1️⃣ READING PROGRESS
 // ============================================================
 function initReadingProgress() {
     const progressBar = document.getElementById('readingProgressFill');
@@ -650,7 +645,7 @@ function initReadingProgress() {
 }
 
 // ============================================================
-// 🛡️ GLOBAL ERROR HANDLER
+// GLOBAL ERROR HANDLER
 // ============================================================
 window.addEventListener('error', (e) => {
     console.error('[Global Error]', e.error);
