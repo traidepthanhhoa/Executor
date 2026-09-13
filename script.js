@@ -1,58 +1,34 @@
 // ============================================================
-// 🛠️ CẤU HÌNH BẢO TRÌ – SỬA TRUE/FALSE 🛠️
+// 🛠️ CẤU HÌNH BẢO TRÌ
 // ============================================================
 const MAINTENANCE_MODE = {
-    pro: false,     // Delta Lite
-    client: false,  // Delta
-    nx: false,      // Roblox Lite NX
-    pc: false,      // Real (PC)
-    px: false,      // Medium (PX)
-    pv: true,       // Velocity (PV) — đang bảo trì
-    D32: false,     // Delta 32 Bit
-    solara: false,  // Solara
-    xeno: false     // Xeno
+    pro: false,
+    client: false,
+    nx: false,
+    pc: false,
+    px: false,
+    pv: true,
+    D32: false,
+    solara: false,
+    xeno: false
 };
 
 // ============================================================
-// 📦 CẤU HÌNH DOWNLOAD – SỬA LINK Ở ĐÂY 📦
+// 📦 CẤU HÌNH DOWNLOAD
 // ============================================================
 const DOWNLOADS = {
-    pro: {
-        url: 'https://vuotnhanh.com/dICD',
-        filename: 'Delta-Pro-v3.245.1782.apk'
-    },
-    client: {
-        url: 'https://vuotnhanh.com/9G1D',
-        filename: 'Delta-v2.735.1138.apk'
-    },
-    D32: {
-        url: 'https://vuotnhanh.com/oJou',
-        filename: 'Delta-32bit-v2.736.1408.apk'
-    },
-    nx: {
-        url: 'https://vuotnhanh.com/TxPF',
-        filename: 'Roblox-Lite-NX-v3.0.1.apk'
-    },
-    pc: {
-        url: 'https://vuotnhanh.com/CEGE',
-        filename: 'Executor-PC-Real-v1.7.0.zip'
-    },
-    px: {
-        url: 'https://vuotnhanh.com/G94y',
-        filename: 'Executor-PC-Medium-v1.5.0.zip'
-    },
-    pv: {
-        url: 'https://vuotnhanh.com/zij1',
-        filename: 'Executor-PC-Velocity-v1.6.0.zip'
-    },
+    pro:    { url: 'https://vuotnhanh.com/dICD', filename: 'Delta-Pro-v3.245.1782.apk' },
+    client: { url: 'https://vuotnhanh.com/9G1D', filename: 'Delta-v2.735.1138.apk' },
+    D32:    { url: 'https://vuotnhanh.com/oJou', filename: 'Delta-32bit-v2.736.1408.apk' },
+    nx:     { url: 'https://vuotnhanh.com/TxPF', filename: 'Roblox-Lite-NX-v3.0.1.apk' },
+    pc:     { url: 'https://vuotnhanh.com/CEGE', filename: 'Executor-PC-Real-v1.7.0.zip' },
+    px:     { url: 'https://vuotnhanh.com/G94y', filename: 'Executor-PC-Medium-v1.5.0.zip' },
+    pv:     { url: 'https://vuotnhanh.com/zij1', filename: 'Executor-PC-Velocity-v1.6.0.zip' },
     solara: {
         url: 'https://4d38a1ec.solaraweb-alj.pages.dev/download/static/files/Bootstrapper.exe',
         filename: 'Solara-Bootstrapper.exe'
     },
-    xeno: {
-        url: 'https://xeno.now/',
-        filename: 'Xeno-Executor.exe'
-    }
+    xeno:   { url: 'https://xeno.now/', filename: 'Xeno-Executor.exe' }
 };
 
 // ============================================================
@@ -60,7 +36,7 @@ const DOWNLOADS = {
 // ============================================================
 const NOTIFICATION_CONFIG = {
     enabled: true,
-    hideDurationMs: 2 * 60 * 60 * 1000, // 2 giờ
+    hideDurationMs: 2 * 60 * 60 * 1000,
     storageKey: 'matchat_notif_hide_until',
     delayAfterLoader: 300
 };
@@ -70,10 +46,7 @@ const NOTIFICATION_CONFIG = {
 // ============================================================
 const THEME_CONFIG = {
     storageKey: 'theme',
-    labels: {
-        dark: 'Dark',
-        light: 'Light'
-    }
+    labels: { dark: 'Dark', light: 'Light' }
 };
 
 // ============================================================
@@ -88,22 +61,25 @@ document.addEventListener('DOMContentLoaded', () => {
     initTheme();
     initLoader();
     initTabs();
+    initSearch();
+    initCopyButtons();
     initDownloadButtons();
     initNotification();
+    initGuide();
+    initBackToTop();
+    initReadingProgress();
 });
 
 // ============================================================
-// 1️⃣ THEME TOGGLE
+// 1️⃣ THEME
 // ============================================================
 function initTheme() {
     const toggle = document.getElementById('themeToggle');
     const label = document.querySelector('[data-role="theme-label"]');
 
-    // Đọc theme hiện tại (đã set bởi inline script trong <head>)
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
     updateThemeLabel(currentTheme, label);
 
-    // Theo dõi thay đổi theme hệ thống (chỉ khi user chưa chọn)
     const mql = window.matchMedia('(prefers-color-scheme: dark)');
     const handleSystemChange = (e) => {
         if (!localStorage.getItem(THEME_CONFIG.storageKey)) {
@@ -113,25 +89,19 @@ function initTheme() {
         }
     };
 
-    if (mql.addEventListener) {
-        mql.addEventListener('change', handleSystemChange);
-    } else if (mql.addListener) {
-        // Safari cũ
-        mql.addListener(handleSystemChange);
-    }
+    if (mql.addEventListener) mql.addEventListener('change', handleSystemChange);
+    else if (mql.addListener) mql.addListener(handleSystemChange);
 
     if (!toggle) return;
 
     toggle.addEventListener('click', () => {
         const current = document.documentElement.getAttribute('data-theme') || 'dark';
         const next = current === 'dark' ? 'light' : 'dark';
-
         applyTheme(next);
         localStorage.setItem(THEME_CONFIG.storageKey, next);
         updateThemeLabel(next, label);
     });
 
-    // Phím tắt: Ctrl/Cmd + Shift + L
     document.addEventListener('keydown', (e) => {
         if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'l') {
             e.preventDefault();
@@ -142,35 +112,23 @@ function initTheme() {
 
 function applyTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
-
-    // Đổi màu address bar trên mobile
     const metaTheme = document.querySelector('meta[name="theme-color"]');
     if (metaTheme) {
-        metaTheme.setAttribute(
-            'content',
-            theme === 'dark' ? '#0a0a0a' : '#fbfbfd'
-        );
+        metaTheme.setAttribute('content', theme === 'dark' ? '#0a0a0a' : '#fbfbfd');
     }
 }
 
 function updateThemeLabel(theme, labelEl) {
-    if (labelEl) {
-        labelEl.textContent = THEME_CONFIG.labels[theme] || 'Dark';
-    }
-
+    if (labelEl) labelEl.textContent = THEME_CONFIG.labels[theme] || 'Dark';
     const toggle = document.getElementById('themeToggle');
     if (toggle) {
-        toggle.setAttribute(
-            'aria-label',
-            theme === 'dark'
-                ? 'Chuyển sang chế độ sáng'
-                : 'Chuyển sang chế độ tối'
-        );
+        toggle.setAttribute('aria-label',
+            theme === 'dark' ? 'Chuyển sang chế độ sáng' : 'Chuyển sang chế độ tối');
     }
 }
 
 // ============================================================
-// 2️⃣ LOADER — ease-out curve, có safety timeout
+// 2️⃣ LOADER
 // ============================================================
 function initLoader() {
     const loader = document.getElementById('loader');
@@ -193,16 +151,13 @@ function initLoader() {
         step++;
         const t = Math.min(1, step / totalSteps);
         const progress = Math.round(100 * (1 - Math.pow(1 - t, 3)));
-
         percentage.textContent = progress + '%';
         loaderBar.style.width = progress + '%';
 
         if (progress >= 100 && !finished) {
             finished = true;
             clearInterval(interval);
-            loaderBar.style.background =
-                'linear-gradient(90deg, #10b981, #34d399, #6ee7b7)';
-
+            loaderBar.style.background = 'linear-gradient(90deg, #10b981, #34d399, #6ee7b7)';
             setTimeout(() => {
                 loader.classList.add('hidden');
                 onLoaderDone();
@@ -210,7 +165,6 @@ function initLoader() {
         }
     }, STEP_INTERVAL);
 
-    // Safety: force-hide sau 4s
     setTimeout(() => {
         if (!finished) {
             finished = true;
@@ -257,7 +211,157 @@ function initTabs() {
 }
 
 // ============================================================
-// 4️⃣ MAINTENANCE MODE
+// 4️⃣ SEARCH
+// ============================================================
+let searchDebounce = null;
+
+function initSearch() {
+    const input = document.getElementById('searchInput');
+    const clearBtn = document.getElementById('searchClear');
+    const emptyMsg = document.getElementById('searchEmpty');
+    if (!input) return;
+
+    const performSearch = () => {
+        const query = input.value.toLowerCase().trim();
+        const cards = document.querySelectorAll('.card[data-executor]');
+        let visibleCount = 0;
+
+        cards.forEach((card) => {
+            const name = (card.dataset.name || '').toLowerCase();
+            const title = card.querySelector('h2')?.textContent.toLowerCase() || '';
+            const desc = card.querySelector('p')?.textContent.toLowerCase() || '';
+
+            const matches = !query ||
+                name.includes(query) ||
+                title.includes(query) ||
+                desc.includes(query);
+
+            card.classList.toggle('hidden', !matches);
+            if (matches) visibleCount++;
+        });
+
+        // Hiện/ẩn thông báo trống
+        if (emptyMsg) {
+            emptyMsg.hidden = visibleCount > 0 || !query;
+        }
+
+        // Hiện/ẩn nút clear
+        if (clearBtn) {
+            clearBtn.hidden = !query;
+        }
+    };
+
+    input.addEventListener('input', () => {
+        clearTimeout(searchDebounce);
+        searchDebounce = setTimeout(performSearch, 200);
+    });
+
+    clearBtn?.addEventListener('click', () => {
+        input.value = '';
+        input.focus();
+        performSearch();
+    });
+
+    // ESC để xóa
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            input.value = '';
+            performSearch();
+        }
+    });
+}
+
+// ============================================================
+// 5️⃣ COPY LINK BUTTONS
+// ============================================================
+function initCopyButtons() {
+    const buttons = document.querySelectorAll('[data-role="copy"]');
+
+    buttons.forEach((btn) => {
+        btn.addEventListener('click', async () => {
+            const card = btn.closest('.card[data-executor]');
+            const key = card?.dataset.executor;
+            const name = card?.dataset.name || 'Executor';
+            if (!key) return;
+
+            const baseUrl = window.location.origin + window.location.pathname;
+            const url = `${baseUrl}#${key}`;
+
+            try {
+                await copyToClipboard(url);
+                btn.classList.add('copied');
+                showToast(`Đã copy link ${name}!`, 'success');
+
+                setTimeout(() => btn.classList.remove('copied'), 1500);
+            } catch (err) {
+                console.error('[Copy]', err);
+                showToast('Không copy được. Thử lại!', 'error');
+            }
+        });
+    });
+}
+
+async function copyToClipboard(text) {
+    // Ưu tiên Clipboard API
+    if (navigator.clipboard && window.isSecureContext) {
+        return navigator.clipboard.writeText(text);
+    }
+    // Fallback cho HTTP / trình duyệt cũ
+    return new Promise((resolve, reject) => {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        ta.setAttribute('readonly', '');
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+            document.execCommand('copy') ? resolve() : reject(new Error('execCommand failed'));
+        } catch (e) {
+            reject(e);
+        } finally {
+            ta.remove();
+        }
+    });
+}
+
+// ============================================================
+// 6️⃣ TOAST
+// ============================================================
+const TOAST_ICONS = {
+    success: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+    error: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
+    info: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>'
+};
+
+function showToast(message, type = 'info', duration = 3000) {
+    const container = document.getElementById('toastContainer');
+    if (!container) return;
+
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.setAttribute('role', 'status');
+
+    const iconWrap = document.createElement('span');
+    iconWrap.innerHTML = TOAST_ICONS[type] || TOAST_ICONS.info;
+
+    const text = document.createElement('span');
+    text.textContent = message;
+
+    toast.appendChild(iconWrap);
+    toast.appendChild(text);
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.classList.add('toast-out');
+        toast.addEventListener('animationend', () => toast.remove(), { once: true });
+        // Safety fallback
+        setTimeout(() => toast.remove(), 500);
+    }, duration);
+}
+
+// ============================================================
+// 7️⃣ MAINTENANCE MODE
 // ============================================================
 function applyMaintenanceMode() {
     const cards = document.querySelectorAll('.card[data-executor]');
@@ -271,7 +375,6 @@ function applyMaintenanceMode() {
         const status = card.querySelector('[data-role="status"]');
         const dot = card.querySelector('.dot');
         const statusText = card.querySelector('.status-text');
-
         if (!btn) return;
 
         const isMaintenance = Boolean(MAINTENANCE_MODE[key]);
@@ -281,28 +384,21 @@ function applyMaintenanceMode() {
         btn.disabled = isMaintenance;
         btn.setAttribute('aria-disabled', isMaintenance ? 'true' : 'false');
 
-        if (badge) {
-            badge.style.display = isMaintenance ? 'inline-block' : 'none';
-        }
-
+        if (badge) badge.style.display = isMaintenance ? 'inline-block' : 'none';
         if (dot) {
             dot.classList.toggle('online-dot', !isMaintenance);
             dot.classList.toggle('maintenance-dot', isMaintenance);
         }
-        if (statusText) {
-            statusText.textContent = isMaintenance ? 'Bảo trì' : 'Online';
-        }
+        if (statusText) statusText.textContent = isMaintenance ? 'Bảo trì' : 'Online';
         if (status) {
-            status.setAttribute(
-                'aria-label',
-                isMaintenance ? 'Trạng thái: Bảo trì' : 'Trạng thái: Online'
-            );
+            status.setAttribute('aria-label',
+                isMaintenance ? 'Trạng thái: Bảo trì' : 'Trạng thái: Online');
         }
     });
 }
 
 // ============================================================
-// 5️⃣ DOWNLOAD BUTTONS
+// 8️⃣ DOWNLOAD BUTTONS
 // ============================================================
 function initDownloadButtons() {
     const buttons = document.querySelectorAll('[data-role="download"]');
@@ -312,7 +408,6 @@ function initDownloadButtons() {
             const card = btn.closest('.card[data-executor]');
             const key = card?.dataset.executor;
             if (!key) return;
-
             handleDownload(key, btn);
         });
     });
@@ -322,6 +417,9 @@ async function handleDownload(key, btn) {
     if (MAINTENANCE_MODE[key]) return;
 
     const cfg = DOWNLOADS[key];
+    const card = btn.closest('.card[data-executor]');
+    const name = card?.dataset.name || 'Executor';
+
     if (!cfg) {
         console.warn(`[Download] Không có cấu hình cho key: ${key}`);
         return;
@@ -331,12 +429,16 @@ async function handleDownload(key, btn) {
     const originalDisabled = btn.disabled;
 
     btn.disabled = true;
-    btn.textContent = 'Đang tải...';
+
+    // Countdown 3 giây
+    for (let i = 3; i > 0; i--) {
+        btn.textContent = `Chuẩn bị... ${i}s`;
+        await sleep(1000);
+    }
 
     try {
-        await sleep(500);
-        btn.textContent = 'Đang chuẩn bị...';
-        await sleep(1000);
+        btn.textContent = 'Đang tải...';
+        await sleep(300);
 
         const link = document.createElement('a');
         link.href = cfg.url;
@@ -347,15 +449,18 @@ async function handleDownload(key, btn) {
         link.click();
         link.remove();
 
-        btn.textContent = 'Tải xuống thành công! ✓';
+        btn.textContent = 'Tải thành công! ✓';
         btn.style.background = 'linear-gradient(135deg, #10b981, #34d399)';
         btn.style.color = '#000';
         btn.style.borderColor = 'transparent';
+
+        showToast(`Đang tải ${name}...`, 'success');
 
         await sleep(2000);
     } catch (err) {
         console.error('[Download] Lỗi:', err);
         btn.textContent = 'Lỗi — thử lại';
+        showToast(`Lỗi tải ${name}`, 'error');
         await sleep(2000);
     } finally {
         btn.textContent = originalText;
@@ -367,7 +472,7 @@ async function handleDownload(key, btn) {
 }
 
 // ============================================================
-// 6️⃣ NOTIFICATION MODAL
+// 9️⃣ NOTIFICATION MODAL
 // ============================================================
 let notifController = null;
 
@@ -375,8 +480,6 @@ function initNotification() {
     window.addEventListener('loader:done', () => {
         setTimeout(showNotificationIfNeeded, NOTIFICATION_CONFIG.delayAfterLoader);
     });
-
-    // Fallback
     setTimeout(() => {
         if (!document.getElementById('notifOverlay')?.classList.contains('show')) {
             showNotificationIfNeeded();
@@ -386,14 +489,10 @@ function initNotification() {
 
 function showNotificationIfNeeded() {
     if (!NOTIFICATION_CONFIG.enabled) return;
-
     const overlay = document.getElementById('notifOverlay');
     if (!overlay) return;
 
-    const until = parseInt(
-        localStorage.getItem(NOTIFICATION_CONFIG.storageKey) || '0',
-        10
-    );
+    const until = parseInt(localStorage.getItem(NOTIFICATION_CONFIG.storageKey) || '0', 10);
     if (Date.now() < until) return;
     if (overlay.classList.contains('show')) return;
 
@@ -411,44 +510,143 @@ function showNotificationIfNeeded() {
     overlay.classList.add('show');
     overlay.setAttribute('aria-hidden', 'false');
 
-    document
-        .getElementById('notifClose')
-        ?.addEventListener('click', close, { signal });
-
-    document
-        .getElementById('notifHide')
-        ?.addEventListener(
-            'click',
-            () => {
-                localStorage.setItem(
-                    NOTIFICATION_CONFIG.storageKey,
-                    String(Date.now() + NOTIFICATION_CONFIG.hideDurationMs)
-                );
-                close();
-            },
-            { signal }
+    document.getElementById('notifClose')?.addEventListener('click', close, { signal });
+    document.getElementById('notifHide')?.addEventListener('click', () => {
+        localStorage.setItem(
+            NOTIFICATION_CONFIG.storageKey,
+            String(Date.now() + NOTIFICATION_CONFIG.hideDurationMs)
         );
+        close();
+    }, { signal });
 
-    overlay.addEventListener(
-        'click',
-        (e) => {
-            if (e.target === overlay) close();
-        },
-        { signal }
-    );
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) close();
+    }, { signal });
 
-    document.addEventListener(
-        'keydown',
-        (e) => {
-            if (e.key === 'Escape' && overlay.classList.contains('show')) close();
-        },
-        { signal }
-    );
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && overlay.classList.contains('show')) close();
+    }, { signal });
 
-    // Focus vào nút close cho keyboard user
-    setTimeout(() => {
-        document.getElementById('notifClose')?.focus();
-    }, 100);
+    setTimeout(() => document.getElementById('notifClose')?.focus(), 100);
+}
+
+// ============================================================
+// 🔟 GUIDE MODAL
+// ============================================================
+let guideController = null;
+
+function initGuide() {
+    const openBtn = document.getElementById('guideOpen');
+    const overlay = document.getElementById('guideOverlay');
+    if (!openBtn || !overlay) return;
+
+    openBtn.addEventListener('click', openGuide);
+
+    // Guide tabs
+    const guideTabs = document.querySelectorAll('.guide-tab');
+    const guideContents = {
+        mobile: document.getElementById('guide-mobile'),
+        pc: document.getElementById('guide-pc')
+    };
+
+    guideTabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+            const target = tab.dataset.guideTab;
+            if (!target) return;
+
+            guideTabs.forEach((t) => {
+                const isActive = t === tab;
+                t.classList.toggle('active', isActive);
+                t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+            });
+
+            Object.entries(guideContents).forEach(([key, el]) => {
+                el?.classList.toggle('active', key === target);
+            });
+        });
+    });
+
+    // Close handlers
+    document.getElementById('guideClose')?.addEventListener('click', closeGuide);
+    document.getElementById('guideOk')?.addEventListener('click', closeGuide);
+
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) closeGuide();
+    });
+}
+
+function openGuide() {
+    const overlay = document.getElementById('guideOverlay');
+    if (!overlay || overlay.classList.contains('show')) return;
+
+    guideController?.abort();
+    guideController = new AbortController();
+    const { signal } = guideController;
+
+    overlay.classList.add('show');
+    overlay.setAttribute('aria-hidden', 'false');
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && overlay.classList.contains('show')) closeGuide();
+    }, { signal });
+
+    // Focus management
+    setTimeout(() => document.getElementById('guideClose')?.focus(), 100);
+}
+
+function closeGuide() {
+    const overlay = document.getElementById('guideOverlay');
+    if (!overlay) return;
+
+    overlay.classList.remove('show');
+    overlay.setAttribute('aria-hidden', 'true');
+    guideController?.abort();
+    guideController = null;
+}
+
+// ============================================================
+// 1️⃣1️⃣ BACK TO TOP
+// ============================================================
+function initBackToTop() {
+    const btn = document.getElementById('backToTop');
+    if (!btn) return;
+
+    btn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+}
+
+// ============================================================
+// 1️⃣2️⃣ READING PROGRESS + BACK-TO-TOP VISIBILITY
+// ============================================================
+function initReadingProgress() {
+    const progressBar = document.getElementById('readingProgressFill');
+    const backTop = document.getElementById('backToTop');
+
+    let ticking = false;
+
+    const update = () => {
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const percent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+
+        if (progressBar) {
+            progressBar.style.width = Math.min(100, percent) + '%';
+        }
+        if (backTop) {
+            backTop.classList.toggle('show', scrollTop > 400);
+        }
+        ticking = false;
+    };
+
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            requestAnimationFrame(update);
+            ticking = true;
+        }
+    }, { passive: true });
+
+    update();
 }
 
 // ============================================================
