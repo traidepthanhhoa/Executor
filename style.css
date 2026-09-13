@@ -326,6 +326,8 @@ header p {
 .card:nth-child(2) { animation-delay: .10s; }
 .card:nth-child(3) { animation-delay: .15s; }
 .card:nth-child(4) { animation-delay: .20s; }
+.card:nth-child(5) { animation-delay: .25s; }
+.card:nth-child(6) { animation-delay: .30s; }
 
 /* top accent bar */
 .card::before {
@@ -367,10 +369,13 @@ header p {
 }
 .card:hover p { color: #b0b0b0; }
 
+/* per-card accent colours */
 .card-pro    { --accent: var(--purple); }
 .card-client { --accent: var(--cyan);   }
 .card-nx     { --accent: var(--teal);   }
 .card-pc     { --accent: var(--indigo); }
+.card-solara { --accent: var(--amber);  }
+.card-xeno   { --accent: var(--pink);   }
 
 /* ============ BUTTONS ============ */
 .btn-pro, .btn-client, .btn-nx, .btn-pc {
@@ -511,6 +516,8 @@ button:disabled {
 .info-client span:hover { color: var(--cyan); }
 .info-nx     span:hover { color: var(--teal); }
 .info-pc     span:hover { color: var(--indigo); }
+.info-solara span:hover { color: var(--amber); }
+.info-xeno   span:hover { color: var(--pink); }
 
 .online-dot {
     width: 6px;
@@ -571,56 +578,11 @@ footer {
     animation: riseIn .5s ease .3s both;
 }
 
-/* ============ RESPONSIVE ============ */
-@media (max-width: 900px) {
-    .hero { flex-direction: column; align-items: center; }
-}
-
-@media (max-width: 500px) {
-    header { padding: 56px 20px 24px; }
-    header h1 { font-size: 1.9rem; }
-
-    .tab-bar { padding: 0 16px 40px; gap: 6px; }
-    .tab-btn {
-        padding: 10px 14px;
-        font-size: .7rem;
-        border-radius: var(--radius);
-        border-left: 1px solid var(--line);
-        flex: 1;
-        min-width: 0;
-    }
-    .tab-btn:first-child,
-    .tab-btn:last-child { border-radius: var(--radius); }
-    .tab-btn .tab-badge { display: none; }
-
-    .hero { padding: 0 16px 56px; gap: 14px; }
-    .card { padding: 24px; }
-
-    .loader-container { padding: 36px 24px; }
-    .loading-title { font-size: 18px; }
-    .loader-percentage { font-size: 2rem; }
-
-    .info {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-        animation-duration: .001ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: .001ms !important;
-    }
-}
-/* ===== NOTIFICATION MODAL ===== */
+/* ============ NOTIFICATION MODAL ============ */
 .notif-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, .65);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    background: rgba(0, 0, 0, .72);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -757,8 +719,42 @@ footer {
     transform: translateY(0);
 }
 
-/* --- MOBILE --- */
+/* ============ RESPONSIVE ============ */
+@media (max-width: 900px) {
+    .hero { flex-direction: column; align-items: center; }
+}
+
 @media (max-width: 500px) {
+    header { padding: 56px 20px 24px; }
+    header h1 { font-size: 1.9rem; }
+
+    .tab-bar { padding: 0 16px 40px; gap: 6px; }
+    .tab-btn {
+        padding: 10px 14px;
+        font-size: .7rem;
+        border-radius: var(--radius);
+        border-left: 1px solid var(--line);
+        flex: 1;
+        min-width: 0;
+    }
+    .tab-btn:first-child,
+    .tab-btn:last-child { border-radius: var(--radius); }
+    .tab-btn .tab-badge { display: none; }
+
+    .hero { padding: 0 16px 56px; gap: 14px; }
+    .card { padding: 24px; }
+
+    .loader-container { padding: 36px 24px; }
+    .loading-title { font-size: 18px; }
+    .loader-percentage { font-size: 2rem; }
+
+    .info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    /* --- Notif mobile --- */
     .notif-modal { max-width: 100%; }
     .notif-head { padding: 14px 16px; }
     .notif-body { padding: 24px 18px 20px; }
@@ -768,5 +764,15 @@ footer {
     .notif-btn-hide {
         width: 100%;
         padding: 14px;
+    }
+}
+
+/* ============ REDUCED MOTION (đặt cuối file) ============ */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .001ms !important;
+        scroll-behavior: auto !important;
     }
 }
