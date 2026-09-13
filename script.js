@@ -3,535 +3,397 @@
 // ============================================================
 const MAINTENANCE_MODE = {
     pro: false,     // Delta Lite
-    client: false,  // Delta Client
+    client: false,  // Delta
     nx: false,      // Roblox Lite NX
-    pc: false,      // ⭐ Real (PC)
-    px: false,      // ⭐ Medium (PX)
-    pv: true,       // ⭐ Velocity (PV)
+    pc: false,      // Real (PC)
+    px: false,      // Medium (PX)
+    pv: true,       // Velocity (PV) — đang bảo trì
     D32: false,     // Delta 32 Bit
-    solara: false,  // ☀️ Solara
-    xeno: false     // ⚡ Xeno
+    solara: false,  // Solara
+    xeno: false     // Xeno
 };
-// ============================================================
 
 // ============================================================
-// 🔔 CẤU HÌNH THÔNG BÁO – SỬA Ở ĐÂY 🔔
+// 📦 CẤU HÌNH DOWNLOAD – SỬA LINK Ở ĐÂY 📦
+// ============================================================
+const DOWNLOADS = {
+    pro: {
+        url: 'https://vuotnhanh.com/dICD',
+        filename: 'Delta-Pro-v3.245.1782.apk'
+    },
+    client: {
+        url: 'https://vuotnhanh.com/9G1D',
+        filename: 'Delta-v2.735.1138.apk'
+    },
+    D32: {
+        url: 'https://vuotnhanh.com/oJou',
+        filename: 'Delta-32bit-v2.736.1408.apk'
+    },
+    nx: {
+        url: 'https://vuotnhanh.com/TxPF',
+        filename: 'Roblox-Lite-NX-v3.0.1.apk'
+    },
+    pc: {
+        url: 'https://vuotnhanh.com/CEGE',
+        filename: 'Executor-PC-Real-v1.7.0.zip'
+    },
+    px: {
+        url: 'https://vuotnhanh.com/G94y',
+        filename: 'Executor-PC-Medium-v1.5.0.zip'
+    },
+    pv: {
+        url: 'https://vuotnhanh.com/zij1',
+        filename: 'Executor-PC-Velocity-v1.6.0.zip'
+    },
+    solara: {
+        url: 'https://4d38a1ec.solaraweb-alj.pages.dev/download/static/files/Bootstrapper.exe',
+        filename: 'Solara-Bootstrapper.exe'
+    },
+    xeno: {
+        url: 'https://xeno.now/',
+        filename: 'Xeno-Executor.exe'
+    }
+};
+
+// ============================================================
+// 🔔 CẤU HÌNH THÔNG BÁO
 // ============================================================
 const NOTIFICATION_CONFIG = {
-    enabled: true,                       // false = tắt hẳn thông báo
-    hideDurationMs: 2 * 60 * 60 * 1000,  // 2 giờ
-    storageKey: 'shyun_notif_hide_until',
-    delayAfterLoader: 300                // ms, chờ loader ẩn xong mới hiện
+    enabled: true,
+    hideDurationMs: 2 * 60 * 60 * 1000, // 2 giờ
+    storageKey: 'matchat_notif_hide_until',
+    delayAfterLoader: 300
 };
-// ============================================================
 
 // ============================================================
-// 🚫 ẨN TẤT CẢ BADGE "BẢO TRÌ" NGAY KHI TRANG BẮT ĐẦU LOAD
+// 🧰 UTILITIES
 // ============================================================
-document.querySelectorAll('.maintenance-badge').forEach(badge => {
-    badge.style.display = 'none';
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+/** Escape các ký tự đặc biệt (không dùng vì đã dùng textContent) */
+function safeQuery(root, selector) {
+    return root ? root.querySelector(selector) : null;
+}
+
+// ============================================================
+// 🚀 BOOTSTRAP — chạy khi DOM sẵn sàng
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+    initLoader();
+    initTabs();
+    initDownloadButtons();
+    initNotification();
 });
-// ============================================================
 
 // ============================================================
-// 🔔 HÀM XỬ LÝ THÔNG BÁO
+// 1️⃣ LOADER — không random, dùng ease-out curve
 // ============================================================
+function initLoader() {
+    const loader = document.getElementById('loader');
+    const percentage = document.getElementById('percentage');
+    const loaderBar = document.getElementById('loader-bar');
+
+    // Guard: nếu thiếu element → ẩn loader luôn
+    if (!loader || !percentage || !loaderBar) {
+        loader?.classList.add('hidden');
+        onLoaderDone();
+        return;
+    }
+
+    const DURATION = 1500;       // tổng thời gian ước tính (ms)
+    const STEP_INTERVAL = 50;    // update mỗi 50ms
+    const totalSteps = DURATION / STEP_INTERVAL;
+    let step = 0;
+    let finished = false;
+
+    const interval = setInterval(() => {
+        step++;
+        // Ease-out cubic: nhanh lúc đầu, chậm lúc cuối
+        const t = Math.min(1, step / totalSteps);
+        const progress = Math.round(100 * (1 - Math.pow(1 - t, 3)));
+
+        percentage.textContent = progress + '%';
+        loaderBar.style.width = progress + '%';
+
+        if (progress >= 100 && !finished) {
+            finished = true;
+            clearInterval(interval);
+            loaderBar.style.background =
+                'linear-gradient(90deg, #10b981, #34d399, #6ee7b7)';
+
+            setTimeout(() => {
+                loader.classList.add('hidden');
+                onLoaderDone();
+            }, 400);
+        }
+    }, STEP_INTERVAL);
+
+    // Safety: force-hide sau 4s nếu có gì treo
+    setTimeout(() => {
+        if (!finished) {
+            finished = true;
+            clearInterval(interval);
+            percentage.textContent = '100%';
+            loaderBar.style.width = '100%';
+            loader.classList.add('hidden');
+            onLoaderDone();
+        }
+    }, 4000);
+}
+
+function onLoaderDone() {
+    applyMaintenanceMode();
+    // Notification được trigger riêng trong initNotification
+    window.dispatchEvent(new CustomEvent('loader:done'));
+}
+
+// ============================================================
+// 2️⃣ TABS — switching + ARIA
+// ============================================================
+function initTabs() {
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = {
+        mobile: document.getElementById('tab-mobile'),
+        pc: document.getElementById('tab-pc')
+    };
+
+    tabBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+            const targetTab = btn.dataset.tab;
+            if (!targetTab || !tabContents[targetTab]) return;
+
+            // Update buttons
+            tabBtns.forEach((b) => {
+                const isActive = b === btn;
+                b.classList.toggle('active', isActive);
+                b.setAttribute('aria-selected', isActive ? 'true' : 'false');
+            });
+
+            // Update contents
+            Object.entries(tabContents).forEach(([key, el]) => {
+                el?.classList.toggle('active', key === targetTab);
+            });
+        });
+    });
+}
+
+// ============================================================
+// 3️⃣ MAINTENANCE MODE — vòng lặp qua tất cả executor
+// ============================================================
+function applyMaintenanceMode() {
+    const cards = document.querySelectorAll('.card[data-executor]');
+
+    cards.forEach((card) => {
+        const key = card.dataset.executor;
+        if (!key) return;
+
+        const btn = card.querySelector('[data-role="download"]');
+        const badge = card.querySelector('[data-role="badge"]');
+        const status = card.querySelector('[data-role="status"]');
+        const dot = card.querySelector('.dot');
+        const statusText = card.querySelector('.status-text');
+
+        if (!btn) return;
+
+        const isMaintenance = Boolean(MAINTENANCE_MODE[key]);
+
+        // Button
+        btn.classList.toggle('btn-maintenance', isMaintenance);
+        btn.textContent = isMaintenance ? '⛔ Đang bảo trì' : 'Download';
+        btn.disabled = isMaintenance;
+        btn.setAttribute('aria-disabled', isMaintenance ? 'true' : 'false');
+
+        // Badge
+        if (badge) {
+            badge.style.display = isMaintenance ? 'inline-block' : 'none';
+        }
+
+        // Status dot + text
+        if (dot) {
+            dot.classList.toggle('online-dot', !isMaintenance);
+            dot.classList.toggle('maintenance-dot', isMaintenance);
+        }
+        if (statusText) {
+            statusText.textContent = isMaintenance ? 'Bảo trì' : 'Online';
+        }
+        if (status) {
+            status.setAttribute(
+                'aria-label',
+                isMaintenance ? 'Trạng thái: Bảo trì' : 'Trạng thái: Online'
+            );
+        }
+    });
+}
+
+// ============================================================
+// 4️⃣ DOWNLOAD BUTTONS — xử lý chung cho tất cả
+// ============================================================
+function initDownloadButtons() {
+    const buttons = document.querySelectorAll('[data-role="download"]');
+
+    buttons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+            const card = btn.closest('.card[data-executor]');
+            const key = card?.dataset.executor;
+            if (!key) return;
+
+            handleDownload(key, btn);
+        });
+    });
+}
+
+async function handleDownload(key, btn) {
+    // Nếu đang bảo trì → không làm gì
+    if (MAINTENANCE_MODE[key]) return;
+
+    const cfg = DOWNLOADS[key];
+    if (!cfg) {
+        console.warn(`[Download] Không có cấu hình cho key: ${key}`);
+        return;
+    }
+
+    const originalText = btn.textContent;
+    const originalDisabled = btn.disabled;
+
+    btn.disabled = true;
+    btn.textContent = 'Đang tải...';
+
+    try {
+        await sleep(500);
+        btn.textContent = 'Đang chuẩn bị...';
+        await sleep(1000);
+
+        // Trigger download
+        const link = document.createElement('a');
+        link.href = cfg.url;
+        link.download = cfg.filename;
+        link.rel = 'noopener noreferrer';
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        // Success state
+        btn.textContent = 'Tải xuống thành công! ✓';
+        btn.style.background = 'linear-gradient(135deg, #10b981, #34d399)';
+        btn.style.color = '#000';
+        btn.style.borderColor = 'transparent';
+
+        await sleep(2000);
+    } catch (err) {
+        console.error('[Download] Lỗi:', err);
+        btn.textContent = 'Lỗi — thử lại';
+        await sleep(2000);
+    } finally {
+        // Reset
+        btn.textContent = originalText;
+        btn.disabled = originalDisabled;
+        btn.style.background = '';
+        btn.style.color = '';
+        btn.style.borderColor = '';
+    }
+}
+
+// ============================================================
+// 5️⃣ NOTIFICATION MODAL
+// ============================================================
+let notifController = null;
+
+function initNotification() {
+    // Chờ loader ẩn xong mới hiện
+    window.addEventListener('loader:done', () => {
+        setTimeout(showNotificationIfNeeded, NOTIFICATION_CONFIG.delayAfterLoader);
+    });
+
+    // Fallback: nếu vì lý do gì loader:done không fire
+    setTimeout(() => {
+        if (!document.getElementById('notifOverlay')?.classList.contains('show')) {
+            showNotificationIfNeeded();
+        }
+    }, 5000);
+}
+
 function showNotificationIfNeeded() {
     if (!NOTIFICATION_CONFIG.enabled) return;
 
     const overlay = document.getElementById('notifOverlay');
-    const btnClose = document.getElementById('notifClose');
-    const btnHide = document.getElementById('notifHide');
-
-    if (!overlay) return; // HTML chưa có → bỏ qua
+    if (!overlay) return;
 
     // Còn trong thời gian ẩn → không hiện
-    const until = parseInt(localStorage.getItem(NOTIFICATION_CONFIG.storageKey) || '0', 10);
+    const until = parseInt(
+        localStorage.getItem(NOTIFICATION_CONFIG.storageKey) || '0',
+        10
+    );
     if (Date.now() < until) return;
 
-    // Hiện modal
-    setTimeout(() => {
-        overlay.classList.add('show');
-        overlay.setAttribute('aria-hidden', 'false');
-    }, NOTIFICATION_CONFIG.delayAfterLoader);
+    // Nếu đã show rồi → không show lại
+    if (overlay.classList.contains('show')) return;
 
-    // Hàm đóng
+    // Cleanup listener cũ (nếu có)
+    notifController?.abort();
+    notifController = new AbortController();
+    const { signal } = notifController;
+
     const close = () => {
         overlay.classList.remove('show');
         overlay.setAttribute('aria-hidden', 'true');
+        notifController?.abort();
+        notifController = null;
     };
 
-    // Nút X → chỉ đóng lần này
-    if (btnClose) {
-        btnClose.addEventListener('click', close);
-    }
+    // Hiện modal
+    overlay.classList.add('show');
+    overlay.setAttribute('aria-hidden', 'false');
 
-    // Nút "Không hiển thị lại trong 2 giờ" → lưu localStorage
-    if (btnHide) {
-        btnHide.addEventListener('click', () => {
-            localStorage.setItem(
-                NOTIFICATION_CONFIG.storageKey,
-                Date.now() + NOTIFICATION_CONFIG.hideDurationMs
-            );
-            close();
-        });
-    }
+    // Gắn listeners
+    document
+        .getElementById('notifClose')
+        ?.addEventListener('click', close, { signal });
 
-    // Click ra ngoài modal → đóng
-    overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) close();
-    });
+    document
+        .getElementById('notifHide')
+        ?.addEventListener(
+            'click',
+            () => {
+                localStorage.setItem(
+                    NOTIFICATION_CONFIG.storageKey,
+                    String(Date.now() + NOTIFICATION_CONFIG.hideDurationMs)
+                );
+                close();
+            },
+            { signal }
+        );
 
-    // Nhấn ESC → đóng
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && overlay.classList.contains('show')) close();
-    });
+    overlay.addEventListener(
+        'click',
+        (e) => {
+            if (e.target === overlay) close();
+        },
+        { signal }
+    );
+
+    document.addEventListener(
+        'keydown',
+        (e) => {
+            if (e.key === 'Escape' && overlay.classList.contains('show')) close();
+        },
+        { signal }
+    );
+
+    // Focus vào nút close để keyboard user biết modal đang mở
+    setTimeout(() => {
+        document.getElementById('notifClose')?.focus();
+    }, 100);
 }
+
 // ============================================================
-
-// ===== LOADING ANIMATION =====
-window.addEventListener('load', () => {
-    const loader = document.getElementById('loader');
-    const percentage = document.getElementById('percentage');
-    const loaderBar = document.getElementById('loader-bar');
-    let progress = 0;
-
-    const interval = setInterval(() => {
-        progress += Math.floor(Math.random() * 15) + 3;
-        if (progress >= 100) {
-            progress = 100;
-            clearInterval(interval);
-            percentage.textContent = progress + '%';
-            loaderBar.style.width = progress + '%';
-            loaderBar.style.background = 'linear-gradient(90deg, #10b981, #34d399, #6ee7b7)';
-            setTimeout(() => {
-                loader.classList.add('hidden');
-                applyMaintenanceMode();
-
-                // 🔔 Hiện thông báo sau khi loader ẩn xong
-                showNotificationIfNeeded();
-            }, 800);
-        } else {
-            percentage.textContent = progress + '%';
-            loaderBar.style.width = progress + '%';
-        }
-    }, 300);
+// 🛡️ GLOBAL ERROR HANDLER — tránh loader bị treo
+// ============================================================
+window.addEventListener('error', (e) => {
+    console.error('[Global Error]', e.error);
+    document.getElementById('loader')?.classList.add('hidden');
 });
 
-// ===== ÁP DỤNG CHẾ ĐỘ BẢO TRÌ =====
-function applyMaintenanceMode() {
-    // --- Delta Pro ---
-    const btnPro = document.getElementById('downloadBtnPro');
-    const badgePro = document.getElementById('badgePro');
-    const statusPro = document.getElementById('statusPro');
-    if (MAINTENANCE_MODE.pro) {
-        btnPro.classList.add('btn-maintenance');
-        btnPro.textContent = '⛔ Đang bảo trì';
-        btnPro.disabled = true;
-        badgePro.style.display = 'inline-block';
-        statusPro.innerHTML = 'Status: <span class="maintenance-dot"></span> Bảo trì';
-    } else {
-        btnPro.classList.remove('btn-maintenance');
-        btnPro.textContent = 'Download';
-        btnPro.disabled = false;
-        badgePro.style.display = 'none';
-        statusPro.innerHTML = 'Status: <span class="online-dot"></span> Online';
-    }
-
-    // --- Delta Client ---
-    const btnClient = document.getElementById('downloadBtnClient');
-    const badgeClient = document.getElementById('badgeClient');
-    const statusClient = document.getElementById('statusClient');
-    if (MAINTENANCE_MODE.client) {
-        btnClient.classList.add('btn-maintenance');
-        btnClient.textContent = '⛔ Đang bảo trì';
-        btnClient.disabled = true;
-        badgeClient.style.display = 'inline-block';
-        statusClient.innerHTML = 'Status: <span class="maintenance-dot"></span> Bảo trì';
-    } else {
-        btnClient.classList.remove('btn-maintenance');
-        btnClient.textContent = 'Download';
-        btnClient.disabled = false;
-        badgeClient.style.display = 'none';
-        statusClient.innerHTML = 'Status: <span class="online-dot"></span> Online';
-    }
-
-    // --- Delta 32 Bit ---
-    const btnD32 = document.getElementById('downloadBtnD32');
-    const badgeD32 = document.getElementById('badgeD32');
-    const statusD32 = document.getElementById('statusD32');
-    if (MAINTENANCE_MODE.D32) {
-        btnD32.classList.add('btn-maintenance');
-        btnD32.textContent = '⛔ Đang bảo trì';
-        btnD32.disabled = true;
-        badgeD32.style.display = 'inline-block';
-        statusD32.innerHTML = 'Status: <span class="maintenance-dot"></span> Bảo trì';
-    } else {
-        btnD32.classList.remove('btn-maintenance');
-        btnD32.textContent = 'Download';
-        btnD32.disabled = false;
-        badgeD32.style.display = 'none';
-        statusD32.innerHTML = 'Status: <span class="online-dot"></span> Online';
-    }
-
-    // --- Roblox Lite NX ---
-    const btnNx = document.getElementById('downloadBtnNx');
-    const badgeNx = document.getElementById('badgeNx');
-    const statusNx = document.getElementById('statusNx');
-    if (MAINTENANCE_MODE.nx) {
-        btnNx.classList.add('btn-maintenance');
-        btnNx.textContent = '⛔ Đang bảo trì';
-        btnNx.disabled = true;
-        badgeNx.style.display = 'inline-block';
-        statusNx.innerHTML = 'Status: <span class="maintenance-dot"></span> Bảo trì';
-    } else {
-        btnNx.classList.remove('btn-maintenance');
-        btnNx.textContent = 'Download';
-        btnNx.disabled = false;
-        badgeNx.style.display = 'none';
-        statusNx.innerHTML = 'Status: <span class="online-dot"></span> Online';
-    }
-
-    // --- PC Real ---
-    const btnPc = document.getElementById('downloadBtnPc');
-    const badgePc = document.getElementById('badgePc');
-    const statusPc = document.getElementById('statusPc');
-    if (MAINTENANCE_MODE.pc) {
-        btnPc.classList.add('btn-maintenance');
-        btnPc.textContent = '⛔ Đang bảo trì';
-        btnPc.disabled = true;
-        badgePc.style.display = 'inline-block';
-        statusPc.innerHTML = 'Status: <span class="maintenance-dot"></span> Bảo trì';
-    } else {
-        btnPc.classList.remove('btn-maintenance');
-        btnPc.textContent = 'Download';
-        btnPc.disabled = false;
-        badgePc.style.display = 'none';
-        statusPc.innerHTML = 'Status: <span class="online-dot"></span> Online';
-    }
-
-    // --- PC Medium (PX) ---
-    const btnPx = document.getElementById('downloadBtnPx');
-    const badgePx = document.getElementById('badgePx');
-    const statusPx = document.getElementById('statusPx');
-    if (MAINTENANCE_MODE.px) {
-        btnPx.classList.add('btn-maintenance');
-        btnPx.textContent = '⛔ Đang bảo trì';
-        btnPx.disabled = true;
-        badgePx.style.display = 'inline-block';
-        statusPx.innerHTML = 'Status: <span class="maintenance-dot"></span> Bảo trì';
-    } else {
-        btnPx.classList.remove('btn-maintenance');
-        btnPx.textContent = 'Download';
-        btnPx.disabled = false;
-        badgePx.style.display = 'none';
-        statusPx.innerHTML = 'Status: <span class="online-dot"></span> Online';
-    }
-
-    // --- PC Velocity (PV) ---
-    const btnPv = document.getElementById('downloadBtnPv');
-    const badgePv = document.getElementById('badgePv');
-    const statusPv = document.getElementById('statusPv');
-    if (MAINTENANCE_MODE.pv) {
-        btnPv.classList.add('btn-maintenance');
-        btnPv.textContent = '⛔ Đang bảo trì';
-        btnPv.disabled = true;
-        badgePv.style.display = 'inline-block';
-        statusPv.innerHTML = 'Status: <span class="maintenance-dot"></span> Bảo trì';
-    } else {
-        btnPv.classList.remove('btn-maintenance');
-        btnPv.textContent = 'Download';
-        btnPv.disabled = false;
-        badgePv.style.display = 'none';
-        statusPv.innerHTML = 'Status: <span class="online-dot"></span> Online';
-    }
-
-    // --- Solara ---
-    const btnSolara = document.getElementById('downloadBtnSolara');
-    const badgeSolara = document.getElementById('badgeSolara');
-    const statusSolara = document.getElementById('statusSolara');
-    if (MAINTENANCE_MODE.solara) {
-        btnSolara.classList.add('btn-maintenance');
-        btnSolara.textContent = '⛔ Đang bảo trì';
-        btnSolara.disabled = true;
-        badgeSolara.style.display = 'inline-block';
-        statusSolara.innerHTML = 'Status: <span class="maintenance-dot"></span> Bảo trì';
-    } else {
-        btnSolara.classList.remove('btn-maintenance');
-        btnSolara.textContent = 'Download';
-        btnSolara.disabled = false;
-        badgeSolara.style.display = 'none';
-        statusSolara.innerHTML = 'Status: <span class="online-dot"></span> Online';
-    }
-
-    // --- Xeno ---
-    const btnXeno = document.getElementById('downloadBtnXeno');
-    const badgeXeno = document.getElementById('badgeXeno');
-    const statusXeno = document.getElementById('statusXeno');
-    if (MAINTENANCE_MODE.xeno) {
-        btnXeno.classList.add('btn-maintenance');
-        btnXeno.textContent = '⛔ Đang bảo trì';
-        btnXeno.disabled = true;
-        badgeXeno.style.display = 'inline-block';
-        statusXeno.innerHTML = 'Status: <span class="maintenance-dot"></span> Bảo trì';
-    } else {
-        btnXeno.classList.remove('btn-maintenance');
-        btnXeno.textContent = 'Download';
-        btnXeno.disabled = false;
-        badgeXeno.style.display = 'none';
-        statusXeno.innerHTML = 'Status: <span class="online-dot"></span> Online';
-    }
-}
-
-// ===== TAB SWITCHING =====
-const tabBtns = document.querySelectorAll('.tab-btn');
-const tabContents = {
-    mobile: document.getElementById('tab-mobile'),
-    pc: document.getElementById('tab-pc')
-};
-
-tabBtns.forEach(btn => {
-    btn.addEventListener('click', function() {
-        tabBtns.forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        Object.values(tabContents).forEach(el => el.classList.remove('active'));
-        const tab = this.dataset.tab;
-        if (tabContents[tab]) {
-            tabContents[tab].classList.add('active');
-        }
-    });
-});
-
-// ===== DOWNLOAD BUTTON PRO =====
-document.getElementById('downloadBtnPro').addEventListener('click', function() {
-    if (MAINTENANCE_MODE.pro) return;
-    const btn = this, orig = btn.textContent;
-    btn.disabled = true;
-    btn.textContent = 'Đang tải...';
-    setTimeout(() => {
-        btn.textContent = 'Đang chuẩn bị...';
-        setTimeout(() => {
-            const link = document.createElement('a');
-            link.href = 'https://vuotnhanh.com/dICD';
-            link.download = 'Delta-Pro-v3.245.1782.apk';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            btn.textContent = 'Tải xuống thành công! ✓';
-            btn.style.background = 'linear-gradient(135deg, #10b981, #34d399)';
-            setTimeout(() => {
-                btn.textContent = orig;
-                btn.disabled = false;
-                btn.style.background = '';
-            }, 2000);
-        }, 1000);
-    }, 500);
-});
-
-// ===== DOWNLOAD BUTTON CLIENT =====
-document.getElementById('downloadBtnClient').addEventListener('click', function() {
-    if (MAINTENANCE_MODE.client) return;
-    const btn = this, orig = btn.textContent;
-    btn.disabled = true;
-    btn.textContent = 'Đang tải...';
-    setTimeout(() => {
-        btn.textContent = 'Đang chuẩn bị...';
-        setTimeout(() => {
-            const link = document.createElement('a');
-            link.href = 'https://vuotnhanh.com/9G1D';
-            link.download = 'Delta-v2.735.1138.apk';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            btn.textContent = 'Tải xuống thành công! ✓';
-            btn.style.background = 'linear-gradient(135deg, #10b981, #34d399)';
-            setTimeout(() => {
-                btn.textContent = orig;
-                btn.disabled = false;
-                btn.style.background = '';
-            }, 2000);
-        }, 1000);
-    }, 500);
-});
-
-// ===== DOWNLOAD DELTA 32 BIT =====
-document.getElementById('downloadBtnD32').addEventListener('click', function() {
-    if (MAINTENANCE_MODE.D32) return;
-    const btn = this, orig = btn.textContent;
-    btn.disabled = true;
-    btn.textContent = 'Đang tải...';
-    setTimeout(() => {
-        btn.textContent = 'Đang chuẩn bị...';
-        setTimeout(() => {
-            const link = document.createElement('a');
-            link.href = 'https://vuotnhanh.com/oJou';
-            link.download = 'Delta-32bit-v2.736.1408.apk';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            btn.textContent = 'Tải xuống thành công! ✓';
-            btn.style.background = 'linear-gradient(135deg, #10b981, #34d399)';
-            setTimeout(() => {
-                btn.textContent = orig;
-                btn.disabled = false;
-                btn.style.background = '';
-            }, 2000);
-        }, 1000);
-    }, 500);
-});
-
-// ===== DOWNLOAD BUTTON NX =====
-document.getElementById('downloadBtnNx').addEventListener('click', function() {
-    if (MAINTENANCE_MODE.nx) return;
-    const btn = this, orig = btn.textContent;
-    btn.disabled = true;
-    btn.textContent = 'Đang tải...';
-    setTimeout(() => {
-        btn.textContent = 'Đang chuẩn bị...';
-        setTimeout(() => {
-            const link = document.createElement('a');
-            link.href = 'https://vuotnhanh.com/TxPF';
-            link.download = 'Roblox-Lite-NX-v3.0.1.apk';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            btn.textContent = 'Tải xuống thành công! ✓';
-            btn.style.background = 'linear-gradient(135deg, #10b981, #34d399)';
-            setTimeout(() => {
-                btn.textContent = orig;
-                btn.disabled = false;
-                btn.style.background = '';
-            }, 2000);
-        }, 1000);
-    }, 500);
-});
-
-// ===== DOWNLOAD PC REAL =====
-document.getElementById('downloadBtnPc').addEventListener('click', function() {
-    if (MAINTENANCE_MODE.pc) return;
-    const btn = this, orig = btn.textContent;
-    btn.disabled = true;
-    btn.textContent = 'Đang tải...';
-    setTimeout(() => {
-        btn.textContent = 'Đang chuẩn bị...';
-        setTimeout(() => {
-            const link = document.createElement('a');
-            link.href = 'https://vuotnhanh.com/CEGE';
-            link.download = 'Executor-PC-Real-v1.7.0.zip';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            btn.textContent = 'Tải xuống thành công! ✓';
-            btn.style.background = 'linear-gradient(135deg, #10b981, #34d399)';
-            setTimeout(() => {
-                btn.textContent = orig;
-                btn.disabled = false;
-                btn.style.background = '';
-            }, 2000);
-        }, 1000);
-    }, 500);
-});
-
-// ===== DOWNLOAD PC MEDIUM (PX) =====
-document.getElementById('downloadBtnPx').addEventListener('click', function() {
-    if (MAINTENANCE_MODE.px) return;
-    const btn = this, orig = btn.textContent;
-    btn.disabled = true;
-    btn.textContent = 'Đang tải...';
-    setTimeout(() => {
-        btn.textContent = 'Đang chuẩn bị...';
-        setTimeout(() => {
-            const link = document.createElement('a');
-            link.href = 'https://vuotnhanh.com/G94y';
-            link.download = 'Executor-PC-Medium-v1.5.0.zip';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            btn.textContent = 'Tải xuống thành công! ✓';
-            btn.style.background = 'linear-gradient(135deg, #10b981, #34d399)';
-            setTimeout(() => {
-                btn.textContent = orig;
-                btn.disabled = false;
-                btn.style.background = '';
-            }, 2000);
-        }, 1000);
-    }, 500);
-});
-
-// ===== DOWNLOAD PC VELOCITY (PV) =====
-document.getElementById('downloadBtnPv').addEventListener('click', function() {
-    if (MAINTENANCE_MODE.pv) return;
-    const btn = this, orig = btn.textContent;
-    btn.disabled = true;
-    btn.textContent = 'Đang tải...';
-    setTimeout(() => {
-        btn.textContent = 'Đang chuẩn bị...';
-        setTimeout(() => {
-            const link = document.createElement('a');
-            link.href = 'https://vuotnhanh.com/zij1';
-            link.download = 'Executor-PC-Velocity-v1.6.0.zip';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            btn.textContent = 'Tải xuống thành công! ✓';
-            btn.style.background = 'linear-gradient(135deg, #10b981, #34d399)';
-            setTimeout(() => {
-                btn.textContent = orig;
-                btn.disabled = false;
-                btn.style.background = '';
-            }, 2000);
-        }, 1000);
-    }, 500);
-});
-
-// ===== DOWNLOAD SOLARA =====
-document.getElementById('downloadBtnSolara').addEventListener('click', function() {
-    if (MAINTENANCE_MODE.solara) return;
-    const btn = this, orig = btn.textContent;
-    btn.disabled = true;
-    btn.textContent = 'Đang tải...';
-    setTimeout(() => {
-        btn.textContent = 'Đang chuẩn bị...';
-        setTimeout(() => {
-            const link = document.createElement('a');
-            link.href = 'https://4d38a1ec.solaraweb-alj.pages.dev/download/static/files/Bootstrapper.exe';
-            link.download = 'Solara-Bootstrapper.exe';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            btn.textContent = 'Tải xuống thành công! ✓';
-            btn.style.background = 'linear-gradient(135deg, #10b981, #34d399)';
-            setTimeout(() => {
-                btn.textContent = orig;
-                btn.disabled = false;
-                btn.style.background = '';
-            }, 2000);
-        }, 1000);
-    }, 500);
-});
-
-// ===== DOWNLOAD XENO =====
-document.getElementById('downloadBtnXeno').addEventListener('click', function() {
-    if (MAINTENANCE_MODE.xeno) return;
-    const btn = this, orig = btn.textContent;
-    btn.disabled = true;
-    btn.textContent = 'Đang tải...';
-    setTimeout(() => {
-        btn.textContent = 'Đang chuẩn bị...';
-        setTimeout(() => {
-            const link = document.createElement('a');
-            link.href = 'https://xeno.now/';
-            link.download = 'Xeno-Executor.exe';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            btn.textContent = 'Tải xuống thành công! ✓';
-            btn.style.background = 'linear-gradient(135deg, #10b981, #34d399)';
-            setTimeout(() => {
-                btn.textContent = orig;
-                btn.disabled = false;
-                btn.style.background = '';
-            }, 2000);
-        }, 1000);
-    }, 500);
+window.addEventListener('unhandledrejection', (e) => {
+    console.error('[Unhandled Promise]', e.reason);
 });
