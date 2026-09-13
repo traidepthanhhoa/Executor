@@ -7,7 +7,7 @@ const MAINTENANCE_MODE = {
     nx: false,      // Roblox Lite NX
     pc: false,      // ⭐ Real (PC)
     px: false,      // ⭐ Medium (PX)
-    pv: false,      // ⭐ Velocity (PV)
+    pv: true,      // ⭐ Velocity (PV)
     D32: false      // Delta 32 Bit (chú ý viết hoa D)
 };
 // ============================================================
