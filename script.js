@@ -8,9 +8,9 @@ const MAINTENANCE_MODE = {
     pc: false,      // ⭐ Real (PC)
     px: false,      // ⭐ Medium (PX)
     pv: true,       // ⭐ Velocity (PV)
-    D32: false,     // Delta 32 Bit (chú ý viết hoa D)
-    solara: false,  // ☀️ Solara Executor
-    xeno: false     // ⚡ Xeno Executor
+    D32: false,     // Delta 32 Bit
+    solara: false,  // ☀️ Solara
+    xeno: false     // ⚡ Xeno
 };
 // ============================================================
 
@@ -209,9 +209,7 @@ function applyMaintenanceMode() {
 const tabBtns = document.querySelectorAll('.tab-btn');
 const tabContents = {
     mobile: document.getElementById('tab-mobile'),
-    pc: document.getElementById('tab-pc'),
-    solara: document.getElementById('tab-solara'),
-    xeno: document.getElementById('tab-xeno')
+    pc: document.getElementById('tab-pc')
 };
 
 tabBtns.forEach(btn => {
