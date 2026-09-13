@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" data-theme="dark">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,8 +9,25 @@
     <meta name="description" content="Tải Executor & Client Roblox miễn phí: Delta Lite, Delta, Delta 32-bit, Roblox Lite, Executor PC, Solara, Xeno. Cập nhật mới nhất 2026, không key, an toàn." />
     <meta name="keywords" content="roblox executor, delta executor, solara, xeno, roblox lite, executor pc, delta lite" />
     <meta name="author" content="Matchat67" />
-    <meta name="theme-color" content="#0a0a0a" />
     <link rel="canonical" href="https://kenhmatchat-executor.vercel.app/" />
+
+    <!-- ===== THEME COLOR (tự đổi theo theme) ===== -->
+    <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f7f7f8" media="(prefers-color-scheme: light)" />
+
+    <!-- ===== CHỐNG FLASH THEME (FOUC) — chạy TRƯỚC CSS ===== -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme');
+          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var theme = stored || (prefersDark ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
 
     <!-- ===== Open Graph ===== -->
     <meta property="og:type" content="website" />
@@ -33,7 +50,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
     <link rel="manifest" href="site.webmanifest" />
 
-    <!-- ===== FONTS (preconnect để tăng tốc) ===== -->
+    <!-- ===== FONTS ===== -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -117,6 +134,30 @@
     <header class="site-header">
         <h1>Download Executor &amp; Client</h1>
         <p>Mobile Executor &amp; Best Client – PC Executor</p>
+
+        <!-- ===== THEME TOGGLE ===== -->
+        <button
+            class="theme-toggle"
+            id="themeToggle"
+            type="button"
+            aria-label="Chuyển chế độ sáng/tối"
+            title="Chuyển chế độ sáng/tối (Ctrl+Shift+L)"
+        >
+            <span class="theme-toggle-track" aria-hidden="true">
+                <span class="theme-toggle-thumb">
+                    <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="4"/>
+                        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+                    </svg>
+                    <svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    </svg>
+                </span>
+            </span>
+            <span class="theme-toggle-label" data-role="theme-label">Dark</span>
+        </button>
     </header>
 
     <!-- ===== TAB BAR ===== -->
