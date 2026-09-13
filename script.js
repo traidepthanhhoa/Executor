@@ -68,6 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initGuide();
     initBackToTop();
     initReadingProgress();
+    initTimeAgo();
 });
 
 // ============================================================
@@ -211,7 +212,7 @@ function initTabs() {
 }
 
 // ============================================================
-// 4️⃣ SEARCH — fix cứng cho mọi thiết bị
+// 4️⃣ SEARCH
 // ============================================================
 let searchDebounce = null;
 
@@ -242,7 +243,6 @@ function initSearch() {
             const key = (card.dataset.executor || '').toLowerCase();
             const desc = (card.querySelector('p')?.textContent || '').toLowerCase();
 
-            // Lấy text thuần từ h2 (bỏ badge)
             const h2 = card.querySelector('h2');
             let titleText = '';
             if (h2) {
@@ -272,7 +272,6 @@ function initSearch() {
         console.log(`[Search] "${query}" → ${visibleCount}/${cards.length}`);
     };
 
-    // Dùng CẢ 2 event để chắc chắn ăn trên mọi bàn phím
     const handleInput = () => {
         clearTimeout(searchDebounce);
         searchDebounce = setTimeout(performSearch, 150);
@@ -289,7 +288,6 @@ function initSearch() {
             e.stopPropagation();
             input.value = '';
             performSearch();
-            // Không focus để tránh bàn phím bật lên trên pad
         });
     }
 
@@ -642,6 +640,105 @@ function initReadingProgress() {
     }, { passive: true });
 
     update();
+}
+
+// ============================================================
+// 📅 TIME AGO — "Cập nhật X ngày trước"
+// ============================================================
+function initTimeAgo() {
+    const elements = document.querySelectorAll('[data-role="updated"]');
+
+    if (elements.length === 0) {
+        console.log('[TimeAgo] Không có element nào cần update');
+        return;
+    }
+
+    console.log('[TimeAgo] Tìm thấy', elements.length, 'executor');
+
+    const updateElement = (el) => {
+        const card = el.closest('.card[data-executor]');
+        if (!card) return;
+
+        const dateStr = card.dataset.updated;
+        if (!dateStr) {
+            el.style.display = 'none';
+            return;
+        }
+
+        const textEl = el.querySelector('.updated-text');
+        if (!textEl) return;
+
+        const result = getTimeAgo(dateStr);
+        textEl.textContent = result.text;
+
+        el.classList.remove('fresh', 'recent', 'old', 'stale');
+        el.classList.add(result.class);
+
+        el.title = result.fullDate;
+    };
+
+    elements.forEach(updateElement);
+
+    // Update lại mỗi 1 giờ
+    setInterval(() => {
+        elements.forEach(updateElement);
+    }, 60 * 60 * 1000);
+}
+
+/**
+ * Tính "X ngày trước" từ chuỗi ngày ISO (YYYY-MM-DD)
+ */
+function getTimeAgo(dateStr) {
+    const now = new Date();
+    const past = new Date(dateStr + 'T00:00:00');
+
+    if (isNaN(past.getTime())) {
+        return {
+            text: 'Không rõ ngày cập nhật',
+            class: 'old',
+            fullDate: ''
+        };
+    }
+
+    const fullDate = past.toLocaleDateString('vi-VN', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+    });
+
+    const diffMs = now - past;
+    const diffSeconds = Math.floor(diffMs / 1000);
+    const diffMinutes = Math.floor(diffSeconds / 60);
+    const diffHours = Math.floor(diffMinutes / 60);
+    const diffDays = Math.floor(diffHours / 24);
+    const diffWeeks = Math.floor(diffDays / 7);
+    const diffMonths = Math.floor(diffDays / 30);
+    const diffYears = Math.floor(diffDays / 365);
+
+    let cls;
+    if (diffDays > 180) cls = 'stale';
+    else if (diffDays > 90) cls = 'old';
+    else if (diffDays > 30) cls = 'recent';
+    else cls = 'fresh';
+
+    let text = '';
+    if (diffSeconds < 60) text = 'Vừa mới cập nhật';
+    else if (diffMinutes < 60) text = `${diffMinutes} phút trước`;
+    else if (diffHours < 24) text = `${diffHours} giờ trước`;
+    else if (diffDays === 1) text = 'Hôm qua';
+    else if (diffDays < 7) text = `${diffDays} ngày trước`;
+    else if (diffWeeks === 1) text = '1 tuần trước';
+    else if (diffWeeks < 5) text = `${diffWeeks} tuần trước`;
+    else if (diffMonths === 1) text = '1 tháng trước';
+    else if (diffMonths < 12) text = `${diffMonths} tháng trước`;
+    else if (diffYears === 1) text = '1 năm trước';
+    else text = `${diffYears} năm trước`;
+
+    return {
+        text: `Cập nhật ${text.toLowerCase()}`,
+        class: cls,
+        fullDate: `Cập nhật lần cuối: ${fullDate}`
+    };
 }
 
 // ============================================================
