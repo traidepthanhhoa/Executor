@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- ===== SEO ===== -->
     <title>Executor Download 2026 – Delta, Solara, Xeno, Roblox Lite | Matchat67</title>
     <meta name="description" content="Tải Executor & Client Roblox miễn phí: Delta Lite, Delta, Delta 32-bit, Roblox Lite, Executor PC, Solara, Xeno. Cập nhật mới nhất 2026, không key, an toàn." />
     <meta name="keywords" content="roblox executor, delta executor, solara, xeno, roblox lite, executor pc, delta lite" />
@@ -14,7 +13,6 @@
     <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#f7f7f8" media="(prefers-color-scheme: light)" />
 
-    <!-- Chống FOUC theme -->
     <script>
       (function () {
         try {
@@ -28,7 +26,6 @@
       })();
     </script>
 
-    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Executor Download 2026 – Delta, Solara, Xeno, Roblox Lite" />
     <meta property="og:description" content="Tải Executor & Client Roblox miễn phí, cập nhật mới nhất 2026." />
@@ -36,20 +33,17 @@
     <meta property="og:image" content="https://kenhmatchat-executor.vercel.app/og-image.png" />
     <meta property="og:locale" content="vi_VN" />
 
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Executor Download 2026 – Matchat67" />
     <meta name="twitter:description" content="Tải Executor & Client Roblox miễn phí, cập nhật mới nhất 2026." />
     <meta name="twitter:image" content="https://kenhmatchat-executor.vercel.app/og-image.png" />
 
-    <!-- Favicon -->
     <link rel="icon" href="data:," />
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
     <link rel="manifest" href="site.webmanifest" />
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -61,15 +55,15 @@
 </head>
 <body>
 
-    <!-- ===== READING PROGRESS BAR ===== -->
+    <!-- READING PROGRESS -->
     <div class="reading-progress" id="readingProgress" aria-hidden="true">
         <div class="reading-progress-fill" id="readingProgressFill"></div>
     </div>
 
-    <!-- ===== TOAST CONTAINER ===== -->
+    <!-- TOAST CONTAINER -->
     <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
 
-    <!-- ===== NOTIFICATION MODAL ===== -->
+    <!-- NOTIFICATION MODAL -->
     <div class="notif-overlay" id="notifOverlay" aria-hidden="true">
         <div class="notif-modal" role="dialog" aria-modal="true" aria-labelledby="notifTitle">
             <div class="notif-head">
@@ -112,7 +106,7 @@
         </div>
     </div>
 
-    <!-- ===== GUIDE MODAL ===== -->
+    <!-- GUIDE MODAL -->
     <div class="guide-overlay" id="guideOverlay" aria-hidden="true">
         <div class="guide-modal" role="dialog" aria-modal="true" aria-labelledby="guideTitle">
             <div class="guide-head">
@@ -240,9 +234,14 @@
                     </ol>
                 </div>
 
-                <details class="guide-faq" open>
-                    <summary>❓ Câu hỏi thường gặp</summary>
-                    <div class="faq-list">
+                <!-- FAQ — DÙNG BUTTON ACCORDION -->
+                <div class="guide-faq">
+                    <button class="faq-toggle" id="faqToggle" type="button"
+                            aria-expanded="true" aria-controls="faqList">
+                        <span>❓ Câu hỏi thường gặp</span>
+                        <span class="faq-arrow" aria-hidden="true">▾</span>
+                    </button>
+                    <div class="faq-list" id="faqList">
                         <div class="faq-item">
                             <strong>Executor không attach được?</strong>
                             <p>Chạy executor với quyền Admin. Tắt antivirus tạm thời. Đảm bảo Roblox đang mở.</p>
@@ -260,7 +259,7 @@
                             <p>Có thể. Khuyến nghị dùng tài khoản phụ (alt) để test script trước.</p>
                         </div>
                     </div>
-                </details>
+                </div>
             </div>
 
             <div class="guide-foot">
@@ -272,7 +271,7 @@
         </div>
     </div>
 
-    <!-- ===== LOADING SCREEN ===== -->
+    <!-- LOADER -->
     <div id="loader" role="status" aria-live="polite" aria-label="Đang tải trang">
         <div class="loader-container">
             <div class="spinner-reup" aria-hidden="true"></div>
@@ -296,19 +295,15 @@
         </div>
     </div>
 
-    <!-- ===== HEADER ===== -->
+    <!-- HEADER -->
     <header class="site-header">
         <h1>Download Executor &amp; Client</h1>
         <p>Mobile Executor &amp; Best Client – PC Executor</p>
 
         <div class="header-actions">
-            <button
-                class="theme-toggle"
-                id="themeToggle"
-                type="button"
-                aria-label="Chuyển chế độ sáng/tối"
-                title="Chuyển chế độ sáng/tối (Ctrl+Shift+L)"
-            >
+            <button class="theme-toggle" id="themeToggle" type="button"
+                    aria-label="Chuyển chế độ sáng/tối"
+                    title="Chuyển chế độ sáng/tối (Ctrl+Shift+L)">
                 <span class="theme-toggle-track" aria-hidden="true">
                     <span class="theme-toggle-thumb">
                         <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -337,35 +332,21 @@
         </div>
     </header>
 
-    <!-- ===== TAB BAR ===== -->
+    <!-- TAB BAR -->
     <div class="tab-bar" role="tablist" aria-label="Chọn nền tảng">
-        <button
-            class="tab-btn active"
-            data-tab="mobile"
-            role="tab"
-            aria-selected="true"
-            aria-controls="tab-mobile"
-            id="tab-mobile-btn"
-            type="button"
-        >
+        <button class="tab-btn active" data-tab="mobile" role="tab"
+                aria-selected="true" aria-controls="tab-mobile" id="tab-mobile-btn" type="button">
             <span class="tab-icon" aria-hidden="true">📱</span> Mobile
             <span class="tab-badge" data-count="mobile">4</span>
         </button>
-        <button
-            class="tab-btn"
-            data-tab="pc"
-            role="tab"
-            aria-selected="false"
-            aria-controls="tab-pc"
-            id="tab-pc-btn"
-            type="button"
-        >
+        <button class="tab-btn" data-tab="pc" role="tab"
+                aria-selected="false" aria-controls="tab-pc" id="tab-pc-btn" type="button">
             <span class="tab-icon" aria-hidden="true">💻</span> PC
             <span class="tab-badge" data-count="pc">5</span>
         </button>
     </div>
 
-    <!-- ===== SEARCH BAR ===== -->
+    <!-- SEARCH BAR -->
     <div class="search-wrap">
         <div class="search-box">
             <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -373,15 +354,10 @@
                 <circle cx="11" cy="11" r="8"/>
                 <line x1="21" y1="21" x2="16.65" y2="16.65"/>
             </svg>
-            <input
-                type="text"
-                class="search-input"
-                id="searchInput"
-                placeholder="Tìm executor... (Delta, Solara, Xeno...)"
-                aria-label="Tìm kiếm executor"
-                autocomplete="off"
-                spellcheck="false"
-            />
+            <input type="text" class="search-input" id="searchInput"
+                   placeholder="Tìm executor... (Delta, Solara, Xeno...)"
+                   aria-label="Tìm kiếm executor"
+                   autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
             <button class="search-clear" id="searchClear" type="button"
                     aria-label="Xóa tìm kiếm" hidden>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -396,20 +372,10 @@
         </p>
     </div>
 
-    <!-- ===== TAB MOBILE ===== -->
+    <!-- TAB MOBILE -->
     <div class="tab-content active" id="tab-mobile" role="tabpanel" aria-labelledby="tab-mobile-btn">
         <section class="hero" aria-label="Executor cho Mobile">
             <article class="card card-pro" data-executor="pro" data-name="Delta Lite">
-                <div class="card-actions">
-                    <button class="icon-btn copy-btn" data-role="copy" type="button"
-                            aria-label="Copy link Delta Lite" title="Copy link">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                        </svg>
-                    </button>
-                </div>
                 <h2>
                     Download Delta Lite
                     <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
@@ -426,16 +392,6 @@
             </article>
 
             <article class="card card-client" data-executor="client" data-name="Delta">
-                <div class="card-actions">
-                    <button class="icon-btn copy-btn" data-role="copy" type="button"
-                            aria-label="Copy link Delta" title="Copy link">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                        </svg>
-                    </button>
-                </div>
                 <h2>
                     Download Delta
                     <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
@@ -452,16 +408,6 @@
             </article>
 
             <article class="card card-client" data-executor="D32" data-name="Delta 32 bit">
-                <div class="card-actions">
-                    <button class="icon-btn copy-btn" data-role="copy" type="button"
-                            aria-label="Copy link Delta 32 bit" title="Copy link">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                        </svg>
-                    </button>
-                </div>
                 <h2>
                     Download Delta 32 bit
                     <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
@@ -478,16 +424,6 @@
             </article>
 
             <article class="card card-nx" data-executor="nx" data-name="Roblox Lite">
-                <div class="card-actions">
-                    <button class="icon-btn copy-btn" data-role="copy" type="button"
-                            aria-label="Copy link Roblox Lite" title="Copy link">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                        </svg>
-                    </button>
-                </div>
                 <h2>
                     Roblox Lite
                     <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
@@ -505,20 +441,10 @@
         </section>
     </div>
 
-    <!-- ===== TAB PC ===== -->
+    <!-- TAB PC -->
     <div class="tab-content" id="tab-pc" role="tabpanel" aria-labelledby="tab-pc-btn">
         <section class="hero" aria-label="Executor cho PC">
             <article class="card card-pc" data-executor="pc" data-name="Executor Real">
-                <div class="card-actions">
-                    <button class="icon-btn copy-btn" data-role="copy" type="button"
-                            aria-label="Copy link Executor Real" title="Copy link">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                        </svg>
-                    </button>
-                </div>
                 <h2>
                     Executor Real
                     <span class="pc-icon" aria-label="Chỉ hỗ trợ PC">
@@ -541,16 +467,6 @@
             </article>
 
             <article class="card card-pc" data-executor="px" data-name="Executor Medium">
-                <div class="card-actions">
-                    <button class="icon-btn copy-btn" data-role="copy" type="button"
-                            aria-label="Copy link Executor Medium" title="Copy link">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                        </svg>
-                    </button>
-                </div>
                 <h2>
                     Executor Medium
                     <span class="pc-icon" aria-label="Chỉ hỗ trợ PC">
@@ -573,16 +489,6 @@
             </article>
 
             <article class="card card-pc" data-executor="pv" data-name="Executor Velocity">
-                <div class="card-actions">
-                    <button class="icon-btn copy-btn" data-role="copy" type="button"
-                            aria-label="Copy link Executor Velocity" title="Copy link">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                        </svg>
-                    </button>
-                </div>
                 <h2>
                     Executor Velocity
                     <span class="pc-icon" aria-label="Chỉ hỗ trợ PC">
@@ -605,16 +511,6 @@
             </article>
 
             <article class="card card-solara" data-executor="solara" data-name="Solara">
-                <div class="card-actions">
-                    <button class="icon-btn copy-btn" data-role="copy" type="button"
-                            aria-label="Copy link Solara" title="Copy link">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                        </svg>
-                    </button>
-                </div>
                 <h2>
                     Solara Executor
                     <span class="pc-icon" aria-label="Chỉ hỗ trợ PC">
@@ -637,16 +533,6 @@
             </article>
 
             <article class="card card-xeno" data-executor="xeno" data-name="Xeno">
-                <div class="card-actions">
-                    <button class="icon-btn copy-btn" data-role="copy" type="button"
-                            aria-label="Copy link Xeno" title="Copy link">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                        </svg>
-                    </button>
-                </div>
                 <h2>
                     Xeno Executor
                     <span class="pc-icon" aria-label="Chỉ hỗ trợ PC">
@@ -670,7 +556,7 @@
         </section>
     </div>
 
-    <!-- ===== BACK TO TOP ===== -->
+    <!-- BACK TO TOP -->
     <button class="back-to-top" id="backToTop" type="button"
             aria-label="Cuộn lên đầu trang" title="Về đầu trang">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
@@ -679,7 +565,6 @@
         </svg>
     </button>
 
-    <!-- ===== FOOTER ===== -->
     <footer>
         &copy; 2026 Matchat67 – Executor
         <small class="footer-disclaimer">
