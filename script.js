@@ -14,6 +14,15 @@ const MAINTENANCE_MODE = {
 };
 // ============================================================
 
+// ============================================================
+// 🚫 ẨN TẤT CẢ BADGE "BẢO TRÌ" NGAY KHI TRANG BẮT ĐẦU LOAD
+// (Tránh trường hợp badge hiện sẵn trước khi JS chạy)
+// ============================================================
+document.querySelectorAll('.maintenance-badge').forEach(badge => {
+    badge.style.display = 'none';
+});
+// ============================================================
+
 // ===== LOADING ANIMATION =====
 window.addEventListener('load', () => {
     const loader = document.getElementById('loader');
@@ -150,7 +159,7 @@ function applyMaintenanceMode() {
         statusPx.innerHTML = 'Status: <span class="online-dot"></span> Online';
     }
 
-    // --- PC Velocity (Pv) ---
+    // --- PC Velocity (PV) ---
     const btnPv = document.getElementById('downloadBtnPv');
     const badgePv = document.getElementById('badgePv');
     const statusPv = document.getElementById('statusPv');
