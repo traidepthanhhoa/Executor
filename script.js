@@ -7,8 +7,10 @@ const MAINTENANCE_MODE = {
     nx: false,      // Roblox Lite NX
     pc: false,      // ⭐ Real (PC)
     px: false,      // ⭐ Medium (PX)
-    pv: true,      // ⭐ Velocity (PV)
-    D32: false      // Delta 32 Bit (chú ý viết hoa D)
+    pv: true,       // ⭐ Velocity (PV)
+    D32: false,     // Delta 32 Bit (chú ý viết hoa D)
+    solara: false,  // ☀️ Solara Executor
+    xeno: false     // ⚡ Xeno Executor
 };
 // ============================================================
 
@@ -76,7 +78,7 @@ function applyMaintenanceMode() {
         statusClient.innerHTML = 'Status: <span class="online-dot"></span> Online';
     }
 
-    // --- Delta 32 Bit (ĐÃ SỬA TÊN BIẾN) ---
+    // --- Delta 32 Bit ---
     const btnD32 = document.getElementById('downloadBtnD32');
     const badgeD32 = document.getElementById('badgeD32');
     const statusD32 = document.getElementById('statusD32');
@@ -165,13 +167,51 @@ function applyMaintenanceMode() {
         badgePv.style.display = 'none';
         statusPv.innerHTML = 'Status: <span class="online-dot"></span> Online';
     }
+
+    // --- Solara ---
+    const btnSolara = document.getElementById('downloadBtnSolara');
+    const badgeSolara = document.getElementById('badgeSolara');
+    const statusSolara = document.getElementById('statusSolara');
+    if (MAINTENANCE_MODE.solara) {
+        btnSolara.classList.add('btn-maintenance');
+        btnSolara.textContent = '⛔ Đang bảo trì';
+        btnSolara.disabled = true;
+        badgeSolara.style.display = 'inline-block';
+        statusSolara.innerHTML = 'Status: <span class="maintenance-dot"></span> Bảo trì';
+    } else {
+        btnSolara.classList.remove('btn-maintenance');
+        btnSolara.textContent = 'Download';
+        btnSolara.disabled = false;
+        badgeSolara.style.display = 'none';
+        statusSolara.innerHTML = 'Status: <span class="online-dot"></span> Online';
+    }
+
+    // --- Xeno ---
+    const btnXeno = document.getElementById('downloadBtnXeno');
+    const badgeXeno = document.getElementById('badgeXeno');
+    const statusXeno = document.getElementById('statusXeno');
+    if (MAINTENANCE_MODE.xeno) {
+        btnXeno.classList.add('btn-maintenance');
+        btnXeno.textContent = '⛔ Đang bảo trì';
+        btnXeno.disabled = true;
+        badgeXeno.style.display = 'inline-block';
+        statusXeno.innerHTML = 'Status: <span class="maintenance-dot"></span> Bảo trì';
+    } else {
+        btnXeno.classList.remove('btn-maintenance');
+        btnXeno.textContent = 'Download';
+        btnXeno.disabled = false;
+        badgeXeno.style.display = 'none';
+        statusXeno.innerHTML = 'Status: <span class="online-dot"></span> Online';
+    }
 }
 
 // ===== TAB SWITCHING =====
 const tabBtns = document.querySelectorAll('.tab-btn');
 const tabContents = {
     mobile: document.getElementById('tab-mobile'),
-    pc: document.getElementById('tab-pc')
+    pc: document.getElementById('tab-pc'),
+    solara: document.getElementById('tab-solara'),
+    xeno: document.getElementById('tab-xeno')
 };
 
 tabBtns.forEach(btn => {
@@ -238,7 +278,7 @@ document.getElementById('downloadBtnClient').addEventListener('click', function(
     }, 500);
 });
 
-// ===== DOWNLOAD DELTA 32 BIT (ĐÃ SỬA TÊN BIẾN & LINK RIÊNG) =====
+// ===== DOWNLOAD DELTA 32 BIT =====
 document.getElementById('downloadBtnD32').addEventListener('click', function() {
     if (MAINTENANCE_MODE.D32) return;
     const btn = this, orig = btn.textContent;
@@ -248,8 +288,8 @@ document.getElementById('downloadBtnD32').addEventListener('click', function() {
         btn.textContent = 'Đang chuẩn bị...';
         setTimeout(() => {
             const link = document.createElement('a');
-            link.href = 'https://vuotnhanh.com/oJou'; // 👈 Đổi link thật của D32
-            link.download = 'Delta-32bit-v2.736.1408.apk';      // 👈 Đổi tên file cho đúng
+            link.href = 'https://vuotnhanh.com/oJou';
+            link.download = 'Delta-32bit-v2.736.1408.apk';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -354,6 +394,58 @@ document.getElementById('downloadBtnPv').addEventListener('click', function() {
             const link = document.createElement('a');
             link.href = 'https://vuotnhanh.com/zij1';
             link.download = 'Executor-PC-Velocity-v1.6.0.zip';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            btn.textContent = 'Tải xuống thành công! ✓';
+            btn.style.background = 'linear-gradient(135deg, #10b981, #34d399)';
+            setTimeout(() => {
+                btn.textContent = orig;
+                btn.disabled = false;
+                btn.style.background = '';
+            }, 2000);
+        }, 1000);
+    }, 500);
+});
+
+// ===== DOWNLOAD SOLARA =====
+document.getElementById('downloadBtnSolara').addEventListener('click', function() {
+    if (MAINTENANCE_MODE.solara) return;
+    const btn = this, orig = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Đang tải...';
+    setTimeout(() => {
+        btn.textContent = 'Đang chuẩn bị...';
+        setTimeout(() => {
+            const link = document.createElement('a');
+            link.href = 'https://4d38a1ec.solaraweb-alj.pages.dev/download/static/files/Bootstrapper.exe';
+            link.download = 'Solara-Bootstrapper.exe';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            btn.textContent = 'Tải xuống thành công! ✓';
+            btn.style.background = 'linear-gradient(135deg, #10b981, #34d399)';
+            setTimeout(() => {
+                btn.textContent = orig;
+                btn.disabled = false;
+                btn.style.background = '';
+            }, 2000);
+        }, 1000);
+    }, 500);
+});
+
+// ===== DOWNLOAD XENO =====
+document.getElementById('downloadBtnXeno').addEventListener('click', function() {
+    if (MAINTENANCE_MODE.xeno) return;
+    const btn = this, orig = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Đang tải...';
+    setTimeout(() => {
+        btn.textContent = 'Đang chuẩn bị...';
+        setTimeout(() => {
+            const link = document.createElement('a');
+            link.href = 'https://xeno.now/';
+            link.download = 'Xeno-Executor.exe';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
