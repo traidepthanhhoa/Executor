@@ -66,19 +66,26 @@ const NOTIFICATION_CONFIG = {
 };
 
 // ============================================================
+// 🌗 CẤU HÌNH THEME
+// ============================================================
+const THEME_CONFIG = {
+    storageKey: 'theme',
+    labels: {
+        dark: 'Dark',
+        light: 'Light'
+    }
+};
+
+// ============================================================
 // 🧰 UTILITIES
 // ============================================================
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-/** Escape các ký tự đặc biệt (không dùng vì đã dùng textContent) */
-function safeQuery(root, selector) {
-    return root ? root.querySelector(selector) : null;
-}
-
 // ============================================================
-// 🚀 BOOTSTRAP — chạy khi DOM sẵn sàng
+// 🚀 BOOTSTRAP
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
+    initTheme();
     initLoader();
     initTabs();
     initDownloadButtons();
@@ -86,29 +93,104 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ============================================================
-// 1️⃣ LOADER — không random, dùng ease-out curve
+// 1️⃣ THEME TOGGLE
+// ============================================================
+function initTheme() {
+    const toggle = document.getElementById('themeToggle');
+    const label = document.querySelector('[data-role="theme-label"]');
+
+    // Đọc theme hiện tại (đã set bởi inline script trong <head>)
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+    updateThemeLabel(currentTheme, label);
+
+    // Theo dõi thay đổi theme hệ thống (chỉ khi user chưa chọn)
+    const mql = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleSystemChange = (e) => {
+        if (!localStorage.getItem(THEME_CONFIG.storageKey)) {
+            const newTheme = e.matches ? 'dark' : 'light';
+            applyTheme(newTheme);
+            updateThemeLabel(newTheme, label);
+        }
+    };
+
+    if (mql.addEventListener) {
+        mql.addEventListener('change', handleSystemChange);
+    } else if (mql.addListener) {
+        // Safari cũ
+        mql.addListener(handleSystemChange);
+    }
+
+    if (!toggle) return;
+
+    toggle.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme') || 'dark';
+        const next = current === 'dark' ? 'light' : 'dark';
+
+        applyTheme(next);
+        localStorage.setItem(THEME_CONFIG.storageKey, next);
+        updateThemeLabel(next, label);
+    });
+
+    // Phím tắt: Ctrl/Cmd + Shift + L
+    document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'l') {
+            e.preventDefault();
+            toggle.click();
+        }
+    });
+}
+
+function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+
+    // Đổi màu address bar trên mobile
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    if (metaTheme) {
+        metaTheme.setAttribute(
+            'content',
+            theme === 'dark' ? '#0a0a0a' : '#fbfbfd'
+        );
+    }
+}
+
+function updateThemeLabel(theme, labelEl) {
+    if (labelEl) {
+        labelEl.textContent = THEME_CONFIG.labels[theme] || 'Dark';
+    }
+
+    const toggle = document.getElementById('themeToggle');
+    if (toggle) {
+        toggle.setAttribute(
+            'aria-label',
+            theme === 'dark'
+                ? 'Chuyển sang chế độ sáng'
+                : 'Chuyển sang chế độ tối'
+        );
+    }
+}
+
+// ============================================================
+// 2️⃣ LOADER — ease-out curve, có safety timeout
 // ============================================================
 function initLoader() {
     const loader = document.getElementById('loader');
     const percentage = document.getElementById('percentage');
     const loaderBar = document.getElementById('loader-bar');
 
-    // Guard: nếu thiếu element → ẩn loader luôn
     if (!loader || !percentage || !loaderBar) {
         loader?.classList.add('hidden');
         onLoaderDone();
         return;
     }
 
-    const DURATION = 1500;       // tổng thời gian ước tính (ms)
-    const STEP_INTERVAL = 50;    // update mỗi 50ms
+    const DURATION = 1500;
+    const STEP_INTERVAL = 50;
     const totalSteps = DURATION / STEP_INTERVAL;
     let step = 0;
     let finished = false;
 
     const interval = setInterval(() => {
         step++;
-        // Ease-out cubic: nhanh lúc đầu, chậm lúc cuối
         const t = Math.min(1, step / totalSteps);
         const progress = Math.round(100 * (1 - Math.pow(1 - t, 3)));
 
@@ -128,7 +210,7 @@ function initLoader() {
         }
     }, STEP_INTERVAL);
 
-    // Safety: force-hide sau 4s nếu có gì treo
+    // Safety: force-hide sau 4s
     setTimeout(() => {
         if (!finished) {
             finished = true;
@@ -143,12 +225,11 @@ function initLoader() {
 
 function onLoaderDone() {
     applyMaintenanceMode();
-    // Notification được trigger riêng trong initNotification
     window.dispatchEvent(new CustomEvent('loader:done'));
 }
 
 // ============================================================
-// 2️⃣ TABS — switching + ARIA
+// 3️⃣ TABS
 // ============================================================
 function initTabs() {
     const tabBtns = document.querySelectorAll('.tab-btn');
@@ -162,14 +243,12 @@ function initTabs() {
             const targetTab = btn.dataset.tab;
             if (!targetTab || !tabContents[targetTab]) return;
 
-            // Update buttons
             tabBtns.forEach((b) => {
                 const isActive = b === btn;
                 b.classList.toggle('active', isActive);
                 b.setAttribute('aria-selected', isActive ? 'true' : 'false');
             });
 
-            // Update contents
             Object.entries(tabContents).forEach(([key, el]) => {
                 el?.classList.toggle('active', key === targetTab);
             });
@@ -178,7 +257,7 @@ function initTabs() {
 }
 
 // ============================================================
-// 3️⃣ MAINTENANCE MODE — vòng lặp qua tất cả executor
+// 4️⃣ MAINTENANCE MODE
 // ============================================================
 function applyMaintenanceMode() {
     const cards = document.querySelectorAll('.card[data-executor]');
@@ -197,18 +276,15 @@ function applyMaintenanceMode() {
 
         const isMaintenance = Boolean(MAINTENANCE_MODE[key]);
 
-        // Button
         btn.classList.toggle('btn-maintenance', isMaintenance);
         btn.textContent = isMaintenance ? '⛔ Đang bảo trì' : 'Download';
         btn.disabled = isMaintenance;
         btn.setAttribute('aria-disabled', isMaintenance ? 'true' : 'false');
 
-        // Badge
         if (badge) {
             badge.style.display = isMaintenance ? 'inline-block' : 'none';
         }
 
-        // Status dot + text
         if (dot) {
             dot.classList.toggle('online-dot', !isMaintenance);
             dot.classList.toggle('maintenance-dot', isMaintenance);
@@ -226,7 +302,7 @@ function applyMaintenanceMode() {
 }
 
 // ============================================================
-// 4️⃣ DOWNLOAD BUTTONS — xử lý chung cho tất cả
+// 5️⃣ DOWNLOAD BUTTONS
 // ============================================================
 function initDownloadButtons() {
     const buttons = document.querySelectorAll('[data-role="download"]');
@@ -243,7 +319,6 @@ function initDownloadButtons() {
 }
 
 async function handleDownload(key, btn) {
-    // Nếu đang bảo trì → không làm gì
     if (MAINTENANCE_MODE[key]) return;
 
     const cfg = DOWNLOADS[key];
@@ -263,7 +338,6 @@ async function handleDownload(key, btn) {
         btn.textContent = 'Đang chuẩn bị...';
         await sleep(1000);
 
-        // Trigger download
         const link = document.createElement('a');
         link.href = cfg.url;
         link.download = cfg.filename;
@@ -273,7 +347,6 @@ async function handleDownload(key, btn) {
         link.click();
         link.remove();
 
-        // Success state
         btn.textContent = 'Tải xuống thành công! ✓';
         btn.style.background = 'linear-gradient(135deg, #10b981, #34d399)';
         btn.style.color = '#000';
@@ -285,7 +358,6 @@ async function handleDownload(key, btn) {
         btn.textContent = 'Lỗi — thử lại';
         await sleep(2000);
     } finally {
-        // Reset
         btn.textContent = originalText;
         btn.disabled = originalDisabled;
         btn.style.background = '';
@@ -295,17 +367,16 @@ async function handleDownload(key, btn) {
 }
 
 // ============================================================
-// 5️⃣ NOTIFICATION MODAL
+// 6️⃣ NOTIFICATION MODAL
 // ============================================================
 let notifController = null;
 
 function initNotification() {
-    // Chờ loader ẩn xong mới hiện
     window.addEventListener('loader:done', () => {
         setTimeout(showNotificationIfNeeded, NOTIFICATION_CONFIG.delayAfterLoader);
     });
 
-    // Fallback: nếu vì lý do gì loader:done không fire
+    // Fallback
     setTimeout(() => {
         if (!document.getElementById('notifOverlay')?.classList.contains('show')) {
             showNotificationIfNeeded();
@@ -319,17 +390,13 @@ function showNotificationIfNeeded() {
     const overlay = document.getElementById('notifOverlay');
     if (!overlay) return;
 
-    // Còn trong thời gian ẩn → không hiện
     const until = parseInt(
         localStorage.getItem(NOTIFICATION_CONFIG.storageKey) || '0',
         10
     );
     if (Date.now() < until) return;
-
-    // Nếu đã show rồi → không show lại
     if (overlay.classList.contains('show')) return;
 
-    // Cleanup listener cũ (nếu có)
     notifController?.abort();
     notifController = new AbortController();
     const { signal } = notifController;
@@ -341,11 +408,9 @@ function showNotificationIfNeeded() {
         notifController = null;
     };
 
-    // Hiện modal
     overlay.classList.add('show');
     overlay.setAttribute('aria-hidden', 'false');
 
-    // Gắn listeners
     document
         .getElementById('notifClose')
         ?.addEventListener('click', close, { signal });
@@ -380,14 +445,14 @@ function showNotificationIfNeeded() {
         { signal }
     );
 
-    // Focus vào nút close để keyboard user biết modal đang mở
+    // Focus vào nút close cho keyboard user
     setTimeout(() => {
         document.getElementById('notifClose')?.focus();
     }, 100);
 }
 
 // ============================================================
-// 🛡️ GLOBAL ERROR HANDLER — tránh loader bị treo
+// 🛡️ GLOBAL ERROR HANDLER
 // ============================================================
 window.addEventListener('error', (e) => {
     console.error('[Global Error]', e.error);
