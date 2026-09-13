@@ -133,7 +133,7 @@ img, svg { display: block; max-width: 100%; }
 }
 
 /* ============================================================
-   TOUCH FRIENDLY (pad Samsung)
+   TOUCH FRIENDLY (pad Samsung, mobile)
    ============================================================ */
 button,
 a,
@@ -806,6 +806,76 @@ input,
 .card-xeno { --accent: var(--pink); }
 
 /* ============================================================
+   CARD UPDATED — "Cập nhật X ngày trước"
+   ============================================================ */
+.card-updated {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 6px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: .04em;
+    margin-top: -16px;
+    margin-bottom: 20px;
+    padding: 4px 10px;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    width: fit-content;
+    transition:
+        background var(--t-theme),
+        border-color var(--t-theme),
+        color var(--t-theme);
+}
+
+.card-updated svg {
+    color: var(--purple);
+    flex-shrink: 0;
+    opacity: .8;
+}
+
+/* 🟢 Mới update < 7 ngày */
+.card-updated.fresh {
+    border-color: var(--green);
+    color: var(--green);
+}
+.card-updated.fresh svg {
+    color: var(--green);
+    opacity: 1;
+}
+
+/* 🔵 Còn tốt < 30 ngày */
+.card-updated.recent {
+    border-color: var(--cyan);
+    color: var(--cyan);
+}
+.card-updated.recent svg {
+    color: var(--cyan);
+    opacity: 1;
+}
+
+/* 🟡 Cũ < 180 ngày */
+.card-updated.old {
+    border-color: var(--amber);
+    color: var(--amber);
+}
+.card-updated.old svg {
+    color: var(--amber);
+    opacity: 1;
+}
+
+/* 🔴 Lâu > 180 ngày */
+.card-updated.stale {
+    border-color: var(--red);
+    color: var(--red);
+}
+.card-updated.stale svg {
+    color: var(--red);
+    opacity: 1;
+}
+
+/* ============================================================
    BUTTONS
    ============================================================ */
 .btn {
@@ -1128,6 +1198,7 @@ footer {
 }
 .notif-lines { display: flex; flex-direction: column; gap: 10px; }
 .notif-lines p { font-size: .92rem; color: var(--notif-subtext); line-height: 1.5; }
+.notif-lines p strong { color: var(--notif-text); }
 .notif-lines a {
     color: var(--notif-link);
     font-weight: 700;
@@ -1547,4 +1618,4 @@ footer {
         transition-duration: .001ms !important;
         scroll-behavior: auto !important;
     }
-           }
+   }
