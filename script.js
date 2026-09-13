@@ -15,12 +15,78 @@ const MAINTENANCE_MODE = {
 // ============================================================
 
 // ============================================================
+// 🔔 CẤU HÌNH THÔNG BÁO – SỬA Ở ĐÂY 🔔
+// ============================================================
+const NOTIFICATION_CONFIG = {
+    enabled: true,                       // false = tắt hẳn thông báo
+    hideDurationMs: 2 * 60 * 60 * 1000,  // 2 giờ
+    storageKey: 'shyun_notif_hide_until',
+    delayAfterLoader: 300                // ms, chờ loader ẩn xong mới hiện
+};
+// ============================================================
+
+// ============================================================
 // 🚫 ẨN TẤT CẢ BADGE "BẢO TRÌ" NGAY KHI TRANG BẮT ĐẦU LOAD
-// (Tránh trường hợp badge hiện sẵn trước khi JS chạy)
 // ============================================================
 document.querySelectorAll('.maintenance-badge').forEach(badge => {
     badge.style.display = 'none';
 });
+// ============================================================
+
+// ============================================================
+// 🔔 HÀM XỬ LÝ THÔNG BÁO
+// ============================================================
+function showNotificationIfNeeded() {
+    if (!NOTIFICATION_CONFIG.enabled) return;
+
+    const overlay = document.getElementById('notifOverlay');
+    const btnClose = document.getElementById('notifClose');
+    const btnHide = document.getElementById('notifHide');
+
+    if (!overlay) return; // HTML chưa có → bỏ qua
+
+    // Còn trong thời gian ẩn → không hiện
+    const until = parseInt(localStorage.getItem(NOTIFICATION_CONFIG.storageKey) || '0', 10);
+    if (Date.now() < until) return;
+
+    // Hiện modal
+    setTimeout(() => {
+        overlay.classList.add('show');
+        overlay.setAttribute('aria-hidden', 'false');
+    }, NOTIFICATION_CONFIG.delayAfterLoader);
+
+    // Hàm đóng
+    const close = () => {
+        overlay.classList.remove('show');
+        overlay.setAttribute('aria-hidden', 'true');
+    };
+
+    // Nút X → chỉ đóng lần này
+    if (btnClose) {
+        btnClose.addEventListener('click', close);
+    }
+
+    // Nút "Không hiển thị lại trong 2 giờ" → lưu localStorage
+    if (btnHide) {
+        btnHide.addEventListener('click', () => {
+            localStorage.setItem(
+                NOTIFICATION_CONFIG.storageKey,
+                Date.now() + NOTIFICATION_CONFIG.hideDurationMs
+            );
+            close();
+        });
+    }
+
+    // Click ra ngoài modal → đóng
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) close();
+    });
+
+    // Nhấn ESC → đóng
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && overlay.classList.contains('show')) close();
+    });
+}
 // ============================================================
 
 // ===== LOADING ANIMATION =====
@@ -41,6 +107,9 @@ window.addEventListener('load', () => {
             setTimeout(() => {
                 loader.classList.add('hidden');
                 applyMaintenanceMode();
+
+                // 🔔 Hiện thông báo sau khi loader ẩn xong
+                showNotificationIfNeeded();
             }, 800);
         } else {
             percentage.textContent = progress + '%';
