@@ -69,6 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initBackToTop();
     initReadingProgress();
     initTimeAgo();
+    initDiscordFloat();
 });
 
 // ============================================================
@@ -514,7 +515,6 @@ function initGuide() {
 
     openBtn.addEventListener('click', openGuide);
 
-    // Guide tabs
     const guideTabs = document.querySelectorAll('.guide-tab');
     const guideContents = {
         mobile: document.getElementById('guide-mobile'),
@@ -538,7 +538,6 @@ function initGuide() {
         });
     });
 
-    // FAQ Accordion
     const faqToggle = document.getElementById('faqToggle');
     const faqList = document.getElementById('faqList');
 
@@ -562,7 +561,6 @@ function initGuide() {
         console.warn('[FAQ] Không tìm thấy #faqToggle hoặc #faqList');
     }
 
-    // Close handlers
     document.getElementById('guideClose')?.addEventListener('click', closeGuide);
     document.getElementById('guideOk')?.addEventListener('click', closeGuide);
 
@@ -679,7 +677,6 @@ function initTimeAgo() {
 
     elements.forEach(updateElement);
 
-    // Update lại mỗi 1 giờ
     setInterval(() => {
         elements.forEach(updateElement);
     }, 60 * 60 * 1000);
@@ -739,6 +736,41 @@ function getTimeAgo(dateStr) {
         class: cls,
         fullDate: `Cập nhật lần cuối: ${fullDate}`
     };
+}
+
+// ============================================================
+// 💬 DISCORD FLOATING BUTTON
+// ============================================================
+function initDiscordFloat() {
+    const btn = document.getElementById('discordFloat');
+    if (!btn) return;
+
+    // Ẩn nút khi có modal mở (tránh đè lên modal)
+    const overlayIds = ['notifOverlay', 'guideOverlay'];
+
+    const updateModalState = () => {
+        const anyModalOpen = overlayIds.some((id) => {
+            const el = document.getElementById(id);
+            return el?.classList.contains('show');
+        });
+        document.body.classList.toggle('modal-open', anyModalOpen);
+    };
+
+    overlayIds.forEach((id) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+
+        const observer = new MutationObserver(updateModalState);
+        observer.observe(el, {
+            attributes: true,
+            attributeFilter: ['class']
+        });
+    });
+
+    // Log khi click (có thể dùng cho analytics sau này)
+    btn.addEventListener('click', () => {
+        console.log('[Discord] User clicked join button');
+    });
 }
 
 // ============================================================
