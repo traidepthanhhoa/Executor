@@ -22,6 +22,8 @@
     --indigo: #818cf8;
     --green: #34d399;
     --red: #f87171;
+    --discord: #5865F2;
+    --discord-hover: #4752c4;
     --notif-bg: #ffffff;
     --notif-text: #111111;
     --notif-subtext: #4b5563;
@@ -38,6 +40,8 @@
     --shadow-modal: 0 24px 60px rgba(0, 0, 0, .45);
     --shadow-thumb: 0 2px 6px rgba(0, 0, 0, .25);
     --shadow-toast: 0 8px 24px rgba(0, 0, 0, .4);
+    --shadow-discord: 0 8px 24px rgba(88, 101, 242, .4);
+    --shadow-discord-hover: 0 12px 32px rgba(88, 101, 242, .55);
 }
 
 [data-theme="light"] {
@@ -60,6 +64,8 @@
     --indigo: #4f46e5;
     --green: #059669;
     --red: #dc2626;
+    --discord: #5865F2;
+    --discord-hover: #4752c4;
     --notif-bg: #ffffff;
     --notif-text: #111111;
     --notif-subtext: #4b5563;
@@ -76,6 +82,8 @@
     --shadow-modal: 0 24px 60px rgba(0, 0, 0, .18);
     --shadow-thumb: 0 2px 6px rgba(0, 0, 0, .15);
     --shadow-toast: 0 8px 24px rgba(0, 0, 0, .12);
+    --shadow-discord: 0 8px 24px rgba(88, 101, 242, .25);
+    --shadow-discord-hover: 0 12px 32px rgba(88, 101, 242, .4);
 }
 
 :root {
@@ -84,6 +92,7 @@
     --t: 180ms cubic-bezier(.2, .8, .2, 1);
     --t-theme: 300ms cubic-bezier(.4, 0, .2, 1);
     --z-toast: 10000;
+    --z-discord: 9997;
     --z-modal: 9998;
     --z-loader: 9999;
 }
@@ -148,7 +157,8 @@ input,
 .guide-close,
 .faq-toggle,
 .notif-btn-hide,
-.guide-btn-ok {
+.guide-btn-ok,
+.discord-float {
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
 }
@@ -239,7 +249,7 @@ input,
 
 @media (max-width: 500px) {
     .toast-container {
-        bottom: 16px;
+        bottom: 76px;
         right: 16px;
         left: 16px;
         max-width: none;
@@ -835,7 +845,6 @@ input,
     opacity: .8;
 }
 
-/* 🟢 Mới update < 7 ngày */
 .card-updated.fresh {
     border-color: var(--green);
     color: var(--green);
@@ -845,7 +854,6 @@ input,
     opacity: 1;
 }
 
-/* 🔵 Còn tốt < 30 ngày */
 .card-updated.recent {
     border-color: var(--cyan);
     color: var(--cyan);
@@ -855,7 +863,6 @@ input,
     opacity: 1;
 }
 
-/* 🟡 Cũ < 180 ngày */
 .card-updated.old {
     border-color: var(--amber);
     color: var(--amber);
@@ -865,7 +872,6 @@ input,
     opacity: 1;
 }
 
-/* 🔴 Lâu > 180 ngày */
 .card-updated.stale {
     border-color: var(--red);
     color: var(--red);
@@ -1039,6 +1045,111 @@ input,
 .pc-icon svg { width: 12px; height: 12px; fill: currentColor; }
 
 /* ============================================================
+   DISCORD FLOATING BUTTON
+   ============================================================ */
+.discord-float {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    height: 56px;
+    padding: 0;
+    background: var(--discord);
+    color: #ffffff;
+    border-radius: 28px;
+    text-decoration: none;
+    box-shadow: var(--shadow-discord);
+    z-index: var(--z-discord);
+    overflow: hidden;
+    transition:
+        transform .35s cubic-bezier(.2, .8, .2, 1),
+        box-shadow .35s cubic-bezier(.2, .8, .2, 1),
+        background .3s ease,
+        opacity .25s ease,
+        visibility .25s ease;
+}
+
+.discord-float:hover {
+    background: var(--discord-hover);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: var(--shadow-discord-hover);
+}
+
+.discord-float:active {
+    transform: translateY(-2px) scale(0.98);
+}
+
+.discord-float-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+}
+.discord-float-icon svg {
+    width: 26px;
+    height: 26px;
+    color: #ffffff;
+}
+
+.discord-float-label {
+    max-width: 0;
+    opacity: 0;
+    padding-right: 0;
+    font-family: inherit;
+    font-size: .82rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition:
+        max-width .35s cubic-bezier(.2, .8, .2, 1),
+        opacity .25s ease,
+        padding-right .35s cubic-bezier(.2, .8, .2, 1);
+}
+
+.discord-float:hover .discord-float-label {
+    max-width: 140px;
+    opacity: 1;
+    padding-right: 20px;
+}
+
+.discord-float-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 28px;
+    border: 2px solid var(--discord);
+    pointer-events: none;
+    animation: discordPulse 2.4s cubic-bezier(.4, 0, .6, 1) infinite;
+}
+
+@keyframes discordPulse {
+    0% {
+        opacity: .8;
+        transform: scale(1);
+    }
+    70% {
+        opacity: 0;
+        transform: scale(1.35);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.35);
+    }
+}
+
+/* Ẩn nút khi có modal mở */
+body.modal-open .discord-float {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    pointer-events: none;
+}
+
+/* ============================================================
    BACK TO TOP
    ============================================================ */
 .back-to-top {
@@ -1080,15 +1191,6 @@ input,
 }
 .back-to-top:active { transform: translateY(0); }
 .back-to-top svg { width: 20px; height: 20px; }
-
-@media (max-width: 500px) {
-    .back-to-top {
-        bottom: 16px;
-        left: 16px;
-        width: 44px;
-        height: 44px;
-    }
-}
 
 /* ============================================================
    FOOTER
@@ -1323,7 +1425,6 @@ footer {
     overscroll-behavior: contain;
 }
 
-/* Guide tabs */
 .guide-tabs {
     display: flex;
     gap: 6px;
@@ -1359,7 +1460,6 @@ footer {
 .guide-content { display: none; }
 .guide-content.active { display: block; }
 
-/* Guide steps */
 .guide-steps {
     list-style: none;
     counter-reset: step;
@@ -1417,7 +1517,7 @@ footer {
 .step-body b { color: var(--text); }
 
 /* ============================================================
-   GUIDE FAQ (Accordion — dùng button)
+   GUIDE FAQ (Accordion)
    ============================================================ */
 .guide-faq {
     margin-top: 24px;
@@ -1491,9 +1591,6 @@ footer {
     transition: color var(--t-theme);
 }
 
-/* ============================================================
-   GUIDE FOOT
-   ============================================================ */
 .guide-foot {
     padding: 14px 22px 18px;
     border-top: 1px solid var(--line);
@@ -1606,6 +1703,34 @@ footer {
     .step-num { width: 26px; height: 26px; font-size: .78rem; }
     .step-body strong { font-size: .88rem; }
     .step-body p { font-size: .82rem; }
+
+    /* Discord button mobile — thu nhỏ, không mở rộng */
+    .discord-float {
+        bottom: 16px;
+        right: 16px;
+        height: 50px;
+    }
+    .discord-float-icon {
+        width: 50px;
+        height: 50px;
+    }
+    .discord-float-icon svg {
+        width: 22px;
+        height: 22px;
+    }
+    .discord-float:hover .discord-float-label {
+        max-width: 0;
+        opacity: 0;
+        padding-right: 0;
+    }
+
+    /* Back to top mobile */
+    .back-to-top {
+        bottom: 16px;
+        left: 16px;
+        width: 44px;
+        height: 44px;
+    }
 }
 
 /* ============================================================
@@ -1618,4 +1743,8 @@ footer {
         transition-duration: .001ms !important;
         scroll-behavior: auto !important;
     }
-   }
+    .discord-float-ring {
+        animation: none !important;
+        display: none !important;
+    }
+}
