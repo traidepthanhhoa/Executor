@@ -2,13 +2,13 @@
 // CẤU HÌNH BẢO TRÌ
 // ============================================================
 const MAINTENANCE_MODE = {
-    pro: false,
+    pro: true,
     client: false,
-    nx: false,
+    nx: true,
     pc: false,
     px: false,
     pv: true,
-    D32: false,
+    D32: true,
     solara: false,
     xeno: false
 };
