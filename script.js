@@ -18,7 +18,7 @@ const MAINTENANCE_MODE = {
 // ============================================================
 const DOWNLOADS = {
     pro:    { url: 'https://vuotnhanh.com/dICD', filename: 'Delta-Pro-v3.245.1782.apk' },
-    client: { url: 'https://vuotnhanh.com/9G1D', filename: 'Delta-v2.735.1138.apk' },
+    client: { url: 'https://vuotnhanh.com/RLJD', filename: 'Delta-v2.735.1138.apk' },
     D32:    { url: 'https://vuotnhanh.com/oJou', filename: 'Delta-32bit-v2.736.1408.apk' },
     nx:     { url: 'https://vuotnhanh.com/TxPF', filename: 'Roblox-Lite-NX-v3.0.1.apk' },
     pc:     { url: 'https://vuotnhanh.com/CEGE', filename: 'Executor-PC-Real-v1.7.0.zip' },
