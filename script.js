@@ -6,7 +6,7 @@ const MAINTENANCE_MODE = {
     client: false,
     nx: true,
     pc: false,
-    px: false,
+    px: true,
     pv: true,
     D32: true,
     solara: false,
