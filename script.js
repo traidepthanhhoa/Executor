@@ -10,7 +10,7 @@ const MAINTENANCE_MODE = {
     pv: true,
     D32: true,
     solara: false,
-    xeno: false
+    xeno: true
 };
 
 // ============================================================
