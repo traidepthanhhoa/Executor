@@ -5,7 +5,7 @@ const MAINTENANCE_MODE = {
     pro: true,
     client: false,
     nx: true,
-    pc: true,
+    pc: false,
     px: false,
     pv: true,
     D32: true,
