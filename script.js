@@ -22,7 +22,7 @@ const DOWNLOADS = {
     D32:    { url: 'https://vuotnhanh.com/oJou', filename: 'Delta-32bit-v2.736.1408.apk' },
     nx:     { url: 'https://vuotnhanh.com/TxPF', filename: 'Roblox-Lite-NX-v3.0.1.apk' },
     pc:     { url: 'https://vuotnhanh.com/CEGE', filename: 'Executor-PC-Real-v1.7.0.zip' },
-    px:     { url: 'https://vuotnhanh.com/G94y', filename: 'Executor-PC-Medium-v1.5.0.zip' },
+    px:     { url: 'https://vuotnhanh.com/fXSZ', filename: 'Executor-PC-Medium-v1.5.0.zip' },
     pv:     { url: 'https://vuotnhanh.com/zij1', filename: 'Executor-PC-Velocity-v1.6.0.zip' },
     solara: {
         url: 'https://4d38a1ec.solaraweb-alj.pages.dev/download/static/files/Bootstrapper.exe',
