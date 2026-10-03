@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" role="img" aria-label="Halloween night banner">
+<defs>
+  <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#10051f"/><stop offset=".55" stop-color="#24103f"/><stop offset="1" stop-color="#09060f"/></linearGradient>
+  <radialGradient id="moon"><stop stop-color="#fff6c7"/><stop offset=".7" stop-color="#ffd66b"/><stop offset="1" stop-color="#f59e0b" stop-opacity=".1"/></radialGradient>
+  <filter id="glow"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<rect width="1200" height="300" rx="28" fill="url(#bg)"/>
+<circle cx="1010" cy="82" r="52" fill="url(#moon)" filter="url(#glow)"/>
+<path d="M0 245 Q180 180 340 242 T690 238 T1040 245 T1200 228 V300 H0Z" fill="#07040b"/>
+<!-- bats -->
+<g fill="#05030a">
+<path d="M160 75 l22 -18 18 10 18 -10 22 18-24-3-16 18-16-18z"/>
+<path d="M760 55 l18 -15 15 9 15-9 18 15-20-2-13 16-13-16z"/>
+<path d="M880 140 l20 -17 17 10 17-10 20 17-22-3-15 18-15-18z"/>
+</g>
+<!-- pumpkins -->
+<g filter="url(#glow)">
+ <g transform="translate(220 195)">
+  <path d="M55 5 Q70 -18 84 5" fill="none" stroke="#7c2d12" stroke-width="9" stroke-linecap="round"/>
+  <path d="M18 18 Q45 0 72 18 Q99 0 126 18 Q143 55 126 78 Q100 104 72 83 Q44 104 18 78 Q1 55 18 18Z" fill="#f97316" stroke="#fb923c" stroke-width="5"/>
+  <path d="M39 45 l14 -8 -3 17zM103 45 l-14 -8 3 17z" fill="#2a0a0a"/>
+  <path d="M46 65 Q72 82 98 65 Q72 94 46 65Z" fill="#2a0a0a"/>
+ </g>
+ <g transform="translate(980 188) scale(.72)">
+  <path d="M55 5 Q70 -18 84 5" fill="none" stroke="#7c2d12" stroke-width="9" stroke-linecap="round"/>
+  <path d="M18 18 Q45 0 72 18 Q99 0 126 18 Q143 55 126 78 Q100 104 72 83 Q44 104 18 78 Q1 55 18 18Z" fill="#f97316" stroke="#fb923c" stroke-width="5"/>
+  <path d="M39 45 l14 -8 -3 17zM103 45 l-14 -8 3 17z" fill="#2a0a0a"/>
+  <path d="M46 65 Q72 82 98 65 Q72 94 46 65Z" fill="#2a0a0a"/>
+ </g>
+</g>
+<text x="600" y="142" text-anchor="middle" fill="#f5f3ff" font-family="Arial, sans-serif" font-size="42" font-weight="800" letter-spacing="5">HALLOWEEN NIGHT</text>
+<text x="600" y="178" text-anchor="middle" fill="#c084fc" font-family="Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="3">SPOOKY DOWNLOAD ZONE • 2026</text>
+</svg>
