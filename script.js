@@ -10,7 +10,8 @@ const MAINTENANCE_MODE = {
     pv: true,
     D32: true,
     solara: false,
-    xeno: false
+    xeno: false,
+    umi: false
 };
 
 // ============================================================
@@ -28,7 +29,8 @@ const DOWNLOADS = {
         url: 'https://4d38a1ec.solaraweb-alj.pages.dev/download/static/files/Bootstrapper.exe',
         filename: 'Solara-Bootstrapper.exe'
     },
-    xeno:   { url: 'https://xeno.now/', filename: 'Xeno-Executor.exe' }
+    xeno:   { url: 'https://xeno.now/', filename: 'Xeno-Executor.exe' },
+    umi:    { url: 'https://vuotnhanh.com/OSj9', filename: 'Umi-Executor.exe' }
 };
 
 // ============================================================
@@ -682,9 +684,6 @@ function initTimeAgo() {
     }, 60 * 60 * 1000);
 }
 
-/**
- * Tính "X ngày trước" từ chuỗi ngày ISO (YYYY-MM-DD)
- */
 function getTimeAgo(dateStr) {
     const now = new Date();
     const past = new Date(dateStr + 'T00:00:00');
@@ -745,7 +744,6 @@ function initDiscordFloat() {
     const btn = document.getElementById('discordFloat');
     if (!btn) return;
 
-    // Ẩn nút khi có modal mở (tránh đè lên modal)
     const overlayIds = ['notifOverlay', 'guideOverlay'];
 
     const updateModalState = () => {
@@ -767,7 +765,6 @@ function initDiscordFloat() {
         });
     });
 
-    // Log khi click (có thể dùng cho analytics sau này)
     btn.addEventListener('click', () => {
         console.log('[Discord] User clicked join button');
     });
