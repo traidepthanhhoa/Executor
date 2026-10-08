@@ -47,7 +47,7 @@ body::before {
 }
 .verify-wrap {
   width: 100%;
-  max-width: 520px;
+  max-width: 440px;
   background: var(--surface);
   border: 1px solid var(--line-strong);
   border-radius: 16px;
@@ -78,12 +78,7 @@ body::before {
   0%, 100% { box-shadow: 0 0 30px rgba(167, 139, 250, .4); }
   50% { box-shadow: 0 0 60px rgba(167, 139, 250, .8); }
 }
-.verify-icon svg {
-  width: 40px;
-  height: 40px;
-  color: #fff;
-  stroke-width: 2.5;
-}
+.verify-icon svg { width: 40px; height: 40px; color: #fff; stroke-width: 2.5; }
 .verify-title {
   font-size: 1.5rem;
   font-weight: 900;
@@ -98,54 +93,68 @@ body::before {
   line-height: 1.6;
   margin-bottom: 28px;
 }
-.verify-steps {
+.captcha-box {
   background: var(--surface-2);
   border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 18px 20px;
-  margin-bottom: 28px;
-  text-align: left;
+  border-radius: 12px;
+  padding: 22px 20px;
+  margin-bottom: 20px;
 }
-.verify-steps h4 {
-  font-size: .8rem;
+.captcha-label {
+  display: block;
+  font-size: .78rem;
   font-weight: 700;
   color: var(--muted);
   text-transform: uppercase;
   letter-spacing: .1em;
   margin-bottom: 14px;
 }
-.verify-step {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 8px 0;
-  font-size: .88rem;
-  color: var(--text-soft);
-  line-height: 1.5;
-}
-.verify-step-num {
-  flex-shrink: 0;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: var(--purple);
-  color: #000;
-  font-weight: 800;
-  font-size: .78rem;
+.captcha-row {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "JetBrains Mono", monospace;
+  gap: 12px;
 }
-.verify-step b { color: var(--text); }
-.verify-step code {
+.captcha-question {
   font-family: "JetBrains Mono", monospace;
-  font-size: .82em;
-  padding: 2px 6px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 4px;
+  font-size: 1.5rem;
+  font-weight: 800;
   color: var(--purple);
+  padding: 12px 20px;
+  background: var(--surface);
+  border: 2px solid var(--purple);
+  border-radius: 10px;
+  white-space: nowrap;
+  box-shadow: 0 0 20px rgba(167, 139, 250, .3);
+}
+.captcha-input {
+  flex: 1;
+  min-width: 0;
+  max-width: 130px;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 2px solid var(--line-strong);
+  border-radius: 10px;
+  color: var(--text);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 1.3rem;
+  font-weight: 800;
+  text-align: center;
+  outline: none;
+  transition: all .2s;
+}
+.captcha-input:focus {
+  border-color: var(--purple);
+  box-shadow: 0 0 0 3px rgba(167, 139, 250, .15);
+}
+.captcha-input.error {
+  border-color: var(--red);
+  animation: shake .4s;
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
 }
 .verify-btn {
   display: inline-flex;
@@ -153,7 +162,7 @@ body::before {
   justify-content: center;
   gap: 10px;
   width: 100%;
-  padding: 16px 24px;
+  padding: 15px 24px;
   background: linear-gradient(135deg, var(--purple), var(--pink));
   color: #fff;
   border: 0;
@@ -164,60 +173,52 @@ body::before {
   letter-spacing: .08em;
   text-transform: uppercase;
   cursor: pointer;
-  text-decoration: none;
   transition: all .25s cubic-bezier(.2, .8, .2, 1);
   box-shadow: 0 8px 24px rgba(167, 139, 250, .4);
-  margin-bottom: 16px;
 }
-.verify-btn:hover {
+.verify-btn:hover:not(:disabled) {
   transform: translateY(-3px);
   box-shadow: 0 12px 32px rgba(167, 139, 250, .6);
 }
 .verify-btn:active { transform: translateY(0); }
+.verify-btn:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+  transform: none;
+}
 .verify-btn svg {
   width: 20px;
   height: 20px;
   stroke-width: 2.5;
 }
+.verify-error {
+  margin-top: 14px;
+  padding: 10px 14px;
+  background: rgba(248, 113, 113, .1);
+  border: 1px solid var(--red);
+  color: var(--red);
+  border-radius: 8px;
+  font-size: .82rem;
+  display: none;
+}
+.verify-error.show { display: block; }
 .verify-note {
+  margin-top: 20px;
   font-family: "JetBrains Mono", monospace;
   font-size: 10px;
   color: var(--muted);
   letter-spacing: .08em;
   text-transform: uppercase;
   line-height: 1.6;
-  margin-top: 8px;
 }
 .verify-note strong { color: var(--pink); }
-.verify-status {
-  margin-top: 20px;
-  padding: 12px;
-  border-radius: 8px;
-  font-size: .82rem;
-  display: none;
-}
-.verify-status.show { display: block; }
-.verify-status.waiting {
-  background: rgba(167, 139, 250, .1);
-  border: 1px solid var(--purple);
-  color: var(--purple);
-}
-.verify-status.success {
-  background: rgba(52, 211, 153, .1);
-  border: 1px solid var(--green);
-  color: var(--green);
-}
-.verify-status.error {
-  background: rgba(248, 113, 113, .1);
-  border: 1px solid var(--red);
-  color: var(--red);
-}
 @media (max-width: 500px) {
   .verify-wrap { padding: 32px 22px; }
   .verify-icon { width: 68px; height: 68px; }
   .verify-icon svg { width: 34px; height: 34px; }
   .verify-title { font-size: 1.25rem; }
-  .verify-sub { font-size: .85rem; }
+  .captcha-question { font-size: 1.3rem; padding: 10px 14px; }
+  .captcha-input { font-size: 1.1rem; max-width: 100px; }
 }
 </style>
 </head>
@@ -233,98 +234,135 @@ body::before {
 
   <h1 class="verify-title">🤖 Xác Minh Robot</h1>
   <p class="verify-sub">
-    Để truy cập web, vui lòng xác minh bạn không phải là robot. Quá trình chỉ mất <b>~10 giây</b>.
+    Giải phép tính đơn giản bên dưới để truy cập web.
   </p>
 
-  <div class="verify-steps">
-    <h4>📝 Hướng dẫn</h4>
-    <div class="verify-step">
-      <span class="verify-step-num">1</span>
-      <span>Bấm nút <b>"XÁC MINH NGAY"</b> bên dưới</span>
-    </div>
-    <div class="verify-step">
-      <span class="verify-step-num">2</span>
-      <span>Vượt xác minh trong tab mới (chờ <code>10 giây</code>)</span>
-    </div>
-    <div class="verify-step">
-      <span class="verify-step-num">3</span>
-      <span>Bấm <b>"Tiếp tục"</b> → web sẽ tự mở khóa</span>
+  <div class="captcha-box">
+    <label class="captcha-label" for="captchaInput">🔒 Xác minh bạn là người</label>
+    <div class="captcha-row">
+      <div class="captcha-question" id="captchaQuestion">1 + 1 = ?</div>
+      <input
+        type="number"
+        class="captcha-input"
+        id="captchaInput"
+        placeholder="?"
+        autocomplete="off"
+        inputmode="numeric"
+      />
     </div>
   </div>
 
-  <a
-    id="verifyBtn"
-    class="verify-btn"
-    href="#"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
+  <button id="verifyBtn" class="verify-btn" type="button">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-      <polyline points="15 3 21 3 21 9" />
-      <line x1="10" y1="14" x2="21" y2="3" />
+      <polyline points="20 6 9 17 4 12" />
     </svg>
-    <span>🔓 XÁC MINH NGAY</span>
-  </a>
+    <span>XÁC MINH</span>
+  </button>
+
+  <div class="verify-error" id="verifyError"></div>
 
   <p class="verify-note">
-    Sau khi vượt link, quay lại trang này để hoàn tất.<br>
+    Sau khi xác minh, web sẽ tự mở khóa.<br>
     <strong>⏱️ Hiệu lực: 7 ngày</strong>
   </p>
-
-  <div id="verifyStatus" class="verify-status"></div>
 </div>
 
 <script>
 // ============ CONFIG ============
-// ⚠️ SỬA 2 DÒNG NÀY NẾU CẦN
 const VERIFY_CONFIG = {
-  verifyLink: 'https://vuotnhanh.com/HYVi',
   webUrl: 'https://kenhmatchat-executor.vercel.app/',
-  token: 'matchat2026',
   storageKey: 'matchat_verified_until',
-  durationMs: 7 * 24 * 60 * 60 * 1000
+  durationMs: 7 * 24 * 60 * 60 * 1000 // 7 ngày
 };
 
 // ============ ĐÃ VERIFY RỒI → VÀO WEB ============
 const verifiedUntil = parseInt(localStorage.getItem(VERIFY_CONFIG.storageKey) || '0', 10);
 if (Date.now() < verifiedUntil) {
-  window.location.href = VERIFY_CONFIG.webUrl + '?verified=' + VERIFY_CONFIG.token;
+  window.location.replace(VERIFY_CONFIG.webUrl);
 }
 
-// ============ CÓ TOKEN TRÊN URL → LƯU + VÀO WEB ============
-const params = new URLSearchParams(window.location.search);
-const tokenFromUrl = params.get('verified');
-if (tokenFromUrl === VERIFY_CONFIG.token) {
-  localStorage.setItem(
-    VERIFY_CONFIG.storageKey,
-    String(Date.now() + VERIFY_CONFIG.durationMs)
-  );
-  window.location.href = VERIFY_CONFIG.webUrl;
+// ============ TẠO CAPTCHA ============
+let captchaAnswer = 0;
+
+function generateCaptcha() {
+  const ops = ['+', '-', '×'];
+  const op = ops[Math.floor(Math.random() * ops.length)];
+  let a, b, result;
+
+  if (op === '+') {
+    a = Math.floor(Math.random() * 9) + 1;
+    b = Math.floor(Math.random() * 9) + 1;
+    result = a + b;
+  } else if (op === '-') {
+    a = Math.floor(Math.random() * 8) + 3;
+    b = Math.floor(Math.random() * 5) + 1;
+    if (a < b) [a, b] = [b, a];
+    result = a - b;
+  } else {
+    a = Math.floor(Math.random() * 4) + 1;
+    b = Math.floor(Math.random() * 4) + 1;
+    result = a * b;
+  }
+
+  captchaAnswer = result;
+  document.getElementById('captchaQuestion').textContent = `${a} ${op} ${b} = ?`;
+  document.getElementById('captchaInput').value = '';
+  document.getElementById('captchaInput').classList.remove('error');
+  document.getElementById('verifyError').classList.remove('show');
 }
 
-// ============ HANDLE NÚT VERIFY ============
+// ============ HANDLE XÁC MINH ============
 const verifyBtn = document.getElementById('verifyBtn');
-const statusEl = document.getElementById('verifyStatus');
+const captchaInput = document.getElementById('captchaInput');
+const errorEl = document.getElementById('verifyError');
 
-verifyBtn.href = VERIFY_CONFIG.verifyLink;
+function submitVerify() {
+  const userAnswer = parseInt(captchaInput.value, 10);
+  
+  if (isNaN(userAnswer)) {
+    errorEl.textContent = '❌ Vui lòng nhập đáp án';
+    errorEl.classList.add('show');
+    captchaInput.classList.add('error');
+    captchaInput.focus();
+    return;
+  }
 
-verifyBtn.addEventListener('click', () => {
-  statusEl.className = 'verify-status show waiting';
-  statusEl.textContent = '⏳ Đang mở tab xác minh... Hoàn thành xác minh xong, quay lại đây.';
-});
-
-// ============ AUTO CHECK MỖI 2 GIÂY ============
-setInterval(() => {
-  const until = parseInt(localStorage.getItem(VERIFY_CONFIG.storageKey) || '0', 10);
-  if (Date.now() < until) {
-    statusEl.className = 'verify-status show success';
-    statusEl.textContent = '✅ Xác minh thành công! Đang chuyển vào web...';
+  if (userAnswer === captchaAnswer) {
+    // Đúng → lưu + vào web
+    localStorage.setItem(
+      VERIFY_CONFIG.storageKey,
+      String(Date.now() + VERIFY_CONFIG.durationMs)
+    );
+    errorEl.classList.remove('show');
+    verifyBtn.disabled = true;
+    verifyBtn.innerHTML = '<span>✅ Đang vào web...</span>';
     setTimeout(() => {
-      window.location.href = VERIFY_CONFIG.webUrl;
+      window.location.replace(VERIFY_CONFIG.webUrl);
+    }, 500);
+  } else {
+    // Sai → hiện lỗi + tạo câu mới
+    errorEl.textContent = '❌ Sai đáp án. Thử lại câu khác!';
+    errorEl.classList.add('show');
+    captchaInput.classList.add('error');
+    setTimeout(() => {
+      generateCaptcha();
+      captchaInput.focus();
     }, 800);
   }
-}, 2000);
+}
+
+verifyBtn.addEventListener('click', submitVerify);
+
+captchaInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    submitVerify();
+  }
+});
+
+captchaInput.addEventListener('input', () => {
+  captchaInput.classList.remove('error');
+});
 
 // ============ NÚT TEST ẨN (Ctrl+Shift+V) ============
 document.addEventListener('keydown', (e) => {
@@ -334,13 +372,13 @@ document.addEventListener('keydown', (e) => {
       VERIFY_CONFIG.storageKey,
       String(Date.now() + VERIFY_CONFIG.durationMs)
     );
-    statusEl.className = 'verify-status show success';
-    statusEl.textContent = '✅ Đã bỏ qua xác minh (test mode). Đang vào web...';
-    setTimeout(() => {
-      window.location.href = VERIFY_CONFIG.webUrl;
-    }, 600);
+    window.location.replace(VERIFY_CONFIG.webUrl);
   }
 });
+
+// ============ INIT ============
+generateCaptcha();
+captchaInput.focus();
 </script>
 
 </body>
