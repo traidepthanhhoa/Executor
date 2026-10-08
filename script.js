@@ -94,6 +94,11 @@ document.addEventListener('DOMContentLoaded', () => {
     initDiscordFloat();
     initCookie();
     initInfoModal();
+    init3DTilt();          // ← ANIMATION #7
+    initRippleEffect();    // ← ANIMATION #3
+    initCardStagger();     // ← ANIMATION #8
+    initSkeletonLoader();  // ← ANIMATION #10
+    initTopProgress();     // ← ANIMATION #12
 });
 
 // ============================================================
@@ -199,7 +204,7 @@ function onLoaderDone() {
 }
 
 // ============================================================
-// 3️⃣ TABS
+// 3️⃣ TABS (với indicator trượt #14 + slide #13)
 // ============================================================
 function initTabs() {
     const tabBtns = document.querySelectorAll('.tab-btn');
@@ -207,6 +212,21 @@ function initTabs() {
         mobile: document.getElementById('tab-mobile'),
         pc: document.getElementById('tab-pc')
     };
+    const indicator = document.getElementById('tabIndicator');
+
+    function moveIndicator(btn) {
+        if (!indicator || !btn) return;
+        const barRect = btn.parentElement.getBoundingClientRect();
+        const btnRect = btn.getBoundingClientRect();
+        indicator.style.left = (btnRect.left - barRect.left) + 'px';
+        indicator.style.width = btnRect.width + 'px';
+    }
+
+    requestAnimationFrame(() => {
+        const active = document.querySelector('.tab-btn.active');
+        moveIndicator(active);
+    });
+
     tabBtns.forEach((btn) => {
         btn.addEventListener('click', () => {
             const targetTab = btn.dataset.tab;
@@ -216,10 +236,24 @@ function initTabs() {
                 b.classList.toggle('active', isActive);
                 b.setAttribute('aria-selected', isActive ? 'true' : 'false');
             });
+            moveIndicator(btn);
             Object.entries(tabContents).forEach(([key, el]) => {
-                if (el) el.classList.toggle('active', key === targetTab);
+                if (el) {
+                    el.classList.toggle('active', key === targetTab);
+                    if (key === targetTab) {
+                        // Animation slide khi tab hiện
+                        el.style.animation = 'none';
+                        void el.offsetWidth;
+                        el.style.animation = 'tabSlideIn .4s cubic-bezier(.2, .8, .2, 1)';
+                    }
+                }
             });
         });
+    });
+
+    window.addEventListener('resize', () => {
+        const active = document.querySelector('.tab-btn.active');
+        moveIndicator(active);
     });
 }
 
@@ -252,8 +286,12 @@ function initSearch() {
                 titleText = titleText.toLowerCase();
             }
             const match = !query || name.includes(query) || key.includes(query) || titleText.includes(query) || desc.includes(query);
-            if (match) { card.classList.remove('hidden'); visibleCount++; }
-            else { card.classList.add('hidden'); }
+            if (match) {
+                card.classList.remove('hidden');
+                visibleCount++;
+            } else {
+                card.classList.add('hidden');
+            }
         });
         if (emptyMsg) emptyMsg.hidden = (visibleCount > 0 || !query);
         if (clearBtn) clearBtn.hidden = !query;
@@ -310,7 +348,7 @@ function applyMaintenanceMode() {
 }
 
 // ============================================================
-// 6️⃣ DOWNLOAD
+// 6️⃣ DOWNLOAD (với countdown animation #18 + success check #19)
 // ============================================================
 function initDownloadButtons() {
     const buttons = document.querySelectorAll('[data-role="download"]');
@@ -330,16 +368,27 @@ async function handleDownload(key, btn) {
     const card = btn.closest('.card[data-executor]');
     const name = card?.dataset.name || 'Executor';
     if (!cfg) return;
+
+    // #17: Nút lún xuống khi click
+    btn.classList.add('btn-pressing');
+    setTimeout(() => btn.classList.remove('btn-pressing'), 200);
+
     const originalText = btn.textContent;
     const originalDisabled = btn.disabled;
     btn.disabled = true;
+
+    // #18: Countdown với animation scale
     for (let i = 3; i > 0; i--) {
-        btn.textContent = `Chuẩn bị... ${i}s`;
+        btn.innerHTML = `<span class="countdown-num">${i}</span>`;
+        btn.classList.add('countdown-active');
         await sleep(1000);
+        btn.classList.remove('countdown-active');
     }
+
     try {
         btn.textContent = 'Đang tải...';
         await sleep(300);
+
         const link = document.createElement('a');
         link.href = cfg.url;
         link.download = cfg.filename;
@@ -348,12 +397,16 @@ async function handleDownload(key, btn) {
         document.body.appendChild(link);
         link.click();
         link.remove();
-        btn.textContent = 'Tải thành công! ✓';
+
+        // #19: Success check với animation vẽ dần
+        btn.innerHTML = '<svg class="success-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Tải thành công!';
         btn.style.background = 'linear-gradient(135deg, #10b981, #34d399)';
         btn.style.color = '#000';
         btn.style.borderColor = 'transparent';
+        btn.classList.add('success-anim');
+
         showToast(`Đang tải ${name}...`, 'success');
-        await sleep(2000);
+        await sleep(2200);
     } catch (err) {
         btn.textContent = 'Lỗi — thử lại';
         showToast(`Lỗi tải ${name}`, 'error');
@@ -364,11 +417,12 @@ async function handleDownload(key, btn) {
         btn.style.background = '';
         btn.style.color = '';
         btn.style.borderColor = '';
+        btn.classList.remove('success-anim');
     }
 }
 
 // ============================================================
-// 7️⃣ TOAST
+// 7️⃣ TOAST (với animation bay vào #15)
 // ============================================================
 const TOAST_ICONS = {
     success: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
@@ -389,7 +443,6 @@ function showToast(message, type = 'info', duration = 3000) {
         setTimeout(() => toast.remove(), 500);
     }, duration);
 }
-
 // ============================================================
 // 8️⃣ NOTIFICATION
 // ============================================================
@@ -542,6 +595,34 @@ function initReadingProgress() {
         }
     }, { passive: true });
     update();
+}
+
+// ============================================================
+// 1️⃣2️⃣ TOP PROGRESS BAR (#12)
+// ============================================================
+function initTopProgress() {
+    const fill = document.getElementById('topProgressFill');
+    if (!fill) return;
+
+    // Load animation: 0 → 100% trong 1.5s
+    let progress = 0;
+    const interval = setInterval(() => {
+        progress += Math.random() * 15 + 5;
+        if (progress >= 100) {
+            progress = 100;
+            fill.style.width = '100%';
+            clearInterval(interval);
+            setTimeout(() => {
+                fill.style.opacity = '0';
+                setTimeout(() => {
+                    fill.style.width = '0%';
+                    fill.style.opacity = '1';
+                }, 300);
+            }, 400);
+        } else {
+            fill.style.width = progress + '%';
+        }
+    }, 100);
 }
 
 // ============================================================
@@ -778,6 +859,102 @@ function initInfoModal() {
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && overlay.classList.contains('show')) closeInfoModal();
     });
+}
+// ============================================================
+// 🎬 ANIMATION FUNCTIONS
+// ============================================================
+
+// #7: 3D Tilt cho card
+function init3DTilt() {
+    if (window.matchMedia('(max-width: 900px)').matches) return;
+    if (window.matchMedia('(hover: none)').matches) return;
+
+    document.addEventListener('mousemove', (e) => {
+        const card = e.target.closest('.card[data-executor]');
+        if (!card) return;
+
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const cx = rect.width / 2;
+        const cy = rect.height / 2;
+        const rX = ((y - cy) / cy) * -4;
+        const rY = ((x - cx) / cx) * 4;
+
+        card.style.transform = `perspective(1000px) rotateX(${rX}deg) rotateY(${rY}deg) translateY(-6px)`;
+        card.classList.add('tilting');
+    });
+
+    document.addEventListener('mouseout', (e) => {
+        const card = e.target.closest('.card[data-executor]');
+        if (!card) return;
+        if (card.contains(e.relatedTarget)) return;
+
+        card.style.transform = '';
+        card.classList.remove('tilting');
+    });
+}
+
+// #3: Ripple effect khi click card
+function initRippleEffect() {
+    document.addEventListener('click', (e) => {
+        const card = e.target.closest('.card[data-executor]');
+        if (!card) return;
+        // Không ripple khi click button
+        if (e.target.closest('button')) return;
+
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const size = Math.max(rect.width, rect.height);
+
+        const ripple = document.createElement('span');
+        ripple.className = 'ripple';
+        ripple.style.width = size + 'px';
+        ripple.style.height = size + 'px';
+        ripple.style.left = (x - size / 2) + 'px';
+        ripple.style.top = (y - size / 2) + 'px';
+
+        card.appendChild(ripple);
+
+        setTimeout(() => ripple.remove(), 700);
+    });
+}
+
+// #8: Card xuất hiện từng cái (stagger)
+function initCardStagger() {
+    const cards = document.querySelectorAll('.card[data-executor]');
+    cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+            card.style.transition = 'opacity .5s cubic-bezier(.2, .8, .2, 1), transform .5s cubic-bezier(.2, .8, .2, 1)';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, 100 + index * 80);
+    });
+}
+
+// #10: Skeleton loading (khi search/tab đổi)
+function initSkeletonLoader() {
+    // Không cần thiết vì card đã có sẵn trong HTML
+    // Nhưng có thể dùng cho tương lai khi load từ API
+    window.showSkeleton = function(container, count = 4) {
+        if (!container) return;
+        container.innerHTML = '';
+        for (let i = 0; i < count; i++) {
+            const skeleton = document.createElement('div');
+            skeleton.className = 'skeleton-card';
+            skeleton.innerHTML = `
+                <div class="skeleton-shimmer"></div>
+                <div class="skeleton-line title"></div>
+                <div class="skeleton-line"></div>
+                <div class="skeleton-line short"></div>
+                <div class="skeleton-line btn"></div>
+            `;
+            container.appendChild(skeleton);
+        }
+    };
 }
 
 // ============================================================
