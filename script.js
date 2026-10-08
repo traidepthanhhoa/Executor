@@ -71,11 +71,9 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 (function checkVerify() {
     const verifiedUntil = parseInt(localStorage.getItem(VERIFY_CONFIG.storageKey) || '0', 10);
     if (Date.now() >= verifiedUntil) {
-        // Chưa verify → chuyển sang trang verify
         window.location.replace(VERIFY_CONFIG.verifyPage);
         return;
     }
-    // Đã verify → cho vào web
 })();
 
 // ============================================================
@@ -94,6 +92,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initReadingProgress();
     initTimeAgo();
     initDiscordFloat();
+    initCookie();
+    initInfoModal();
 });
 
 // ============================================================
@@ -102,7 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
 function initTheme() {
     const toggle = document.getElementById('themeToggle');
     const label = document.querySelector('[data-role="theme-label"]');
-
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
     updateThemeLabel(currentTheme, label);
 
@@ -114,10 +113,8 @@ function initTheme() {
             updateThemeLabel(newTheme, label);
         }
     };
-
     if (mql.addEventListener) mql.addEventListener('change', handleSystemChange);
     else if (mql.addListener) mql.addListener(handleSystemChange);
-
     if (!toggle) return;
 
     toggle.addEventListener('click', () => {
@@ -146,11 +143,6 @@ function applyTheme(theme) {
 
 function updateThemeLabel(theme, labelEl) {
     if (labelEl) labelEl.textContent = THEME_CONFIG.labels[theme] || 'Dark';
-    const toggle = document.getElementById('themeToggle');
-    if (toggle) {
-        toggle.setAttribute('aria-label',
-            theme === 'dark' ? 'Chuyển sang chế độ sáng' : 'Chuyển sang chế độ tối');
-    }
 }
 
 // ============================================================
@@ -160,7 +152,6 @@ function initLoader() {
     const loader = document.getElementById('loader');
     const percentage = document.getElementById('percentage');
     const loaderBar = document.getElementById('loader-bar');
-
     if (!loader || !percentage || !loaderBar) {
         if (loader) loader.classList.add('hidden');
         onLoaderDone();
@@ -179,7 +170,6 @@ function initLoader() {
         const progress = Math.round(100 * (1 - Math.pow(1 - t, 3)));
         percentage.textContent = progress + '%';
         loaderBar.style.width = progress + '%';
-
         if (progress >= 100 && !finished) {
             finished = true;
             clearInterval(interval);
@@ -217,18 +207,15 @@ function initTabs() {
         mobile: document.getElementById('tab-mobile'),
         pc: document.getElementById('tab-pc')
     };
-
     tabBtns.forEach((btn) => {
         btn.addEventListener('click', () => {
             const targetTab = btn.dataset.tab;
             if (!targetTab || !tabContents[targetTab]) return;
-
             tabBtns.forEach((b) => {
                 const isActive = b === btn;
                 b.classList.toggle('active', isActive);
                 b.setAttribute('aria-selected', isActive ? 'true' : 'false');
             });
-
             Object.entries(tabContents).forEach(([key, el]) => {
                 if (el) el.classList.toggle('active', key === targetTab);
             });
@@ -245,29 +232,17 @@ function initSearch() {
     const input = document.getElementById('searchInput');
     const clearBtn = document.getElementById('searchClear');
     const emptyMsg = document.getElementById('searchEmpty');
-
-    if (!input) {
-        console.error('[Search] ❌ Không tìm thấy #searchInput');
-        return;
-    }
-
+    if (!input) return;
     const cards = document.querySelectorAll('.card[data-executor]');
-    console.log('[Search] ✅ Init OK,', cards.length, 'cards');
-
-    if (cards.length === 0) {
-        console.error('[Search] ❌ Không có card nào trong HTML');
-        return;
-    }
+    if (cards.length === 0) return;
 
     const performSearch = () => {
         const query = (input.value || '').toLowerCase().trim();
         let visibleCount = 0;
-
         cards.forEach((card) => {
             const name = (card.dataset.name || '').toLowerCase();
             const key = (card.dataset.executor || '').toLowerCase();
             const desc = (card.querySelector('p')?.textContent || '').toLowerCase();
-
             const h2 = card.querySelector('h2');
             let titleText = '';
             if (h2) {
@@ -276,25 +251,12 @@ function initSearch() {
                 });
                 titleText = titleText.toLowerCase();
             }
-
-            const match = !query
-                || name.includes(query)
-                || key.includes(query)
-                || titleText.includes(query)
-                || desc.includes(query);
-
-            if (match) {
-                card.classList.remove('hidden');
-                visibleCount++;
-            } else {
-                card.classList.add('hidden');
-            }
+            const match = !query || name.includes(query) || key.includes(query) || titleText.includes(query) || desc.includes(query);
+            if (match) { card.classList.remove('hidden'); visibleCount++; }
+            else { card.classList.add('hidden'); }
         });
-
         if (emptyMsg) emptyMsg.hidden = (visibleCount > 0 || !query);
         if (clearBtn) clearBtn.hidden = !query;
-
-        console.log(`[Search] "${query}" → ${visibleCount}/${cards.length}`);
     };
 
     const handleInput = () => {
@@ -306,23 +268,15 @@ function initSearch() {
     input.addEventListener('keyup', handleInput);
     input.addEventListener('search', handleInput);
     input.addEventListener('paste', () => setTimeout(performSearch, 50));
-
     if (clearBtn) {
         clearBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            input.value = '';
-            performSearch();
+            e.preventDefault(); e.stopPropagation();
+            input.value = ''; performSearch();
         });
     }
-
     input.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            input.value = '';
-            performSearch();
-        }
+        if (e.key === 'Escape') { input.value = ''; performSearch(); }
     });
-
     performSearch();
 }
 
@@ -331,44 +285,35 @@ function initSearch() {
 // ============================================================
 function applyMaintenanceMode() {
     const cards = document.querySelectorAll('.card[data-executor]');
-
     cards.forEach((card) => {
         const key = card.dataset.executor;
         if (!key) return;
-
         const btn = card.querySelector('[data-role="download"]');
         const badge = card.querySelector('[data-role="badge"]');
         const status = card.querySelector('[data-role="status"]');
         const dot = card.querySelector('.dot');
         const statusText = card.querySelector('.status-text');
         if (!btn) return;
-
         const isMaintenance = Boolean(MAINTENANCE_MODE[key]);
-
         btn.classList.toggle('btn-maintenance', isMaintenance);
         btn.textContent = isMaintenance ? '⛔ Đang bảo trì' : 'Download';
         btn.disabled = isMaintenance;
         btn.setAttribute('aria-disabled', isMaintenance ? 'true' : 'false');
-
         if (badge) badge.style.display = isMaintenance ? 'inline-block' : 'none';
         if (dot) {
             dot.classList.toggle('online-dot', !isMaintenance);
             dot.classList.toggle('maintenance-dot', isMaintenance);
         }
         if (statusText) statusText.textContent = isMaintenance ? 'Bảo trì' : 'Online';
-        if (status) {
-            status.setAttribute('aria-label',
-                isMaintenance ? 'Trạng thái: Bảo trì' : 'Trạng thái: Online');
-        }
+        if (status) status.setAttribute('aria-label', isMaintenance ? 'Trạng thái: Bảo trì' : 'Trạng thái: Online');
     });
 }
 
 // ============================================================
-// 6️⃣ DOWNLOAD BUTTONS
+// 6️⃣ DOWNLOAD
 // ============================================================
 function initDownloadButtons() {
     const buttons = document.querySelectorAll('[data-role="download"]');
-
     buttons.forEach((btn) => {
         btn.addEventListener('click', () => {
             const card = btn.closest('.card[data-executor]');
@@ -381,31 +326,20 @@ function initDownloadButtons() {
 
 async function handleDownload(key, btn) {
     if (MAINTENANCE_MODE[key]) return;
-
     const cfg = DOWNLOADS[key];
     const card = btn.closest('.card[data-executor]');
     const name = card?.dataset.name || 'Executor';
-
-    if (!cfg) {
-        console.warn(`[Download] Không có cấu hình cho key: ${key}`);
-        return;
-    }
-
+    if (!cfg) return;
     const originalText = btn.textContent;
     const originalDisabled = btn.disabled;
-
     btn.disabled = true;
-
-    // Countdown 3 giây
     for (let i = 3; i > 0; i--) {
         btn.textContent = `Chuẩn bị... ${i}s`;
         await sleep(1000);
     }
-
     try {
         btn.textContent = 'Đang tải...';
         await sleep(300);
-
         const link = document.createElement('a');
         link.href = cfg.url;
         link.download = cfg.filename;
@@ -414,16 +348,13 @@ async function handleDownload(key, btn) {
         document.body.appendChild(link);
         link.click();
         link.remove();
-
         btn.textContent = 'Tải thành công! ✓';
         btn.style.background = 'linear-gradient(135deg, #10b981, #34d399)';
         btn.style.color = '#000';
         btn.style.borderColor = 'transparent';
-
         showToast(`Đang tải ${name}...`, 'success');
         await sleep(2000);
     } catch (err) {
-        console.error('[Download] Lỗi:', err);
         btn.textContent = 'Lỗi — thử lại';
         showToast(`Lỗi tải ${name}`, 'error');
         await sleep(2000);
@@ -448,21 +379,10 @@ const TOAST_ICONS = {
 function showToast(message, type = 'info', duration = 3000) {
     const container = document.getElementById('toastContainer');
     if (!container) return;
-
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
-    toast.setAttribute('role', 'status');
-
-    const iconWrap = document.createElement('span');
-    iconWrap.innerHTML = TOAST_ICONS[type] || TOAST_ICONS.info;
-
-    const text = document.createElement('span');
-    text.textContent = message;
-
-    toast.appendChild(iconWrap);
-    toast.appendChild(text);
+    toast.innerHTML = (TOAST_ICONS[type] || TOAST_ICONS.info) + `<span>${message}</span>`;
     container.appendChild(toast);
-
     setTimeout(() => {
         toast.classList.add('toast-out');
         toast.addEventListener('animationend', () => toast.remove(), { once: true });
@@ -471,7 +391,7 @@ function showToast(message, type = 'info', duration = 3000) {
 }
 
 // ============================================================
-// 8️⃣ NOTIFICATION MODAL
+// 8️⃣ NOTIFICATION
 // ============================================================
 let notifController = null;
 
@@ -490,50 +410,37 @@ function showNotificationIfNeeded() {
     if (!NOTIFICATION_CONFIG.enabled) return;
     const overlay = document.getElementById('notifOverlay');
     if (!overlay) return;
-
     const until = parseInt(localStorage.getItem(NOTIFICATION_CONFIG.storageKey) || '0', 10);
     if (Date.now() < until) return;
     if (overlay.classList.contains('show')) return;
-
     if (notifController) notifController.abort();
     notifController = new AbortController();
     const { signal } = notifController;
-
     const close = () => {
         overlay.classList.remove('show');
         overlay.setAttribute('aria-hidden', 'true');
         if (notifController) notifController.abort();
         notifController = null;
     };
-
     overlay.classList.add('show');
     overlay.setAttribute('aria-hidden', 'false');
-
     const closeBtn = document.getElementById('notifClose');
     if (closeBtn) closeBtn.addEventListener('click', close, { signal });
-
     const hideBtn = document.getElementById('notifHide');
     if (hideBtn) {
         hideBtn.addEventListener('click', () => {
-            localStorage.setItem(
-                NOTIFICATION_CONFIG.storageKey,
-                String(Date.now() + NOTIFICATION_CONFIG.hideDurationMs)
-            );
+            localStorage.setItem(NOTIFICATION_CONFIG.storageKey, String(Date.now() + NOTIFICATION_CONFIG.hideDurationMs));
             close();
         }, { signal });
     }
-
-    overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) close();
-    }, { signal });
-
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); }, { signal });
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && overlay.classList.contains('show')) close();
     }, { signal });
 }
 
 // ============================================================
-// 9️⃣ GUIDE MODAL
+// 9️⃣ GUIDE
 // ============================================================
 let guideController = null;
 
@@ -541,73 +448,53 @@ function initGuide() {
     const openBtn = document.getElementById('guideOpen');
     const overlay = document.getElementById('guideOverlay');
     if (!openBtn || !overlay) return;
-
     openBtn.addEventListener('click', openGuide);
-
     const guideTabs = document.querySelectorAll('.guide-tab');
     const guideContents = {
         mobile: document.getElementById('guide-mobile'),
         pc: document.getElementById('guide-pc')
     };
-
     guideTabs.forEach((tab) => {
         tab.addEventListener('click', () => {
             const target = tab.dataset.guideTab;
             if (!target) return;
-
             guideTabs.forEach((t) => {
                 const isActive = t === tab;
                 t.classList.toggle('active', isActive);
                 t.setAttribute('aria-selected', isActive ? 'true' : 'false');
             });
-
             Object.entries(guideContents).forEach(([key, el]) => {
                 if (el) el.classList.toggle('active', key === target);
             });
         });
     });
-
     const faqToggle = document.getElementById('faqToggle');
     const faqList = document.getElementById('faqList');
-
     if (faqToggle && faqList) {
         faqToggle.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-
+            e.preventDefault(); e.stopPropagation();
             const isExpanded = faqToggle.getAttribute('aria-expanded') === 'true';
             const willExpand = !isExpanded;
-
             faqToggle.setAttribute('aria-expanded', String(willExpand));
-            if (willExpand) {
-                faqList.removeAttribute('hidden');
-            } else {
-                faqList.setAttribute('hidden', '');
-            }
+            if (willExpand) faqList.removeAttribute('hidden');
+            else faqList.setAttribute('hidden', '');
         });
     }
-
     const closeBtn = document.getElementById('guideClose');
     if (closeBtn) closeBtn.addEventListener('click', closeGuide);
     const okBtn = document.getElementById('guideOk');
     if (okBtn) okBtn.addEventListener('click', closeGuide);
-
-    overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) closeGuide();
-    });
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) closeGuide(); });
 }
 
 function openGuide() {
     const overlay = document.getElementById('guideOverlay');
     if (!overlay || overlay.classList.contains('show')) return;
-
     if (guideController) guideController.abort();
     guideController = new AbortController();
     const { signal } = guideController;
-
     overlay.classList.add('show');
     overlay.setAttribute('aria-hidden', 'false');
-
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && overlay.classList.contains('show')) closeGuide();
     }, { signal });
@@ -616,7 +503,6 @@ function openGuide() {
 function closeGuide() {
     const overlay = document.getElementById('guideOverlay');
     if (!overlay) return;
-
     overlay.classList.remove('show');
     overlay.setAttribute('aria-hidden', 'true');
     if (guideController) guideController.abort();
@@ -629,7 +515,6 @@ function closeGuide() {
 function initBackToTop() {
     const btn = document.getElementById('backToTop');
     if (!btn) return;
-
     btn.addEventListener('click', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
@@ -641,93 +526,52 @@ function initBackToTop() {
 function initReadingProgress() {
     const progressBar = document.getElementById('readingProgressFill');
     const backTop = document.getElementById('backToTop');
-
     let ticking = false;
-
     const update = () => {
         const scrollTop = window.scrollY || document.documentElement.scrollTop;
         const docHeight = document.documentElement.scrollHeight - window.innerHeight;
         const percent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-
-        if (progressBar) {
-            progressBar.style.width = Math.min(100, percent) + '%';
-        }
-        if (backTop) {
-            backTop.classList.toggle('show', scrollTop > 400);
-        }
+        if (progressBar) progressBar.style.width = Math.min(100, percent) + '%';
+        if (backTop) backTop.classList.toggle('show', scrollTop > 400);
         ticking = false;
     };
-
     window.addEventListener('scroll', () => {
         if (!ticking) {
             requestAnimationFrame(update);
             ticking = true;
         }
     }, { passive: true });
-
     update();
 }
 
 // ============================================================
-// 📅 TIME AGO — "Cập nhật X ngày trước"
+// 📅 TIME AGO
 // ============================================================
 function initTimeAgo() {
     const elements = document.querySelectorAll('[data-role="updated"]');
-
-    if (elements.length === 0) {
-        console.log('[TimeAgo] Không có element nào cần update');
-        return;
-    }
-
-    console.log('[TimeAgo] Tìm thấy', elements.length, 'executor');
-
+    if (elements.length === 0) return;
     const updateElement = (el) => {
         const card = el.closest('.card[data-executor]');
         if (!card) return;
-
         const dateStr = card.dataset.updated;
-        if (!dateStr) {
-            el.style.display = 'none';
-            return;
-        }
-
+        if (!dateStr) { el.style.display = 'none'; return; }
         const textEl = el.querySelector('.updated-text');
         if (!textEl) return;
-
         const result = getTimeAgo(dateStr);
         textEl.textContent = result.text;
-
         el.classList.remove('fresh', 'recent', 'old', 'stale');
         el.classList.add(result.class);
-
         el.title = result.fullDate;
     };
-
     elements.forEach(updateElement);
-
-    setInterval(() => {
-        elements.forEach(updateElement);
-    }, 60 * 60 * 1000);
+    setInterval(() => elements.forEach(updateElement), 60 * 60 * 1000);
 }
 
 function getTimeAgo(dateStr) {
     const now = new Date();
     const past = new Date(dateStr + 'T00:00:00');
-
-    if (isNaN(past.getTime())) {
-        return {
-            text: 'Không rõ ngày cập nhật',
-            class: 'old',
-            fullDate: ''
-        };
-    }
-
-    const fullDate = past.toLocaleDateString('vi-VN', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-    });
-
+    if (isNaN(past.getTime())) return { text: 'Không rõ ngày cập nhật', class: 'old', fullDate: '' };
+    const fullDate = past.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
     const diffMs = now - past;
     const diffSeconds = Math.floor(diffMs / 1000);
     const diffMinutes = Math.floor(diffSeconds / 60);
@@ -756,48 +600,188 @@ function getTimeAgo(dateStr) {
     else if (diffYears === 1) text = '1 năm trước';
     else text = `${diffYears} năm trước`;
 
-    return {
-        text: `Cập nhật ${text.toLowerCase()}`,
-        class: cls,
-        fullDate: `Cập nhật lần cuối: ${fullDate}`
-    };
+    return { text: `Cập nhật ${text.toLowerCase()}`, class: cls, fullDate: `Cập nhật lần cuối: ${fullDate}` };
 }
 
 // ============================================================
-// 💬 DISCORD FLOATING BUTTON
+// 💬 DISCORD FLOAT
 // ============================================================
 function initDiscordFloat() {
     const btn = document.getElementById('discordFloat');
     if (!btn) return;
-
-    const overlayIds = ['notifOverlay', 'guideOverlay'];
-
+    const overlayIds = ['notifOverlay', 'guideOverlay', 'infoOverlay'];
     const updateModalState = () => {
-        const anyModalOpen = overlayIds.some((id) => {
-            const el = document.getElementById(id);
-            return el?.classList.contains('show');
-        });
+        const anyModalOpen = overlayIds.some((id) => document.getElementById(id)?.classList.contains('show'));
         document.body.classList.toggle('modal-open', anyModalOpen);
     };
-
     overlayIds.forEach((id) => {
         const el = document.getElementById(id);
         if (!el) return;
-
         const observer = new MutationObserver(updateModalState);
-        observer.observe(el, {
-            attributes: true,
-            attributeFilter: ['class']
-        });
-    });
-
-    btn.addEventListener('click', () => {
-        console.log('[Discord] User clicked join button');
+        observer.observe(el, { attributes: true, attributeFilter: ['class'] });
     });
 }
 
 // ============================================================
-// GLOBAL ERROR HANDLER
+// 🍪 COOKIE
+// ============================================================
+function initCookie() {
+    const banner = document.getElementById('cookieBanner');
+    const acceptBtn = document.getElementById('cookieAccept');
+    const declineBtn = document.getElementById('cookieDecline');
+    if (!banner) return;
+    const KEY = 'matchat_cookie_accepted';
+    const saved = localStorage.getItem(KEY);
+    if (!saved) {
+        setTimeout(() => { banner.hidden = false; }, 1500);
+    }
+    const hideBanner = (value) => {
+        localStorage.setItem(KEY, value);
+        banner.classList.add('hide');
+        setTimeout(() => {
+            banner.hidden = true;
+            banner.classList.remove('hide');
+        }, 350);
+    };
+    if (acceptBtn) acceptBtn.addEventListener('click', () => {
+        hideBanner('1');
+        showToast('Đã chấp nhận cookies', 'success');
+    });
+    if (declineBtn) declineBtn.addEventListener('click', () => {
+        hideBanner('0');
+        showToast('Đã từ chối cookies', 'info');
+    });
+}
+
+// ============================================================
+// 📄 INFO MODAL
+// ============================================================
+const INFO_CONTENT = {
+    about: {
+        eyebrow: 'Giới thiệu',
+        title: 'About Matchat67',
+        body: `
+            <h4>⚡ Matchat67 Executor</h4>
+            <p>Website tổng hợp Executor &amp; Client Roblox miễn phí, cập nhật liên tục với các tool hot nhất 2026: Delta, Solara, Xeno, Umi, Volcano và nhiều tool khác.</p>
+            <h4>🎯 Sứ mệnh</h4>
+            <ul>
+                <li>Cung cấp executor miễn phí, chất lượng cao</li>
+                <li>Cập nhật liên tục khi Roblox có bản mới</li>
+                <li>Xây dựng cộng đồng chia sẻ, hỗ trợ lẫn nhau</li>
+            </ul>
+            <h4>💬 Liên hệ</h4>
+            <p>Tham gia Discord: <a href="https://discord.gg/GrTCy2DHEX" target="_blank">discord.gg/GrTCy2DHEX</a></p>
+        `
+    },
+    terms: {
+        eyebrow: 'Điều khoản',
+        title: 'Terms of Service',
+        body: `
+            <h4>📜 Điều khoản sử dụng</h4>
+            <p>Bằng việc truy cập website, bạn đồng ý với các điều khoản sau:</p>
+            <h4>1. Mục đích sử dụng</h4>
+            <p>Executor trên web được cung cấp cho mục đích học tập, nghiên cứu và giải trí cá nhân.</p>
+            <h4>2. Trách nhiệm người dùng</h4>
+            <ul>
+                <li>Không sử dụng executor cho mục đích gây hại</li>
+                <li>Không bán lại, không phân phối lại với mục đích thương mại</li>
+                <li>Chấp nhận rủi ro có thể bị ban tài khoản Roblox</li>
+            </ul>
+            <h4>3. Miễn trừ trách nhiệm</h4>
+            <p>Chúng tôi không chịu trách nhiệm về bất kỳ thiệt hại nào phát sinh từ việc sử dụng executor trên web.</p>
+        `
+    },
+    privacy: {
+        eyebrow: 'Quyền riêng tư',
+        title: 'Privacy Policy',
+        body: `
+            <h4>🔒 Chính sách bảo mật</h4>
+            <p>Website tôn trọng quyền riêng tư của bạn. Chúng tôi thu thập tối thiểu dữ liệu:</p>
+            <h4>1. Dữ liệu thu thập</h4>
+            <ul>
+                <li><strong>Cookies / localStorage:</strong> Ghi nhớ theme, ngôn ngữ, lựa chọn cookie</li>
+                <li><strong>Không thu thập:</strong> Email, mật khẩu, thông tin cá nhân</li>
+            </ul>
+            <h4>2. Cách sử dụng</h4>
+            <p>Chỉ dùng để cải thiện trải nghiệm. Không bán, không chia sẻ cho bên thứ ba.</p>
+            <h4>3. Quyền của bạn</h4>
+            <p>Bạn có thể xoá cookies/localStorage bất kỳ lúc nào bằng cách xoá dữ liệu trình duyệt.</p>
+        `
+    },
+    legal: {
+        eyebrow: 'Pháp lý',
+        title: 'Legal Disclaimer',
+        body: `
+            <h4>⚖️ Tuyên bố miễn trừ</h4>
+            <p><strong>Website này KHÔNG liên kết với Roblox Corporation.</strong></p>
+            <p>Roblox là thương hiệu đã đăng ký của Roblox Corporation. Mọi thương hiệu, logo đều thuộc về chủ sở hữu gốc.</p>
+            <h4>1. Sử dụng executor</h4>
+            <p>Việc sử dụng executor có thể vi phạm <a href="https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use" target="_blank">Điều khoản của Roblox</a>. Bạn tự chịu trách nhiệm.</p>
+            <h4>2. Nội dung bên thứ ba</h4>
+            <p>Executor được tổng hợp từ nguồn công khai. Chúng tôi không chịu trách nhiệm về nội dung bên thứ ba.</p>
+            <h4>3. DMCA</h4>
+            <p>Nếu bạn là tác giả và muốn gỡ executor, liên hệ Discord để xử lý trong 48h.</p>
+        `
+    },
+    contact: {
+        eyebrow: 'Liên hệ',
+        title: 'Contact Us',
+        body: `
+            <h4>📬 Liên hệ với chúng tôi</h4>
+            <p>Có câu hỏi, báo lỗi, hoặc đóng góp? Liên hệ qua:</p>
+            <h4>💬 Discord (nhanh nhất)</h4>
+            <p>👉 <a href="https://discord.gg/GrTCy2DHEX" target="_blank"><strong>discord.gg/GrTCy2DHEX</strong></a></p>
+            <h4>📧 Email</h4>
+            <p><a href="mailto:kenhmatchat@gmail.com">kenhmatchat@gmail.com</a></p>
+            <h4>⏱️ Thời gian phản hồi</h4>
+            <ul>
+                <li>Discord: trong 1-2 giờ</li>
+                <li>Email: trong 24-48 giờ</li>
+            </ul>
+        `
+    }
+};
+
+function openInfoModal(key) {
+    const info = INFO_CONTENT[key];
+    if (!info) return;
+    const overlay = document.getElementById('infoOverlay');
+    if (!overlay) return;
+    const eyebrowEl = document.getElementById('infoEyebrow');
+    const titleEl = document.getElementById('infoTitle');
+    const bodyEl = document.getElementById('infoBody');
+    if (eyebrowEl) eyebrowEl.textContent = info.eyebrow;
+    if (titleEl) titleEl.textContent = info.title;
+    if (bodyEl) bodyEl.innerHTML = info.body;
+    overlay.classList.add('show');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+}
+
+function closeInfoModal() {
+    const overlay = document.getElementById('infoOverlay');
+    if (!overlay) return;
+    overlay.classList.remove('show');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('modal-open');
+}
+
+function initInfoModal() {
+    const overlay = document.getElementById('infoOverlay');
+    if (!overlay) return;
+    document.querySelectorAll('[data-info]').forEach((btn) => {
+        btn.addEventListener('click', () => openInfoModal(btn.dataset.info));
+    });
+    const closeBtn = document.getElementById('infoClose');
+    if (closeBtn) closeBtn.addEventListener('click', closeInfoModal);
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) closeInfoModal(); });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && overlay.classList.contains('show')) closeInfoModal();
+    });
+}
+
+// ============================================================
+// GLOBAL ERROR
 // ============================================================
 window.addEventListener('error', (e) => {
     console.error('[Global Error]', e.error);
@@ -808,48 +792,3 @@ window.addEventListener('error', (e) => {
 window.addEventListener('unhandledrejection', (e) => {
     console.error('[Unhandled Promise]', e.reason);
 });
-// ============================================================
-// 🍪 COOKIE BANNER
-// ============================================================
-function initCookie() {
-    const banner = document.getElementById('cookieBanner');
-    const acceptBtn = document.getElementById('cookieAccept');
-    const declineBtn = document.getElementById('cookieDecline');
-    if (!banner) return;
-
-    const KEY = 'matchat_cookie_accepted';
-    const saved = localStorage.getItem(KEY);
-
-    if (!saved) {
-        setTimeout(() => {
-            banner.hidden = false;
-        }, 1500);
-    }
-
-    const hideBanner = (value) => {
-        localStorage.setItem(KEY, value);
-        banner.classList.add('hide');
-        setTimeout(() => {
-            banner.hidden = true;
-            banner.classList.remove('hide');
-        }, 350);
-    };
-
-    if (acceptBtn) {
-        acceptBtn.addEventListener('click', () => {
-            hideBanner('1');
-            if (typeof showToast === 'function') {
-                showToast('Đã chấp nhận cookies', 'success');
-            }
-        });
-    }
-
-    if (declineBtn) {
-        declineBtn.addEventListener('click', () => {
-            hideBanner('0');
-            if (typeof showToast === 'function') {
-                showToast('Đã từ chối cookies', 'info');
-            }
-        });
-    }
-}
