@@ -808,3 +808,48 @@ window.addEventListener('error', (e) => {
 window.addEventListener('unhandledrejection', (e) => {
     console.error('[Unhandled Promise]', e.reason);
 });
+// ============================================================
+// 🍪 COOKIE BANNER
+// ============================================================
+function initCookie() {
+    const banner = document.getElementById('cookieBanner');
+    const acceptBtn = document.getElementById('cookieAccept');
+    const declineBtn = document.getElementById('cookieDecline');
+    if (!banner) return;
+
+    const KEY = 'matchat_cookie_accepted';
+    const saved = localStorage.getItem(KEY);
+
+    if (!saved) {
+        setTimeout(() => {
+            banner.hidden = false;
+        }, 1500);
+    }
+
+    const hideBanner = (value) => {
+        localStorage.setItem(KEY, value);
+        banner.classList.add('hide');
+        setTimeout(() => {
+            banner.hidden = true;
+            banner.classList.remove('hide');
+        }, 350);
+    };
+
+    if (acceptBtn) {
+        acceptBtn.addEventListener('click', () => {
+            hideBanner('1');
+            if (typeof showToast === 'function') {
+                showToast('Đã chấp nhận cookies', 'success');
+            }
+        });
+    }
+
+    if (declineBtn) {
+        declineBtn.addEventListener('click', () => {
+            hideBanner('0');
+            if (typeof showToast === 'function') {
+                showToast('Đã từ chối cookies', 'info');
+            }
+        });
+    }
+}
