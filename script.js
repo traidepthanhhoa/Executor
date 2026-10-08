@@ -1,36 +1,46 @@
 // ============================================================
+// ⚠️ VERIFY CONFIG — SỬA 2 DÒNG NÀY SAU
+// ============================================================
+const VERIFY_CONFIG = {
+    verifyLink: 'https://vuotnhanh.com/HYVi',
+    token: 'matchat2026',
+    storageKey: 'matchat_verified_until',
+    verifyPage: 'verify.html'
+};
+
+// ============================================================
 // CẤU HÌNH BẢO TRÌ
 // ============================================================
 const MAINTENANCE_MODE = {
-    pro: true,
     client: false,
     nx: true,
     pc: false,
     px: false,
-    pv: false,
+    pv: true,
     D32: true,
     solara: false,
     xeno: false,
-    umi: false
+    umi: false,
+    volcano: false
 };
 
 // ============================================================
 // CẤU HÌNH DOWNLOAD
 // ============================================================
 const DOWNLOADS = {
-    pro:    { url: 'https://vuotnhanh.com/dICD', filename: 'Delta-Pro-v3.245.1782.apk' },
-    client: { url: 'https://vuotnhanh.com/j1tZ', filename: 'Delta-v2.735.1138.apk' },
-    D32:    { url: 'https://vuotnhanh.com/oJou', filename: 'Delta-32bit-v2.736.1408.apk' },
-    nx:     { url: 'https://vuotnhanh.com/TxPF', filename: 'Roblox-Lite-NX-v3.0.1.apk' },
-    pc:     { url: 'https://vuotnhanh.com/CEGE', filename: 'Executor-PC-Real-v1.7.0.zip' },
-    px:     { url: 'https://vuotnhanh.com/fXSZ', filename: 'Executor-PC-Medium-v1.5.0.zip' },
-    pv:     { url: 'https://vuotnhanh.com/zij1', filename: 'Executor-PC-Velocity-v1.6.0.zip' },
-    solara: {
+    client:  { url: 'https://vuotnhanh.com/j1tZ', filename: 'Delta-v2.735.1138.apk' },
+    D32:     { url: 'https://vuotnhanh.com/oJou', filename: 'Delta-32bit-v2.736.1408.apk' },
+    nx:      { url: 'https://vuotnhanh.com/TxPF', filename: 'Roblox-Lite-NX-v3.0.1.apk' },
+    pc:      { url: 'https://vuotnhanh.com/CEGE', filename: 'Executor-PC-Real-v1.7.0.zip' },
+    px:      { url: 'https://vuotnhanh.com/fXSZ', filename: 'Executor-PC-Medium-v1.5.0.zip' },
+    pv:      { url: 'https://vuotnhanh.com/zij1', filename: 'Executor-PC-Velocity-v1.6.0.zip' },
+    solara:  {
         url: 'https://4d38a1ec.solaraweb-alj.pages.dev/download/static/files/Bootstrapper.exe',
         filename: 'Solara-Bootstrapper.exe'
     },
-    xeno:   { url: 'https://xeno.now/', filename: 'Xeno-Executor.exe' },
-    umi:    { url: 'https://vuotnhanh.com/OSj9', filename: 'Umi-Executor.exe' }
+    xeno:    { url: 'https://xeno.now/', filename: 'Xeno-Executor.exe' },
+    umi:     { url: 'https://vuotnhanh.com/OSj9', filename: 'Umi-Executor.exe' },
+    volcano: { url: 'https://vuotnhanh.com/YANb', filename: 'Volcano-Executor.exe' }
 };
 
 // ============================================================
@@ -55,6 +65,26 @@ const THEME_CONFIG = {
 // UTILITIES
 // ============================================================
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// ============================================================
+// VERIFY CHECK — Chặn nếu chưa verify
+// ============================================================
+(function checkVerify() {
+    const verifiedUntil = parseInt(localStorage.getItem(VERIFY_CONFIG.storageKey) || '0', 10);
+    if (Date.now() >= verifiedUntil) {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('verified') === VERIFY_CONFIG.token) {
+            localStorage.setItem(
+                VERIFY_CONFIG.storageKey,
+                String(Date.now() + 7 * 24 * 60 * 60 * 1000)
+            );
+            window.history.replaceState({}, '', window.location.pathname);
+        } else {
+            window.location.href = VERIFY_CONFIG.verifyPage;
+            return;
+        }
+    }
+})();
 
 // ============================================================
 // BOOTSTRAP
@@ -140,7 +170,7 @@ function initLoader() {
     const loaderBar = document.getElementById('loader-bar');
 
     if (!loader || !percentage || !loaderBar) {
-        loader?.classList.add('hidden');
+        if (loader) loader.classList.add('hidden');
         onLoaderDone();
         return;
     }
@@ -208,7 +238,7 @@ function initTabs() {
             });
 
             Object.entries(tabContents).forEach(([key, el]) => {
-                el?.classList.toggle('active', key === targetTab);
+                if (el) el.classList.toggle('active', key === targetTab);
             });
         });
     });
@@ -473,28 +503,33 @@ function showNotificationIfNeeded() {
     if (Date.now() < until) return;
     if (overlay.classList.contains('show')) return;
 
-    notifController?.abort();
+    if (notifController) notifController.abort();
     notifController = new AbortController();
     const { signal } = notifController;
 
     const close = () => {
         overlay.classList.remove('show');
         overlay.setAttribute('aria-hidden', 'true');
-        notifController?.abort();
+        if (notifController) notifController.abort();
         notifController = null;
     };
 
     overlay.classList.add('show');
     overlay.setAttribute('aria-hidden', 'false');
 
-    document.getElementById('notifClose')?.addEventListener('click', close, { signal });
-    document.getElementById('notifHide')?.addEventListener('click', () => {
-        localStorage.setItem(
-            NOTIFICATION_CONFIG.storageKey,
-            String(Date.now() + NOTIFICATION_CONFIG.hideDurationMs)
-        );
-        close();
-    }, { signal });
+    const closeBtn = document.getElementById('notifClose');
+    if (closeBtn) closeBtn.addEventListener('click', close, { signal });
+
+    const hideBtn = document.getElementById('notifHide');
+    if (hideBtn) {
+        hideBtn.addEventListener('click', () => {
+            localStorage.setItem(
+                NOTIFICATION_CONFIG.storageKey,
+                String(Date.now() + NOTIFICATION_CONFIG.hideDurationMs)
+            );
+            close();
+        }, { signal });
+    }
 
     overlay.addEventListener('click', (e) => {
         if (e.target === overlay) close();
@@ -535,7 +570,7 @@ function initGuide() {
             });
 
             Object.entries(guideContents).forEach(([key, el]) => {
-                el?.classList.toggle('active', key === target);
+                if (el) el.classList.toggle('active', key === target);
             });
         });
     });
@@ -557,14 +592,13 @@ function initGuide() {
             } else {
                 faqList.setAttribute('hidden', '');
             }
-            console.log('[FAQ]', willExpand ? 'Mở' : 'Đóng');
         });
-    } else {
-        console.warn('[FAQ] Không tìm thấy #faqToggle hoặc #faqList');
     }
 
-    document.getElementById('guideClose')?.addEventListener('click', closeGuide);
-    document.getElementById('guideOk')?.addEventListener('click', closeGuide);
+    const closeBtn = document.getElementById('guideClose');
+    if (closeBtn) closeBtn.addEventListener('click', closeGuide);
+    const okBtn = document.getElementById('guideOk');
+    if (okBtn) okBtn.addEventListener('click', closeGuide);
 
     overlay.addEventListener('click', (e) => {
         if (e.target === overlay) closeGuide();
@@ -575,7 +609,7 @@ function openGuide() {
     const overlay = document.getElementById('guideOverlay');
     if (!overlay || overlay.classList.contains('show')) return;
 
-    guideController?.abort();
+    if (guideController) guideController.abort();
     guideController = new AbortController();
     const { signal } = guideController;
 
@@ -593,7 +627,7 @@ function closeGuide() {
 
     overlay.classList.remove('show');
     overlay.setAttribute('aria-hidden', 'true');
-    guideController?.abort();
+    if (guideController) guideController.abort();
     guideController = null;
 }
 
@@ -775,7 +809,8 @@ function initDiscordFloat() {
 // ============================================================
 window.addEventListener('error', (e) => {
     console.error('[Global Error]', e.error);
-    document.getElementById('loader')?.classList.add('hidden');
+    const loader = document.getElementById('loader');
+    if (loader) loader.classList.add('hidden');
 });
 
 window.addEventListener('unhandledrejection', (e) => {
