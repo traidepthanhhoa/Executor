@@ -26,7 +26,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
 
 <style>
-/* ============ THEME TOKENS (giống web chính) ============ */
 :root, [data-theme="dark"] {
   --bg: #0a0a0a;
   --surface: #111111;
@@ -37,13 +36,12 @@
   --text: #fafafa;
   --text-soft: #b0b0b0;
   --muted: #7a7a7a;
-  --dim: #6b6b6b;
   --purple: #a78bfa;
   --pink: #f472b6;
-  --blue: #60a5fa;
   --cyan: #22d3ee;
   --green: #34d399;
   --red: #f87171;
+  --amber: #fbbf24;
   --shadow-toast: 0 8px 24px rgba(0, 0, 0, .4);
   --shadow-modal: 0 24px 60px rgba(0, 0, 0, .45);
   --shadow-thumb: 0 2px 6px rgba(0, 0, 0, .25);
@@ -64,13 +62,12 @@
   --text: #1c1c22;
   --text-soft: #4b4b55;
   --muted: #6b6b75;
-  --dim: #909099;
   --purple: #6d28d9;
   --pink: #db2777;
-  --blue: #2563eb;
   --cyan: #0891b2;
   --green: #059669;
   --red: #dc2626;
+  --amber: #d97706;
   --shadow-toast: 0 8px 24px rgba(0, 0, 0, .12);
   --shadow-modal: 0 24px 60px rgba(0, 0, 0, .18);
   --shadow-thumb: 0 2px 6px rgba(0, 0, 0, .15);
@@ -87,7 +84,6 @@ body {
   font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-  font-feature-settings: "ss01", "cv01";
   line-height: 1.5;
   transition: background var(--t-theme), color var(--t-theme);
   display: flex;
@@ -97,12 +93,9 @@ body {
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: var(--dim); }
 :focus-visible { outline: 2px solid var(--purple); outline-offset: 2px; border-radius: 2px; }
-
 button, a, input { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 
-/* ============ HEADER (giống web chính) ============ */
 .site-header {
   padding: 60px 24px 32px;
   text-align: center;
@@ -127,8 +120,6 @@ button, a, input { touch-action: manipulation; -webkit-tap-highlight-color: tran
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 }
-
-/* ============ THEME TOGGLE (giống web chính) ============ */
 .header-actions {
   display: flex;
   justify-content: center;
@@ -186,7 +177,7 @@ button, a, input { touch-action: manipulation; -webkit-tap-highlight-color: tran
 }
 [data-theme="light"] .theme-toggle-thumb {
   transform: translateX(20px);
-  background: var(--amber, #fbbf24);
+  background: var(--amber);
 }
 .theme-toggle .icon {
   width: 11px;
@@ -201,7 +192,6 @@ button, a, input { touch-action: manipulation; -webkit-tap-highlight-color: tran
 [data-theme="light"] .theme-toggle .icon-moon { opacity: 0; transform: rotate(90deg) scale(.5); }
 .theme-toggle-label { min-width: 40px; text-align: left; }
 
-/* ============ MAIN ============ */
 main {
   flex: 1;
   display: flex;
@@ -210,10 +200,9 @@ main {
   padding: 20px 24px 60px;
 }
 
-/* ============ VERIFY CARD ============ */
 .verify-card {
   width: 100%;
-  max-width: 440px;
+  max-width: 460px;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
@@ -228,7 +217,6 @@ main {
   top: 0; left: 0; right: 0;
   height: 2px;
   background: linear-gradient(90deg, var(--purple), var(--pink), var(--cyan));
-  transform: scaleX(1);
 }
 
 .verify-icon-wrap {
@@ -246,12 +234,7 @@ main {
   0%, 100% { box-shadow: 0 0 24px rgba(167, 139, 250, .35); }
   50% { box-shadow: 0 0 48px rgba(167, 139, 250, .65); }
 }
-.verify-icon-wrap svg {
-  width: 34px;
-  height: 34px;
-  color: #fff;
-  stroke-width: 2.5;
-}
+.verify-icon-wrap svg { width: 34px; height: 34px; color: #fff; stroke-width: 2.5; }
 
 .verify-title {
   font-size: 1.4rem;
@@ -281,16 +264,15 @@ main {
   color: var(--muted);
   letter-spacing: .1em;
   text-transform: uppercase;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 
-/* ============ CAPTCHA BOX ============ */
 .captcha-box {
   background: var(--surface-2);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
-  padding: 20px;
-  margin-bottom: 18px;
+  padding: 18px;
+  margin-bottom: 16px;
 }
 .captcha-label {
   display: block;
@@ -300,7 +282,7 @@ main {
   color: var(--muted);
   text-transform: uppercase;
   letter-spacing: .14em;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
   text-align: center;
 }
 .captcha-row {
@@ -356,7 +338,43 @@ main {
   75% { transform: translateX(6px); }
 }
 
-/* ============ BUTTON (giống .btn trong web chính) ============ */
+/* TERMS CHECKBOX */
+.terms-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px 16px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  margin-bottom: 16px;
+  cursor: pointer;
+  transition: all var(--t);
+  user-select: none;
+}
+.terms-checkbox:hover { border-color: var(--purple); }
+.terms-checkbox input {
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  accent-color: var(--purple);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.terms-checkbox span {
+  font-size: .82rem;
+  color: var(--text-soft);
+  line-height: 1.5;
+}
+.terms-checkbox a {
+  color: var(--purple);
+  text-decoration: underline;
+  font-weight: 700;
+  cursor: pointer;
+}
+.terms-checkbox a:hover { color: var(--pink); }
+
+/* BUTTON */
 .verify-btn {
   width: 100%;
   padding: 14px 18px;
@@ -370,46 +388,27 @@ main {
   letter-spacing: .08em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: background var(--t), color var(--t), border-color var(--t), transform var(--t);
-  position: relative;
-  overflow: hidden;
+  transition: all var(--t);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   min-height: 48px;
 }
-.verify-btn::after {
-  content: '→';
-  font-family: "JetBrains Mono", monospace;
-  font-size: 1rem;
-  opacity: 0;
-  transform: translateX(-6px);
-  transition: opacity var(--t), transform var(--t);
-}
-.verify-btn:hover:not(:disabled)::after {
-  opacity: 1;
-  transform: translateX(0);
-}
 .verify-btn:hover:not(:disabled) {
   background: var(--pink);
   border-color: var(--pink);
+  color: #fff;
   transform: translateY(-2px);
 }
 .verify-btn:active { transform: translateY(0); }
 .verify-btn:disabled {
-  opacity: .6;
+  opacity: .5;
   cursor: not-allowed;
   transform: none;
 }
-.verify-btn:disabled::after { content: none; }
-.verify-btn svg {
-  width: 18px;
-  height: 18px;
-  stroke-width: 2.5;
-}
+.verify-btn svg { width: 18px; height: 18px; stroke-width: 2.5; }
 
-/* ============ ERROR ============ */
 .verify-error {
   margin-top: 14px;
   padding: 10px 14px;
@@ -423,12 +422,8 @@ main {
   text-align: center;
   display: none;
 }
-.verify-error.show {
-  display: block;
-  animation: shake .4s;
-}
+.verify-error.show { display: block; animation: shake .4s; }
 
-/* ============ NOTE ============ */
 .verify-note {
   margin-top: 20px;
   padding-top: 18px;
@@ -443,16 +438,41 @@ main {
 }
 .verify-note strong { color: var(--pink); }
 
-/* ============ FOOTER ============ */
+/* FOOTER */
 footer {
   text-align: center;
   padding: 24px;
   font-family: "JetBrains Mono", monospace;
   font-size: 10px;
-  color: var(--dim);
+  color: var(--muted);
   letter-spacing: .1em;
   text-transform: uppercase;
   border-top: 1px solid var(--line);
+}
+.footer-links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.footer-links button {
+  background: none;
+  border: 0;
+  color: var(--text-soft);
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--t);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+.footer-links button:hover {
+  color: var(--purple);
+  background: var(--surface-2);
 }
 footer small {
   display: block;
@@ -461,7 +481,7 @@ footer small {
   opacity: .6;
 }
 
-/* ============ TOAST ============ */
+/* TOAST */
 .toast-container {
   position: fixed;
   bottom: 24px;
@@ -504,7 +524,98 @@ footer small {
 }
 @keyframes toastOut { to { opacity: 0; transform: translateX(30px); } }
 
-/* ============ RESPONSIVE ============ */
+/* INFO MODAL */
+.info-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, .72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9998;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .25s ease, visibility .25s ease;
+}
+.info-overlay.show { opacity: 1; visibility: visible; }
+.info-modal {
+  width: 100%;
+  max-width: 620px;
+  max-height: 88vh;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-modal);
+  transform: translateY(16px) scale(.97);
+  transition: transform .3s cubic-bezier(.2, .8, .2, 1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.info-overlay.show .info-modal { transform: translateY(0) scale(1); }
+.info-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--line);
+  flex-shrink: 0;
+}
+.info-head h3 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: -.01em;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.info-head h3 .info-eyebrow {
+  font-size: .68rem;
+  text-transform: uppercase;
+  color: var(--purple);
+  letter-spacing: .1em;
+  font-weight: 700;
+}
+.info-close {
+  width: 40px;
+  height: 40px;
+  border: 0;
+  background: transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  transition: all var(--t);
+  flex-shrink: 0;
+}
+.info-close svg { width: 18px; height: 18px; }
+.info-close:hover { background: var(--surface-2); color: var(--text); }
+.info-body {
+  padding: 22px;
+  overflow-y: auto;
+  flex: 1;
+  color: var(--text-soft);
+  font-size: .9rem;
+  line-height: 1.7;
+}
+.info-body h4 {
+  color: var(--purple);
+  font-size: 1rem;
+  font-weight: 800;
+  margin: 18px 0 8px;
+}
+.info-body h4:first-child { margin-top: 0; }
+.info-body p { margin: 0 0 12px; }
+.info-body ul { padding-left: 22px; margin: 0 0 12px; }
+.info-body li { margin-bottom: 5px; }
+.info-body a { color: var(--purple); text-decoration: underline; font-weight: 600; }
+.info-body a:hover { color: var(--pink); }
+
 @media (max-width: 500px) {
   .site-header { padding: 40px 20px 24px; }
   .site-header h1 { font-size: 1.6rem; }
@@ -522,7 +633,6 @@ footer small {
   }
   .toast { width: 100%; min-width: 0; }
 }
-
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: .001ms !important;
@@ -535,15 +645,13 @@ footer small {
 </head>
 <body>
 
-<!-- HEADER -->
 <header class="site-header">
   <h1>Xác Minh Robot</h1>
   <p>Verify you are human</p>
 
   <div class="header-actions">
     <button class="theme-toggle" id="themeToggle" type="button"
-            aria-label="Chuyển chế độ sáng/tối"
-            title="Chuyển chế độ sáng/tối (Ctrl+Shift+L)">
+            aria-label="Chuyển chế độ sáng/tối">
       <span class="theme-toggle-track" aria-hidden="true">
         <span class="theme-toggle-thumb">
           <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -562,7 +670,6 @@ footer small {
   </div>
 </header>
 
-<!-- MAIN -->
 <main>
   <div class="verify-card">
     <div class="verify-icon-wrap">
@@ -590,7 +697,17 @@ footer small {
       </div>
     </div>
 
-    <button id="verifyBtn" class="verify-btn" type="button">
+    <label class="terms-checkbox">
+      <input type="checkbox" id="agreeTerms">
+      <span>
+        I have read and agree to the
+        <a href="#" onclick="event.preventDefault(); openInfo('terms')">Terms</a>
+        and the
+        <a href="#" onclick="event.preventDefault(); openInfo('privacy')">Privacy</a>
+      </span>
+    </label>
+
+    <button id="verifyBtn" class="verify-btn" type="button" disabled>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="20 6 9 17 4 12" />
       </svg>
@@ -606,13 +723,38 @@ footer small {
   </div>
 </main>
 
-<!-- FOOTER -->
 <footer>
+  <div class="footer-links">
+    <button type="button" onclick="openInfo('about')">About</button>
+    <button type="button" onclick="openInfo('terms')">Terms</button>
+    <button type="button" onclick="openInfo('privacy')">Privacy</button>
+    <button type="button" onclick="openInfo('legal')">Legal</button>
+    <button type="button" onclick="openInfo('contact')">Contact</button>
+  </div>
   &copy; 2026 Matchat67
   <small>Trang web không liên kết với Roblox Corporation</small>
 </footer>
 
-<!-- TOAST -->
+<!-- INFO MODAL -->
+<div class="info-overlay" id="infoOverlay" aria-hidden="true">
+  <div class="info-modal" role="dialog" aria-modal="true">
+    <div class="info-head">
+      <h3>
+        <span class="info-eyebrow" id="infoEyebrow">Thông tin</span>
+        <span id="infoTitle">About</span>
+      </h3>
+      <button class="info-close" id="infoClose" aria-label="Đóng" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+    <div class="info-body" id="infoBody"></div>
+  </div>
+</div>
+
 <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
 
 <script>
@@ -633,12 +775,10 @@ if (Date.now() < verifiedUntil) {
 // ============ THEME TOGGLE ============
 const themeToggle = document.getElementById('themeToggle');
 const themeLabel = document.querySelector('[data-role="theme-label"]');
-
 function updateThemeLabel(theme) {
   if (themeLabel) themeLabel.textContent = theme === 'dark' ? 'Dark' : 'Light';
 }
 updateThemeLabel(document.documentElement.getAttribute('data-theme') || 'dark');
-
 themeToggle.addEventListener('click', () => {
   const current = document.documentElement.getAttribute('data-theme') || 'dark';
   const next = current === 'dark' ? 'light' : 'dark';
@@ -646,7 +786,6 @@ themeToggle.addEventListener('click', () => {
   localStorage.setItem(VERIFY_CONFIG.themeKey, next);
   updateThemeLabel(next);
 });
-
 document.addEventListener('keydown', (e) => {
   if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'l') {
     e.preventDefault();
@@ -660,25 +799,13 @@ const TOAST_ICONS = {
   error: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
   info: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>'
 };
-
 function showToast(message, type = 'info', duration = 3000) {
   const container = document.getElementById('toastContainer');
   if (!container) return;
-
   const toast = document.createElement('div');
   toast.className = `toast ${type}`;
-  toast.setAttribute('role', 'status');
-
-  const iconWrap = document.createElement('span');
-  iconWrap.innerHTML = TOAST_ICONS[type] || TOAST_ICONS.info;
-
-  const text = document.createElement('span');
-  text.textContent = message;
-
-  toast.appendChild(iconWrap);
-  toast.appendChild(text);
+  toast.innerHTML = (TOAST_ICONS[type] || TOAST_ICONS.info) + `<span>${message}</span>`;
   container.appendChild(toast);
-
   setTimeout(() => {
     toast.classList.add('toast-out');
     toast.addEventListener('animationend', () => toast.remove(), { once: true });
@@ -686,14 +813,124 @@ function showToast(message, type = 'info', duration = 3000) {
   }, duration);
 }
 
+// ============ INFO MODAL ============
+const INFO_CONTENT = {
+  about: {
+    eyebrow: 'Giới thiệu',
+    title: 'About Script Hub',
+    body: `
+      <h4>⚡ Matchat67 Executor</h4>
+      <p>Website tổng hợp Executor &amp; Client Roblox miễn phí, cập nhật liên tục với các tool hot nhất 2026: Delta, Solara, Xeno, Umi, Volcano và nhiều tool khác.</p>
+      <h4>🎯 Sứ mệnh</h4>
+      <ul>
+        <li>Cung cấp executor miễn phí, chất lượng cao</li>
+        <li>Cập nhật liên tục khi Roblox có bản mới</li>
+        <li>Xây dựng cộng đồng chia sẻ, hỗ trợ lẫn nhau</li>
+      </ul>
+      <h4>💬 Liên hệ</h4>
+      <p>Tham gia Discord: <a href="https://discord.gg/GrTCy2DHEX" target="_blank">discord.gg/GrTCy2DHEX</a></p>
+    `
+  },
+  terms: {
+    eyebrow: 'Điều khoản',
+    title: 'Terms of Service',
+    body: `
+      <h4>📜 Điều khoản sử dụng</h4>
+      <p>Bằng việc truy cập website, bạn đồng ý với các điều khoản sau:</p>
+      <h4>1. Mục đích sử dụng</h4>
+      <p>Executor trên web được cung cấp cho mục đích học tập, nghiên cứu và giải trí cá nhân.</p>
+      <h4>2. Trách nhiệm người dùng</h4>
+      <ul>
+        <li>Không sử dụng executor cho mục đích gây hại</li>
+        <li>Không bán lại, không phân phối lại với mục đích thương mại</li>
+        <li>Chấp nhận rủi ro có thể bị ban tài khoản Roblox</li>
+      </ul>
+      <h4>3. Miễn trừ trách nhiệm</h4>
+      <p>Chúng tôi không chịu trách nhiệm về bất kỳ thiệt hại nào phát sinh từ việc sử dụng executor trên web.</p>
+    `
+  },
+  privacy: {
+    eyebrow: 'Quyền riêng tư',
+    title: 'Privacy Policy',
+    body: `
+      <h4>🔒 Chính sách bảo mật</h4>
+      <p>Website tôn trọng quyền riêng tư của bạn. Chúng tôi thu thập tối thiểu dữ liệu:</p>
+      <h4>1. Dữ liệu thu thập</h4>
+      <ul>
+        <li><strong>Cookies / localStorage:</strong> Ghi nhớ theme, ngôn ngữ, lựa chọn cookie</li>
+        <li><strong>Không thu thập:</strong> Email, mật khẩu, thông tin cá nhân</li>
+      </ul>
+      <h4>2. Cách sử dụng</h4>
+      <p>Chỉ dùng để cải thiện trải nghiệm. Không bán, không chia sẻ cho bên thứ ba.</p>
+      <h4>3. Quyền của bạn</h4>
+      <p>Bạn có thể xoá cookies/localStorage bất kỳ lúc nào bằng cách xoá dữ liệu trình duyệt.</p>
+    `
+  },
+  legal: {
+    eyebrow: 'Pháp lý',
+    title: 'Legal Disclaimer',
+    body: `
+      <h4>⚖️ Tuyên bố miễn trừ</h4>
+      <p><strong>Website này KHÔNG liên kết với Roblox Corporation.</strong></p>
+      <p>Roblox là thương hiệu đã đăng ký của Roblox Corporation. Mọi thương hiệu, logo đều thuộc về chủ sở hữu gốc.</p>
+      <h4>1. Sử dụng executor</h4>
+      <p>Việc sử dụng executor có thể vi phạm <a href="https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use" target="_blank">Điều khoản của Roblox</a>. Bạn tự chịu trách nhiệm.</p>
+      <h4>2. Nội dung bên thứ ba</h4>
+      <p>Executor được tổng hợp từ nguồn công khai. Chúng tôi không chịu trách nhiệm về nội dung bên thứ ba.</p>
+      <h4>3. DMCA</h4>
+      <p>Nếu bạn là tác giả và muốn gỡ executor, liên hệ Discord để xử lý trong 48h.</p>
+    `
+  },
+  contact: {
+    eyebrow: 'Liên hệ',
+    title: 'Contact Us',
+    body: `
+      <h4>📬 Liên hệ với chúng tôi</h4>
+      <p>Có câu hỏi, báo lỗi, hoặc đóng góp? Liên hệ qua:</p>
+      <h4>💬 Discord (nhanh nhất)</h4>
+      <p>👉 <a href="https://discord.gg/GrTCy2DHEX" target="_blank"><strong>discord.gg/GrTCy2DHEX</strong></a></p>
+      <h4>📧 Email</h4>
+      <p><a href="mailto:kenhmatchat@gmail.com">kenhmatchat@gmail.com</a></p>
+      <h4>⏱️ Thời gian phản hồi</h4>
+      <ul>
+        <li>Discord: trong 1-2 giờ</li>
+        <li>Email: trong 24-48 giờ</li>
+      </ul>
+    `
+  }
+};
+
+function openInfo(key) {
+  const info = INFO_CONTENT[key];
+  if (!info) return;
+  const overlay = document.getElementById('infoOverlay');
+  document.getElementById('infoEyebrow').textContent = info.eyebrow;
+  document.getElementById('infoTitle').textContent = info.title;
+  document.getElementById('infoBody').innerHTML = info.body;
+  overlay.classList.add('show');
+  overlay.setAttribute('aria-hidden', 'false');
+}
+
+function closeInfo() {
+  const overlay = document.getElementById('infoOverlay');
+  overlay.classList.remove('show');
+  overlay.setAttribute('aria-hidden', 'true');
+}
+
+document.getElementById('infoClose').addEventListener('click', closeInfo);
+document.getElementById('infoOverlay').addEventListener('click', (e) => {
+  if (e.target.id === 'infoOverlay') closeInfo();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeInfo();
+});
+
 // ============ CAPTCHA ============
 let captchaAnswer = 0;
-
 function generateCaptcha() {
   const ops = ['+', '-', '×'];
   const op = ops[Math.floor(Math.random() * ops.length)];
   let a, b, result;
-
   if (op === '+') {
     a = Math.floor(Math.random() * 9) + 1;
     b = Math.floor(Math.random() * 9) + 1;
@@ -708,7 +945,6 @@ function generateCaptcha() {
     b = Math.floor(Math.random() * 4) + 1;
     result = a * b;
   }
-
   captchaAnswer = result;
   document.getElementById('captchaQuestion').textContent = `${a} ${op} ${b} = ?`;
   document.getElementById('captchaInput').value = '';
@@ -716,14 +952,28 @@ function generateCaptcha() {
   document.getElementById('verifyError').classList.remove('show');
 }
 
-// ============ SUBMIT VERIFY ============
+// ============ TERMS CHECKBOX + BUTTON STATE ============
 const verifyBtn = document.getElementById('verifyBtn');
 const captchaInput = document.getElementById('captchaInput');
 const errorEl = document.getElementById('verifyError');
+const agreeCheckbox = document.getElementById('agreeTerms');
 
+function updateButtonState() {
+  verifyBtn.disabled = !agreeCheckbox.checked;
+}
+
+agreeCheckbox.addEventListener('change', updateButtonState);
+updateButtonState();
+
+// ============ SUBMIT ============
 function submitVerify() {
-  const userAnswer = parseInt(captchaInput.value, 10);
+  if (!agreeCheckbox.checked) {
+    errorEl.textContent = '❌ Bạn cần đồng ý với Điều khoản và Chính sách bảo mật';
+    errorEl.classList.add('show');
+    return;
+  }
 
+  const userAnswer = parseInt(captchaInput.value, 10);
   if (isNaN(userAnswer)) {
     errorEl.textContent = '❌ Vui lòng nhập đáp án';
     errorEl.classList.add('show');
@@ -733,7 +983,6 @@ function submitVerify() {
   }
 
   if (userAnswer === captchaAnswer) {
-    // Đúng → lưu + vào web
     localStorage.setItem(
       VERIFY_CONFIG.storageKey,
       String(Date.now() + VERIFY_CONFIG.durationMs)
@@ -742,11 +991,8 @@ function submitVerify() {
     verifyBtn.disabled = true;
     verifyBtn.innerHTML = '<span>✅ Đang vào web...</span>';
     showToast('Xác minh thành công!', 'success', 1500);
-    setTimeout(() => {
-      window.location.replace(VERIFY_CONFIG.webUrl);
-    }, 700);
+    setTimeout(() => window.location.replace(VERIFY_CONFIG.webUrl), 700);
   } else {
-    // Sai → hiện lỗi + tạo câu mới
     errorEl.textContent = '❌ Sai đáp án. Thử lại!';
     errorEl.classList.add('show');
     captchaInput.classList.add('error');
@@ -759,19 +1005,17 @@ function submitVerify() {
 }
 
 verifyBtn.addEventListener('click', submitVerify);
-
 captchaInput.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') {
     e.preventDefault();
     submitVerify();
   }
 });
-
 captchaInput.addEventListener('input', () => {
   captchaInput.classList.remove('error');
 });
 
-// ============ NÚT TEST ẨN (Ctrl+Shift+V) ============
+// ============ TEST ẨN (Ctrl+Shift+V) ============
 document.addEventListener('keydown', (e) => {
   if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'v') {
     e.preventDefault();
@@ -780,9 +1024,7 @@ document.addEventListener('keydown', (e) => {
       String(Date.now() + VERIFY_CONFIG.durationMs)
     );
     showToast('Đã bỏ qua xác minh (test)', 'info', 1000);
-    setTimeout(() => {
-      window.location.replace(VERIFY_CONFIG.webUrl);
-    }, 500);
+    setTimeout(() => window.location.replace(VERIFY_CONFIG.webUrl), 500);
   }
 });
 
