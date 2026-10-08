@@ -621,15 +621,7 @@
         </section>
     </div>
 
-    <a
-        class="discord-float"
-        id="discordFloat"
-        href="https://discord.gg/GrTCy2DHEX"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Tham gia Discord server"
-        title="Tham gia Discord"
-    >
+    <a class="discord-float" id="discordFloat" href="https://discord.gg/GrTCy2DHEX" target="_blank" rel="noopener noreferrer" aria-label="Tham gia Discord server" title="Tham gia Discord">
         <span class="discord-float-ring" aria-hidden="true"></span>
         <span class="discord-float-icon">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -639,20 +631,45 @@
         <span class="discord-float-label">Join Discord</span>
     </a>
 
-    <button class="back-to-top" id="backToTop" type="button"
-            aria-label="Cuộn lên đầu trang" title="Về đầu trang">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <button class="back-to-top" id="backToTop" type="button" aria-label="Cuộn lên đầu trang" title="Về đầu trang">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <polyline points="18 15 12 9 6 15"/>
         </svg>
     </button>
 
     <footer>
+        <div class="footer-links">
+            <button type="button" data-info="about">About</button>
+            <button type="button" data-info="terms">Terms</button>
+            <button type="button" data-info="privacy">Privacy</button>
+            <button type="button" data-info="legal">Legal</button>
+            <button type="button" data-info="contact">Contact</button>
+        </div>
         &copy; 2026 Matchat67 – Executor
         <small class="footer-disclaimer">
             Trang web không liên kết với Roblox Corporation.
         </small>
     </footer>
+
+    <!-- INFO MODAL -->
+    <div class="info-overlay" id="infoOverlay" aria-hidden="true">
+        <div class="info-modal" role="dialog" aria-modal="true">
+            <div class="info-head">
+                <h3>
+                    <span class="info-eyebrow" id="infoEyebrow">Thông tin</span>
+                    <span id="infoTitle">About</span>
+                </h3>
+                <button class="info-close" id="infoClose" aria-label="Đóng" type="button">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" aria-hidden="true">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                </button>
+            </div>
+            <div class="info-body" id="infoBody"></div>
+        </div>
+    </div>
 
     <!-- COOKIE BANNER -->
     <div class="cookie-banner" id="cookieBanner" hidden>
@@ -670,4 +687,4 @@
 
     <script src="script.js" defer></script>
 </body>
-</html>
+    </html>
