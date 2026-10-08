@@ -3,146 +3,345 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Xác Minh Robot | Matchat67</title>
+<title>Xác Minh | Matchat67</title>
 <meta name="robots" content="noindex, nofollow" />
+<meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#f7f7f8" media="(prefers-color-scheme: light)" />
+
+<script>
+  (function () {
+    try {
+      var stored = localStorage.getItem('theme');
+      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var theme = stored || (prefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch (e) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  })();
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+
 <style>
-:root {
+/* ============ THEME TOKENS (giống web chính) ============ */
+:root, [data-theme="dark"] {
   --bg: #0a0a0a;
   --surface: #111111;
   --surface-2: #171717;
+  --surface-hover: #1c1c1c;
   --line: #262626;
   --line-strong: #333;
   --text: #fafafa;
   --text-soft: #b0b0b0;
   --muted: #7a7a7a;
+  --dim: #6b6b6b;
   --purple: #a78bfa;
   --pink: #f472b6;
+  --blue: #60a5fa;
+  --cyan: #22d3ee;
   --green: #34d399;
   --red: #f87171;
+  --shadow-toast: 0 8px 24px rgba(0, 0, 0, .4);
+  --shadow-modal: 0 24px 60px rgba(0, 0, 0, .45);
+  --shadow-thumb: 0 2px 6px rgba(0, 0, 0, .25);
+  --selection-bg: #a78bfa;
+  --selection-text: #000;
+  --t: 180ms cubic-bezier(.2, .8, .2, 1);
+  --t-theme: 300ms cubic-bezier(.4, 0, .2, 1);
+  --radius: 4px;
+  --radius-lg: 10px;
 }
-* { margin: 0; padding: 0; box-sizing: border-box; }
+[data-theme="light"] {
+  --bg: #fbfbfd;
+  --surface: #ffffff;
+  --surface-2: #f5f5f7;
+  --surface-hover: #eef0f4;
+  --line: #e4e4e9;
+  --line-strong: #c9c9d1;
+  --text: #1c1c22;
+  --text-soft: #4b4b55;
+  --muted: #6b6b75;
+  --dim: #909099;
+  --purple: #6d28d9;
+  --pink: #db2777;
+  --blue: #2563eb;
+  --cyan: #0891b2;
+  --green: #059669;
+  --red: #dc2626;
+  --shadow-toast: 0 8px 24px rgba(0, 0, 0, .12);
+  --shadow-modal: 0 24px 60px rgba(0, 0, 0, .18);
+  --shadow-thumb: 0 2px 6px rgba(0, 0, 0, .15);
+  --selection-bg: #6d28d9;
+  --selection-text: #ffffff;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
   min-height: 100vh;
   background: var(--bg);
   color: var(--text);
-  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  font-feature-settings: "ss01", "cv01";
+  line-height: 1.5;
+  transition: background var(--t-theme), color var(--t-theme);
+  display: flex;
+  flex-direction: column;
+}
+::selection { background: var(--selection-bg); color: var(--selection-text); }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--dim); }
+:focus-visible { outline: 2px solid var(--purple); outline-offset: 2px; border-radius: 2px; }
+
+button, a, input { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+
+/* ============ HEADER (giống web chính) ============ */
+.site-header {
+  padding: 60px 24px 32px;
+  text-align: center;
+  animation: riseIn .5s ease both;
+}
+.site-header h1 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 800;
+  letter-spacing: -.03em;
+  line-height: 1.05;
+  color: var(--text);
+}
+.site-header p {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  margin-top: 16px;
+}
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============ THEME TOGGLE (giống web chính) ============ */
+.header-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px 6px 6px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: background var(--t), border-color var(--t), color var(--t), transform var(--t);
+}
+.theme-toggle:hover {
+  border-color: var(--line-strong);
+  color: var(--text);
+  transform: translateY(-1px);
+}
+.theme-toggle-track {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  background: var(--surface-2);
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.theme-toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--purple);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 24px;
-  overflow-x: hidden;
+  transition: transform .35s cubic-bezier(.5, 1.6, .4, 1), background var(--t-theme);
+  box-shadow: var(--shadow-thumb);
 }
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(167, 139, 250, .12), transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(244, 114, 182, .1), transparent 50%);
-  pointer-events: none;
-  z-index: 0;
+[data-theme="light"] .theme-toggle-thumb {
+  transform: translateX(20px);
+  background: var(--amber, #fbbf24);
 }
-.verify-wrap {
+.theme-toggle .icon {
+  width: 11px;
+  height: 11px;
+  stroke-width: 2.5;
+  transition: opacity .25s ease, transform .35s ease;
+  position: absolute;
+}
+[data-theme="dark"] .theme-toggle .icon-sun { opacity: 0; transform: rotate(-90deg) scale(.5); }
+[data-theme="dark"] .theme-toggle .icon-moon { opacity: 1; transform: rotate(0) scale(1); color: #fff; }
+[data-theme="light"] .theme-toggle .icon-sun { opacity: 1; transform: rotate(0) scale(1); color: #fff; }
+[data-theme="light"] .theme-toggle .icon-moon { opacity: 0; transform: rotate(90deg) scale(.5); }
+.theme-toggle-label { min-width: 40px; text-align: left; }
+
+/* ============ MAIN ============ */
+main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 24px 60px;
+}
+
+/* ============ VERIFY CARD ============ */
+.verify-card {
   width: 100%;
   max-width: 440px;
   background: var(--surface);
-  border: 1px solid var(--line-strong);
-  border-radius: 16px;
-  padding: 40px 32px;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, .5);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 36px 32px;
   position: relative;
-  z-index: 1;
-  text-align: center;
-  animation: riseIn .5s cubic-bezier(.2, .8, .2, 1);
+  overflow: hidden;
+  animation: riseIn .5s ease .1s both;
 }
-@keyframes riseIn {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
+.verify-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--purple), var(--pink), var(--cyan));
+  transform: scaleX(1);
 }
-.verify-icon {
-  width: 80px;
-  height: 80px;
-  margin: 0 auto 24px;
+
+.verify-icon-wrap {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 22px;
   background: linear-gradient(135deg, var(--purple), var(--pink));
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 40px rgba(167, 139, 250, .5);
   animation: pulseGlow 2.5s ease-in-out infinite;
 }
 @keyframes pulseGlow {
-  0%, 100% { box-shadow: 0 0 30px rgba(167, 139, 250, .4); }
-  50% { box-shadow: 0 0 60px rgba(167, 139, 250, .8); }
+  0%, 100% { box-shadow: 0 0 24px rgba(167, 139, 250, .35); }
+  50% { box-shadow: 0 0 48px rgba(167, 139, 250, .65); }
 }
-.verify-icon svg { width: 40px; height: 40px; color: #fff; stroke-width: 2.5; }
+.verify-icon-wrap svg {
+  width: 34px;
+  height: 34px;
+  color: #fff;
+  stroke-width: 2.5;
+}
+
 .verify-title {
-  font-size: 1.5rem;
-  font-weight: 900;
+  font-size: 1.4rem;
+  font-weight: 800;
   letter-spacing: -.02em;
   color: var(--text);
-  margin-bottom: 12px;
-  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 8px;
 }
+.verify-title::after {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--purple);
+  border-radius: 50%;
+  margin-left: 8px;
+  vertical-align: middle;
+  animation: blink 1.2s steps(2, end) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
 .verify-sub {
-  font-size: .92rem;
-  color: var(--text-soft);
-  line-height: 1.6;
+  text-align: center;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: .1em;
+  text-transform: uppercase;
   margin-bottom: 28px;
 }
+
+/* ============ CAPTCHA BOX ============ */
 .captcha-box {
   background: var(--surface-2);
   border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 22px 20px;
-  margin-bottom: 20px;
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 18px;
 }
 .captcha-label {
   display: block;
-  font-size: .78rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
   font-weight: 700;
   color: var(--muted);
   text-transform: uppercase;
-  letter-spacing: .1em;
+  letter-spacing: .14em;
   margin-bottom: 14px;
+  text-align: center;
 }
 .captcha-row {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
-  gap: 12px;
+  gap: 10px;
 }
 .captcha-question {
   font-family: "JetBrains Mono", monospace;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 800;
   color: var(--purple);
-  padding: 12px 20px;
+  padding: 14px 20px;
   background: var(--surface);
-  border: 2px solid var(--purple);
-  border-radius: 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
   white-space: nowrap;
-  box-shadow: 0 0 20px rgba(167, 139, 250, .3);
+  display: flex;
+  align-items: center;
+  letter-spacing: .04em;
 }
 .captcha-input {
   flex: 1;
   min-width: 0;
-  max-width: 130px;
+  max-width: 120px;
   padding: 14px 16px;
   background: var(--surface);
-  border: 2px solid var(--line-strong);
-  border-radius: 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
   color: var(--text);
   font-family: "JetBrains Mono", monospace;
-  font-size: 1.3rem;
+  font-size: 1.25rem;
   font-weight: 800;
   text-align: center;
   outline: none;
-  transition: all .2s;
+  transition: all var(--t);
+  -webkit-appearance: none;
+  appearance: none;
 }
+.captcha-input::placeholder { color: var(--muted); opacity: .6; }
 .captcha-input:focus {
   border-color: var(--purple);
   box-shadow: 0 0 0 3px rgba(167, 139, 250, .15);
@@ -156,123 +355,273 @@ body::before {
   25% { transform: translateX(-6px); }
   75% { transform: translateX(6px); }
 }
+
+/* ============ BUTTON (giống .btn trong web chính) ============ */
 .verify-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
   width: 100%;
-  padding: 15px 24px;
-  background: linear-gradient(135deg, var(--purple), var(--pink));
-  color: #fff;
-  border: 0;
-  border-radius: 10px;
+  padding: 14px 18px;
+  border: 1px solid var(--purple);
+  border-radius: var(--radius);
+  background: var(--purple);
+  color: #000;
   font-family: inherit;
-  font-size: 1rem;
-  font-weight: 800;
+  font-size: .88rem;
+  font-weight: 700;
   letter-spacing: .08em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: all .25s cubic-bezier(.2, .8, .2, 1);
-  box-shadow: 0 8px 24px rgba(167, 139, 250, .4);
+  transition: background var(--t), color var(--t), border-color var(--t), transform var(--t);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+}
+.verify-btn::after {
+  content: '→';
+  font-family: "JetBrains Mono", monospace;
+  font-size: 1rem;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity var(--t), transform var(--t);
+}
+.verify-btn:hover:not(:disabled)::after {
+  opacity: 1;
+  transform: translateX(0);
 }
 .verify-btn:hover:not(:disabled) {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 32px rgba(167, 139, 250, .6);
+  background: var(--pink);
+  border-color: var(--pink);
+  transform: translateY(-2px);
 }
 .verify-btn:active { transform: translateY(0); }
 .verify-btn:disabled {
-  opacity: .5;
+  opacity: .6;
   cursor: not-allowed;
   transform: none;
 }
+.verify-btn:disabled::after { content: none; }
 .verify-btn svg {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   stroke-width: 2.5;
 }
+
+/* ============ ERROR ============ */
 .verify-error {
   margin-top: 14px;
   padding: 10px 14px;
   background: rgba(248, 113, 113, .1);
   border: 1px solid var(--red);
   color: var(--red);
-  border-radius: 8px;
-  font-size: .82rem;
+  border-radius: var(--radius);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: .04em;
+  text-align: center;
   display: none;
 }
-.verify-error.show { display: block; }
+.verify-error.show {
+  display: block;
+  animation: shake .4s;
+}
+
+/* ============ NOTE ============ */
 .verify-note {
   margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
   font-family: "JetBrains Mono", monospace;
   font-size: 10px;
   color: var(--muted);
   letter-spacing: .08em;
   text-transform: uppercase;
   line-height: 1.6;
+  text-align: center;
 }
 .verify-note strong { color: var(--pink); }
+
+/* ============ FOOTER ============ */
+footer {
+  text-align: center;
+  padding: 24px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  color: var(--dim);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  border-top: 1px solid var(--line);
+}
+footer small {
+  display: block;
+  margin-top: 6px;
+  font-size: 9px;
+  opacity: .6;
+}
+
+/* ============ TOAST ============ */
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 10000;
+  pointer-events: none;
+  max-width: calc(100vw - 48px);
+}
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+  color: var(--text);
+  font-size: .88rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-toast);
+  pointer-events: auto;
+  animation: toastIn .35s cubic-bezier(.2, .8, .2, 1) both;
+  min-width: 220px;
+  max-width: 380px;
+}
+.toast.toast-out { animation: toastOut .3s cubic-bezier(.4, 0, 1, 1) both; }
+.toast-icon { width: 18px; height: 18px; flex-shrink: 0; }
+.toast.success { border-color: var(--green); }
+.toast.success .toast-icon { color: var(--green); }
+.toast.error { border-color: var(--red); }
+.toast.error .toast-icon { color: var(--red); }
+.toast.info { border-color: var(--purple); }
+.toast.info .toast-icon { color: var(--purple); }
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(20px) scale(.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes toastOut { to { opacity: 0; transform: translateX(30px); } }
+
+/* ============ RESPONSIVE ============ */
 @media (max-width: 500px) {
-  .verify-wrap { padding: 32px 22px; }
-  .verify-icon { width: 68px; height: 68px; }
-  .verify-icon svg { width: 34px; height: 34px; }
-  .verify-title { font-size: 1.25rem; }
-  .captcha-question { font-size: 1.3rem; padding: 10px 14px; }
-  .captcha-input { font-size: 1.1rem; max-width: 100px; }
+  .site-header { padding: 40px 20px 24px; }
+  .site-header h1 { font-size: 1.6rem; }
+  .verify-card { padding: 28px 22px; }
+  .verify-icon-wrap { width: 60px; height: 60px; }
+  .verify-icon-wrap svg { width: 28px; height: 28px; }
+  .verify-title { font-size: 1.2rem; }
+  .captcha-question { font-size: 1.2rem; padding: 12px 16px; }
+  .captcha-input { font-size: 1.1rem; max-width: 90px; }
+  .toast-container {
+    bottom: 16px;
+    right: 16px;
+    left: 16px;
+    max-width: none;
+  }
+  .toast { width: 100%; min-width: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 </style>
 </head>
 <body>
 
-<div class="verify-wrap">
-  <div class="verify-icon">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-      <polyline points="9 12 11 14 15 10" />
-    </svg>
+<!-- HEADER -->
+<header class="site-header">
+  <h1>Xác Minh Robot</h1>
+  <p>Verify you are human</p>
+
+  <div class="header-actions">
+    <button class="theme-toggle" id="themeToggle" type="button"
+            aria-label="Chuyển chế độ sáng/tối"
+            title="Chuyển chế độ sáng/tối (Ctrl+Shift+L)">
+      <span class="theme-toggle-track" aria-hidden="true">
+        <span class="theme-toggle-thumb">
+          <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+          </svg>
+          <svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </span>
+      </span>
+      <span class="theme-toggle-label" data-role="theme-label">Dark</span>
+    </button>
   </div>
+</header>
 
-  <h1 class="verify-title">🤖 Xác Minh Robot</h1>
-  <p class="verify-sub">
-    Giải phép tính đơn giản bên dưới để truy cập web.
-  </p>
-
-  <div class="captcha-box">
-    <label class="captcha-label" for="captchaInput">🔒 Xác minh bạn là người</label>
-    <div class="captcha-row">
-      <div class="captcha-question" id="captchaQuestion">1 + 1 = ?</div>
-      <input
-        type="number"
-        class="captcha-input"
-        id="captchaInput"
-        placeholder="?"
-        autocomplete="off"
-        inputmode="numeric"
-      />
+<!-- MAIN -->
+<main>
+  <div class="verify-card">
+    <div class="verify-icon-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        <polyline points="9 12 11 14 15 10" />
+      </svg>
     </div>
+
+    <h2 class="verify-title">Kiểm tra bảo mật</h2>
+    <p class="verify-sub">Giải phép tính để tiếp tục</p>
+
+    <div class="captcha-box">
+      <label class="captcha-label" for="captchaInput">🔒 Xác minh bạn là người</label>
+      <div class="captcha-row">
+        <div class="captcha-question" id="captchaQuestion">1 + 1 = ?</div>
+        <input
+          type="number"
+          class="captcha-input"
+          id="captchaInput"
+          placeholder="?"
+          autocomplete="off"
+          inputmode="numeric"
+        />
+      </div>
+    </div>
+
+    <button id="verifyBtn" class="verify-btn" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12" />
+      </svg>
+      <span>XÁC MINH</span>
+    </button>
+
+    <div class="verify-error" id="verifyError"></div>
+
+    <p class="verify-note">
+      Sau khi xác minh, web sẽ tự mở khóa<br>
+      <strong>⏱️ Hiệu lực: 7 ngày</strong>
+    </p>
   </div>
+</main>
 
-  <button id="verifyBtn" class="verify-btn" type="button">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="20 6 9 17 4 12" />
-    </svg>
-    <span>XÁC MINH</span>
-  </button>
+<!-- FOOTER -->
+<footer>
+  &copy; 2026 Matchat67
+  <small>Trang web không liên kết với Roblox Corporation</small>
+</footer>
 
-  <div class="verify-error" id="verifyError"></div>
-
-  <p class="verify-note">
-    Sau khi xác minh, web sẽ tự mở khóa.<br>
-    <strong>⏱️ Hiệu lực: 7 ngày</strong>
-  </p>
-</div>
+<!-- TOAST -->
+<div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
 
 <script>
 // ============ CONFIG ============
 const VERIFY_CONFIG = {
   webUrl: 'https://kenhmatchat-executor.vercel.app/',
   storageKey: 'matchat_verified_until',
-  durationMs: 7 * 24 * 60 * 60 * 1000 // 7 ngày
+  durationMs: 7 * 24 * 60 * 60 * 1000,
+  themeKey: 'theme'
 };
 
 // ============ ĐÃ VERIFY RỒI → VÀO WEB ============
@@ -281,7 +630,63 @@ if (Date.now() < verifiedUntil) {
   window.location.replace(VERIFY_CONFIG.webUrl);
 }
 
-// ============ TẠO CAPTCHA ============
+// ============ THEME TOGGLE ============
+const themeToggle = document.getElementById('themeToggle');
+const themeLabel = document.querySelector('[data-role="theme-label"]');
+
+function updateThemeLabel(theme) {
+  if (themeLabel) themeLabel.textContent = theme === 'dark' ? 'Dark' : 'Light';
+}
+updateThemeLabel(document.documentElement.getAttribute('data-theme') || 'dark');
+
+themeToggle.addEventListener('click', () => {
+  const current = document.documentElement.getAttribute('data-theme') || 'dark';
+  const next = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem(VERIFY_CONFIG.themeKey, next);
+  updateThemeLabel(next);
+});
+
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'l') {
+    e.preventDefault();
+    themeToggle.click();
+  }
+});
+
+// ============ TOAST ============
+const TOAST_ICONS = {
+  success: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+  error: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
+  info: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>'
+};
+
+function showToast(message, type = 'info', duration = 3000) {
+  const container = document.getElementById('toastContainer');
+  if (!container) return;
+
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.setAttribute('role', 'status');
+
+  const iconWrap = document.createElement('span');
+  iconWrap.innerHTML = TOAST_ICONS[type] || TOAST_ICONS.info;
+
+  const text = document.createElement('span');
+  text.textContent = message;
+
+  toast.appendChild(iconWrap);
+  toast.appendChild(text);
+  container.appendChild(toast);
+
+  setTimeout(() => {
+    toast.classList.add('toast-out');
+    toast.addEventListener('animationend', () => toast.remove(), { once: true });
+    setTimeout(() => toast.remove(), 500);
+  }, duration);
+}
+
+// ============ CAPTCHA ============
 let captchaAnswer = 0;
 
 function generateCaptcha() {
@@ -311,14 +716,14 @@ function generateCaptcha() {
   document.getElementById('verifyError').classList.remove('show');
 }
 
-// ============ HANDLE XÁC MINH ============
+// ============ SUBMIT VERIFY ============
 const verifyBtn = document.getElementById('verifyBtn');
 const captchaInput = document.getElementById('captchaInput');
 const errorEl = document.getElementById('verifyError');
 
 function submitVerify() {
   const userAnswer = parseInt(captchaInput.value, 10);
-  
+
   if (isNaN(userAnswer)) {
     errorEl.textContent = '❌ Vui lòng nhập đáp án';
     errorEl.classList.add('show');
@@ -336,14 +741,16 @@ function submitVerify() {
     errorEl.classList.remove('show');
     verifyBtn.disabled = true;
     verifyBtn.innerHTML = '<span>✅ Đang vào web...</span>';
+    showToast('Xác minh thành công!', 'success', 1500);
     setTimeout(() => {
       window.location.replace(VERIFY_CONFIG.webUrl);
-    }, 500);
+    }, 700);
   } else {
     // Sai → hiện lỗi + tạo câu mới
-    errorEl.textContent = '❌ Sai đáp án. Thử lại câu khác!';
+    errorEl.textContent = '❌ Sai đáp án. Thử lại!';
     errorEl.classList.add('show');
     captchaInput.classList.add('error');
+    showToast('Sai đáp án, thử lại', 'error', 2000);
     setTimeout(() => {
       generateCaptcha();
       captchaInput.focus();
@@ -372,7 +779,10 @@ document.addEventListener('keydown', (e) => {
       VERIFY_CONFIG.storageKey,
       String(Date.now() + VERIFY_CONFIG.durationMs)
     );
-    window.location.replace(VERIFY_CONFIG.webUrl);
+    showToast('Đã bỏ qua xác minh (test)', 'info', 1000);
+    setTimeout(() => {
+      window.location.replace(VERIFY_CONFIG.webUrl);
+    }, 500);
   }
 });
 
