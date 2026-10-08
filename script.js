@@ -1,14 +1,4 @@
 // ============================================================
-// ⚠️ VERIFY CONFIG — SỬA 2 DÒNG NÀY SAU
-// ============================================================
-const VERIFY_CONFIG = {
-    verifyLink: 'https://vuotnhanh.com/HYVi',
-    token: 'matchat2026',
-    storageKey: 'matchat_verified_until',
-    verifyPage: 'verify.html'
-};
-
-// ============================================================
 // CẤU HÌNH BẢO TRÌ
 // ============================================================
 const MAINTENANCE_MODE = {
@@ -62,6 +52,15 @@ const THEME_CONFIG = {
 };
 
 // ============================================================
+// CẤU HÌNH VERIFY
+// ============================================================
+const VERIFY_CONFIG = {
+    storageKey: 'matchat_verified_until',
+    verifyPage: 'verify.html',
+    webUrl: 'https://kenhmatchat-executor.vercel.app/'
+};
+
+// ============================================================
 // UTILITIES
 // ============================================================
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -72,18 +71,11 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 (function checkVerify() {
     const verifiedUntil = parseInt(localStorage.getItem(VERIFY_CONFIG.storageKey) || '0', 10);
     if (Date.now() >= verifiedUntil) {
-        const params = new URLSearchParams(window.location.search);
-        if (params.get('verified') === VERIFY_CONFIG.token) {
-            localStorage.setItem(
-                VERIFY_CONFIG.storageKey,
-                String(Date.now() + 7 * 24 * 60 * 60 * 1000)
-            );
-            window.history.replaceState({}, '', window.location.pathname);
-        } else {
-            window.location.href = VERIFY_CONFIG.verifyPage;
-            return;
-        }
+        // Chưa verify → chuyển sang trang verify
+        window.location.replace(VERIFY_CONFIG.verifyPage);
+        return;
     }
+    // Đã verify → cho vào web
 })();
 
 // ============================================================
