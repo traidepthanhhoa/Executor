@@ -1,6 +1,17 @@
 /* ============================================================
    THEME TOKENS
    ============================================================ */
+:root {
+    --radius: 4px;
+    --radius-lg: 10px;
+    --t: 180ms cubic-bezier(.2, .8, .2, 1);
+    --t-theme: 300ms cubic-bezier(.4, 0, .2, 1);
+    --z-toast: 10000;
+    --z-discord: 9997;
+    --z-modal: 9998;
+    --z-loader: 9999;
+}
+
 :root,
 [data-theme="dark"] {
     --bg: #0a0a0a;
@@ -76,17 +87,6 @@
     --shadow-discord-hover: 0 12px 32px rgba(88, 101, 242, .4);
 }
 
-:root {
-    --radius: 4px;
-    --radius-lg: 10px;
-    --t: 180ms cubic-bezier(.2, .8, .2, 1);
-    --t-theme: 300ms cubic-bezier(.4, 0, .2, 1);
-    --z-toast: 10000;
-    --z-discord: 9997;
-    --z-modal: 9998;
-    --z-loader: 9999;
-}
-
 /* ============================================================
    RESET + BASE
    ============================================================ */
@@ -111,7 +111,6 @@ body {
     font-feature-settings: "ss01", "cv01";
     line-height: 1.5;
     transition: background var(--t-theme), color var(--t-theme);
-    /* #20: Gradient chạy nền */
     background-image:
         radial-gradient(ellipse at top, rgba(167, 139, 250, .06) 0%, transparent 50%),
         radial-gradient(ellipse at bottom right, rgba(244, 114, 182, .06) 0%, transparent 50%);
@@ -144,31 +143,9 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
 }
 
 /* ============================================================
-   TOP PROGRESS BAR (#12)
+   PROGRESS BARS (Top + Reading)
    ============================================================ */
-.top-progress {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: transparent;
-    z-index: 10001;
-    pointer-events: none;
-}
-
-.top-progress-fill {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, var(--purple), var(--pink), var(--cyan));
-    box-shadow: 0 0 10px var(--purple);
-    transition: width .2s ease, opacity .3s ease;
-    will-change: width, opacity;
-}
-
-/* ============================================================
-   READING PROGRESS BAR
-   ============================================================ */
+.top-progress,
 .reading-progress {
     position: fixed;
     top: 0;
@@ -176,21 +153,32 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
     width: 100%;
     height: 3px;
     background: transparent;
-    z-index: var(--z-toast);
     pointer-events: none;
-    display: none;
 }
 
+.top-progress { z-index: 10001; }
+.reading-progress { z-index: var(--z-toast); display: none; }
+
+.top-progress-fill,
 .reading-progress-fill {
     height: 100%;
     width: 0%;
     background: linear-gradient(90deg, var(--purple), var(--pink), var(--cyan));
+}
+
+.top-progress-fill {
+    box-shadow: 0 0 10px var(--purple);
+    transition: width .2s ease, opacity .3s ease;
+    will-change: width, opacity;
+}
+
+.reading-progress-fill {
     transition: width 80ms linear;
     box-shadow: 0 0 12px rgba(167, 139, 250, .6);
 }
 
 /* ============================================================
-   TOAST (#15)
+   TOAST
    ============================================================ */
 .toast-container {
     position: fixed;
@@ -223,15 +211,9 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
     transition: background var(--t-theme), border-color var(--t-theme), color var(--t-theme);
 }
 
-.toast.toast-out {
-    animation: toastOut .3s cubic-bezier(.4, 0, 1, 1) both;
-}
+.toast.toast-out { animation: toastOut .3s cubic-bezier(.4, 0, 1, 1) both; }
 
-.toast-icon {
-    width: 18px;
-    height: 18px;
-    flex-shrink: 0;
-}
+.toast-icon { width: 18px; height: 18px; flex-shrink: 0; }
 
 .toast.success { border-color: var(--green); }
 .toast.success .toast-icon { color: var(--green); }
@@ -241,35 +223,16 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
 .toast.info .toast-icon { color: var(--purple); }
 
 @keyframes toastIn {
-    from {
-        opacity: 0;
-        transform: translateX(60px) scale(.85);
-    }
-    60% {
-        transform: translateX(-4px) scale(1.02);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0) scale(1);
-    }
+    from { opacity: 0; transform: translateX(60px) scale(.85); }
+    60% { transform: translateX(-4px) scale(1.02); }
+    to { opacity: 1; transform: translateX(0) scale(1); }
 }
-
 @keyframes toastOut {
     to { opacity: 0; transform: translateX(30px); }
 }
 
-@media (max-width: 500px) {
-    .toast-container {
-        bottom: 76px;
-        right: 16px;
-        left: 16px;
-        max-width: none;
-    }
-    .toast { width: 100%; min-width: 0; }
-}
-
 /* ============================================================
-   LOADER (#11 - Neon mới)
+   LOADER
    ============================================================ */
 #loader {
     position: fixed;
@@ -299,7 +262,6 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
     border-radius: var(--radius-lg);
     transition: background var(--t-theme), border-color var(--t-theme);
 }
-
 .loader-container::before,
 .loader-container::after {
     content: '';
@@ -312,7 +274,6 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
 .loader-container::before { top: -1px; left: -1px; border-right: 0; border-bottom: 0; }
 .loader-container::after { bottom: -1px; right: -1px; border-left: 0; border-top: 0; }
 
-/* Neon spinner mới (#11) */
 .loader-neon {
     width: 64px;
     height: 64px;
@@ -440,7 +401,7 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
 }
 
 /* ============================================================
-   HEADER (#9 fade in)
+   HEADER
    ============================================================ */
 .site-header {
     padding: 80px 24px 32px;
@@ -594,7 +555,7 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
 }
 
 /* ============================================================
-   TABS (#13, #14)
+   TABS
    ============================================================ */
 .tab-bar {
     display: flex;
@@ -670,6 +631,7 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
     background: rgba(0, 0, 0, .25);
     color: #000;
 }
+
 /* ============================================================
    SEARCH
    ============================================================ */
@@ -756,7 +718,7 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
 }
 
 /* ============================================================
-   TAB CONTENT + SLIDE (#13)
+   TAB CONTENT
    ============================================================ */
 .tab-content { display: none; }
 .tab-content.active {
@@ -768,7 +730,6 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
     from { opacity: 0; transform: translateX(20px); }
     to { opacity: 1; transform: translateX(0); }
 }
-
 @keyframes riseIn {
     from { opacity: 0; transform: translateY(12px); }
     to { opacity: 1; transform: translateY(0); }
@@ -789,7 +750,7 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
 }
 
 /* ============================================================
-   CARD với ANIMATION (#1, #2, #3, #4, #5, #7)
+   CARD
    ============================================================ */
 .card {
     width: 100%;
@@ -811,10 +772,7 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
     transform-style: preserve-3d;
     will-change: transform;
 }
-
-.card.hidden {
-    display: none !important;
-}
+.card.hidden { display: none !important; }
 
 .card:nth-child(1) { animation-delay: .05s; }
 .card:nth-child(2) { animation-delay: .10s; }
@@ -824,7 +782,6 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
 .card:nth-child(6) { animation-delay: .30s; }
 .card:nth-child(7) { animation-delay: .35s; }
 
-/* #4: Nâng card khi hover */
 .card:hover {
     transform: translateY(-6px);
     border-color: var(--line-strong);
@@ -835,7 +792,6 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
         0 0 40px rgba(167, 139, 250, .2);
 }
 
-/* #1: Border gradient chạy */
 .card::before {
     content: '';
     position: absolute;
@@ -860,15 +816,12 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
     pointer-events: none;
     z-index: 0;
 }
-.card:hover::before {
-    opacity: 1;
-}
+.card:hover::before { opacity: 1; }
 
 @keyframes rotateBorder {
     to { transform: rotate(360deg); }
 }
 
-/* #2: Shine effect */
 .card::after {
     content: '';
     position: absolute;
@@ -889,11 +842,8 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
     pointer-events: none;
     z-index: 1;
 }
-.card:hover::after {
-    left: 150%;
-}
+.card:hover::after { left: 150%; }
 
-/* #3: Ripple effect */
 .ripple {
     position: absolute;
     border-radius: 50%;
@@ -909,10 +859,7 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
     z-index: 2;
 }
 @keyframes rippleAnim {
-    to {
-        transform: scale(4);
-        opacity: 0;
-    }
+    to { transform: scale(4); opacity: 0; }
 }
 
 .card.tilting {
@@ -950,13 +897,10 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
 .card-solara { --accent: var(--amber); }
 .card-xeno { --accent: var(--pink); }
 
-/* #5: Icon xoay */
 .card h2 > .pc-icon svg {
     transition: transform .5s cubic-bezier(.5, 1.6, .4, 1);
 }
-.card:hover h2 > .pc-icon {
-    transform: scale(1.1) rotate(8deg);
-}
+.card:hover h2 > .pc-icon { transform: scale(1.1) rotate(8deg); }
 
 /* ============================================================
    CARD UPDATED
@@ -980,7 +924,6 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
     position: relative;
     z-index: 3;
 }
-
 .card-updated svg {
     color: var(--purple);
     flex-shrink: 0;
@@ -997,7 +940,7 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
 .card-updated.stale svg { color: var(--red); opacity: 1; }
 
 /* ============================================================
-   BUTTONS với TEXT SHINE (#6) + PRESS (#17) + COUNTDOWN (#18) + SUCCESS (#19)
+   BUTTONS
    ============================================================ */
 .btn {
     width: 100%;
@@ -1027,12 +970,8 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
     z-index: 3;
 }
 
-/* #17: Nút lún khi nhấn */
-.btn.btn-pressing {
-    transform: scale(.96) translateY(1px);
-}
+.btn.btn-pressing { transform: scale(.96) translateY(1px); }
 
-/* #6: Text shine khi hover */
 .btn::before {
     content: '';
     position: absolute;
@@ -1051,9 +990,7 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
     pointer-events: none;
     z-index: 1;
 }
-.btn:hover::before {
-    left: 150%;
-}
+.btn:hover::before { left: 150%; }
 
 .btn::after {
     content: '→';
@@ -1086,10 +1023,7 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
 .btn:disabled::after { content: none; }
 .btn:disabled::before { display: none; }
 
-/* #18: Countdown animation */
-.btn.countdown-active {
-    animation: countdownPulse .5s ease-in-out;
-}
+.btn.countdown-active { animation: countdownPulse .5s ease-in-out; }
 .countdown-num {
     display: inline-block;
     font-family: "JetBrains Mono", monospace;
@@ -1107,10 +1041,7 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
     50% { transform: scale(1.08); }
 }
 
-/* #19: Success check */
-.btn.success-anim {
-    animation: successPop .5s cubic-bezier(.5, 1.6, .4, 1);
-}
+.btn.success-anim { animation: successPop .5s cubic-bezier(.5, 1.6, .4, 1); }
 @keyframes successPop {
     0% { transform: scale(1); }
     50% { transform: scale(1.05); }
@@ -1161,6 +1092,7 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
     letter-spacing: .06em;
     vertical-align: middle;
     transition: background var(--t-theme);
+    filter: drop-shadow(0 0 6px var(--red));
 }
 
 /* ============================================================
@@ -1182,7 +1114,6 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
     position: relative;
     z-index: 3;
 }
-
 .info span {
     display: flex;
     align-items: center;
@@ -1234,7 +1165,7 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
 .pc-icon svg { width: 12px; height: 12px; fill: currentColor; }
 
 /* ============================================================
-   #25: NEON GLOW cho elements
+   NEON GLOW
    ============================================================ */
 .tab-btn.active,
 .btn-client:hover,
@@ -1242,10 +1173,6 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
 .btn-pc:hover,
 .btn-pro:hover {
     filter: drop-shadow(0 0 8px currentColor);
-}
-
-.maintenance-badge {
-    filter: drop-shadow(0 0 6px var(--red));
 }
 
 .card:hover .pc-icon {
@@ -1278,13 +1205,11 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
         opacity .25s ease,
         visibility .25s ease;
 }
-
 .discord-float:hover {
     background: var(--discord-hover);
     transform: translateY(-4px) scale(1.02);
     box-shadow: var(--shadow-discord-hover);
 }
-
 .discord-float:active {
     transform: translateY(-2px) scale(0.98);
 }
@@ -1318,7 +1243,6 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
         opacity .25s ease,
         padding-right .35s cubic-bezier(.2, .8, .2, 1);
 }
-
 .discord-float:hover .discord-float-label {
     max-width: 140px;
     opacity: 1;
@@ -1333,7 +1257,6 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
     pointer-events: none;
     animation: discordPulse 2.4s cubic-bezier(.4, 0, .6, 1) infinite;
 }
-
 @keyframes discordPulse {
     0% { opacity: .8; transform: scale(1); }
     70% { opacity: 0; transform: scale(1.35); }
@@ -1978,7 +1901,7 @@ footer {
 }
 
 /* ============================================================
-   SKELETON (#10)
+   SKELETON
    ============================================================ */
 .skeleton-card {
     width: 100%;
@@ -2021,9 +1944,7 @@ footer {
    ============================================================ */
 @media (max-width: 900px) {
     .hero { flex-direction: column; align-items: center; }
-    .card:hover {
-        transform: translateY(-3px);
-    }
+    .card:hover { transform: translateY(-3px); }
 }
 
 @media (max-width: 500px) {
@@ -2071,6 +1992,14 @@ footer {
         align-items: flex-start;
         gap: 10px;
     }
+
+    .toast-container {
+        bottom: 76px;
+        right: 16px;
+        left: 16px;
+        max-width: none;
+    }
+    .toast { width: 100%; min-width: 0; }
 
     .notif-modal { max-width: 100%; }
     .notif-head { padding: 14px 16px; }
