@@ -11,7 +11,7 @@ const MAINTENANCE_MODE = {
     solara: false,
     xeno: false,
     umi: false,
-    volcano: false
+    volcano: false,
     nam: false,       
     nexomia: false    
 };
