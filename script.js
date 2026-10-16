@@ -1,41 +1,39 @@
 // ============================================================
-// CẤU HÌNH BẢO TRÌ
+// CẤU HÌNH BẢO TRÌ + DOWNLOAD (đọc từ config.json, bot Discord sẽ sửa file này)
+// Giá trị dưới đây chỉ là dự phòng khi không tải được config.json
 // ============================================================
-const MAINTENANCE_MODE = {
-    client: false,
-    nx: true,
-    pc: false,
-    px: false,
-    pv: false,
-    D32: false,
-    solara: false,
-    xeno: false,
-    umi: false,
-    volcano: false,
-    nam: false,       
-    nexomia: false    
-};
+let MAINTENANCE_MODE = {};
+let DOWNLOADS = {};
+let EXEC_CONFIG = {};
 
-// ============================================================
-// CẤU HÌNH DOWNLOAD
-// ============================================================
-const DOWNLOADS = {
-    client:  { url: 'https://vuotnhanh.com/BBDK', filename: 'Delta-v2.735.1138.apk' },
-    D32:     { url: 'https://vuotnhanh.com/olXP', filename: 'Delta-32bit-v2.736.1408.apk' },
-    nx:      { url: 'https://vuotnhanh.com/TxPF', filename: 'Roblox-Lite-NX-v3.0.1.apk' },
-    pc:      { url: 'https://vuotnhanh.com/CEGE', filename: 'Executor-PC-Real-v1.7.0.zip' },
-    px:      { url: 'https://vuotnhanh.com/fXSZ', filename: 'Executor-PC-Medium-v1.5.0.zip' },
-    pv:      { url: 'https://vuotnhanh.com/zij1', filename: 'Executor-PC-Velocity-v1.6.0.zip' },
-    solara:  {
-        url: 'https://4d38a1ec.solaraweb-alj.pages.dev/download/static/files/Bootstrapper.exe',
-        filename: 'Solara-Bootstrapper.exe'
-    },
-    xeno:    { url: 'https://xeno.now/', filename: 'Xeno-Executor.exe' },
-    umi:     { url: 'https://vuotnhanh.com/OSj9', filename: 'Umi-Executor.exe' },
-    volcano: { url: 'https://vuotnhanh.com/YANb', filename: 'Volcano-Executor.exe'},
-    nam:     { url: 'https://vuotnhanh.com/U0US', filename: 'Nam-Executor.exe' },
-    nexomia: { url: 'https://vuotnhanh.com/Krls', filename: 'Nexomia-Executor.exe' }
-};
+async function loadConfig() {
+    try {
+        const res = await fetch('config.json?t=' + Date.now(), { cache: 'no-store' });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        EXEC_CONFIG = data.executors || {};
+        MAINTENANCE_MODE = {};
+        DOWNLOADS = {};
+        Object.entries(EXEC_CONFIG).forEach(([key, c]) => {
+            MAINTENANCE_MODE[key] = Boolean(c.maintenance);
+            DOWNLOADS[key] = { url: c.url, filename: c.filename };
+        });
+    } catch (err) {
+        console.error('[Config] Không tải được config.json:', err);
+    }
+}
+
+function applyConfigToCards() {
+    document.querySelectorAll('.card[data-executor]').forEach((card) => {
+        const c = EXEC_CONFIG[card.dataset.executor];
+        if (!c) return;
+        if (c.updated) card.dataset.updated = c.updated;
+        if (c.version) {
+            const verEl = card.querySelector('.info span');
+            if (verEl) verEl.textContent = 'Version: ' + c.version;
+        }
+    });
+}
 
 // ============================================================
 // CẤU HÌNH THÔNG BÁO
@@ -83,8 +81,10 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 // ============================================================
 // BOOTSTRAP
 // ============================================================
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     console.log('[App] DOMContentLoaded');
+    await loadConfig();
+    applyConfigToCards();
     initTheme();
     initLoader();
     initTabs();
