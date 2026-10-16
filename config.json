@@ -1,0 +1,100 @@
+{
+  "executors": {
+    "client": {
+      "name": "Delta",
+      "maintenance": false,
+      "version": "2.741.1062",
+      "updated": "2026-10-13",
+      "url": "https://vuotnhanh.com/BBDK",
+      "filename": "Delta-v2.735.1138.apk"
+    },
+    "D32": {
+      "name": "Delta Font Mine",
+      "maintenance": false,
+      "version": "2.741.1062",
+      "updated": "2026-10-13",
+      "url": "https://vuotnhanh.com/olXP",
+      "filename": "Delta-32bit-v2.736.1408.apk"
+    },
+    "nx": {
+      "name": "Roblox Lite NX",
+      "maintenance": true,
+      "version": "3.0.1",
+      "updated": "2026-10-08",
+      "url": "https://vuotnhanh.com/TxPF",
+      "filename": "Roblox-Lite-NX-v3.0.1.apk"
+    },
+    "pc": {
+      "name": "Executor Real",
+      "maintenance": false,
+      "version": "1.7.0",
+      "updated": "2026-10-08",
+      "url": "https://vuotnhanh.com/CEGE",
+      "filename": "Executor-PC-Real-v1.7.0.zip"
+    },
+    "px": {
+      "name": "Executor Medium",
+      "maintenance": false,
+      "version": "1.5.0",
+      "updated": "2026-10-11",
+      "url": "https://vuotnhanh.com/fXSZ",
+      "filename": "Executor-PC-Medium-v1.5.0.zip"
+    },
+    "pv": {
+      "name": "Executor Velocity",
+      "maintenance": false,
+      "version": "1.3.7",
+      "updated": "2026-10-08",
+      "url": "https://vuotnhanh.com/zij1",
+      "filename": "Executor-PC-Velocity-v1.6.0.zip"
+    },
+    "solara": {
+      "name": "Solara",
+      "maintenance": false,
+      "version": "2.8.0",
+      "updated": "2026-10-08",
+      "url": "https://4d38a1ec.solaraweb-alj.pages.dev/download/static/files/Bootstrapper.exe",
+      "filename": "Solara-Bootstrapper.exe"
+    },
+    "xeno": {
+      "name": "Xeno",
+      "maintenance": false,
+      "version": "1.3.60",
+      "updated": "2026-10-08",
+      "url": "https://xeno.now/",
+      "filename": "Xeno-Executor.exe"
+    },
+    "umi": {
+      "name": "Umi Executor",
+      "maintenance": false,
+      "version": "1.0",
+      "updated": "2026-10-08",
+      "url": "https://vuotnhanh.com/OSj9",
+      "filename": "Umi-Executor.exe"
+    },
+    "volcano": {
+      "name": "Volcano Executor",
+      "maintenance": false,
+      "version": "1.0",
+      "updated": "2026-10-08",
+      "url": "https://vuotnhanh.com/YANb",
+      "filename": "Volcano-Executor.exe"
+    },
+    "nam": {
+      "name": "Nam Executor",
+      "maintenance": false,
+      "version": "1.0",
+      "updated": "2026-10-08",
+      "url": "https://vuotnhanh.com/U0US",
+      "filename": "Nam-Executor.exe"
+    },
+    "nexomia": {
+      "name": "Nexomia Executor",
+      "maintenance": false,
+      "version": "1.0",
+      "updated": "2026-10-08",
+      "url": "https://vuotnhanh.com/Krls",
+      "filename": "Nexomia-Executor.exe"
+    }
+  }
+}
