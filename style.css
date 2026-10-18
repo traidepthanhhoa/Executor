@@ -38,7 +38,6 @@
     --selection-bg: #a78bfa;
     --selection-text: #000;
     
-    /* Participle Glow Colors */
     --glow-color: rgba(255, 255, 255, 0.05);
     --glow-active: rgba(255, 255, 255, 0.1);
     --shadow-modal: 0 24px 60px rgba(0, 0, 0, .6);
@@ -73,7 +72,6 @@
     --selection-bg: #6d28d9;
     --selection-text: #ffffff;
     
-    /* Participle Glow Colors */
     --glow-color: rgba(0, 0, 0, 0.03);
     --glow-active: rgba(0, 0, 0, 0.06);
     --shadow-modal: 0 24px 60px rgba(0, 0, 0, .15);
