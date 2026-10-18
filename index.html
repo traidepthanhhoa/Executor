@@ -78,7 +78,13 @@
 
         /* Roblox PC version card — visual inspired by the supplied reference */
         .roblox-version-card {
-            grid-column: 1 / -1;
+            grid-column: auto;
+            display: flex;
+            flex-direction: column;
+            align-self: stretch;
+            min-height: 330px;
+            box-sizing: border-box;
+            padding: 20px;
             position: relative;
             overflow: hidden;
             min-width: 0;
@@ -112,10 +118,12 @@
         }
         .roblox-version-heading {
             display: flex;
-            align-items: center;
-            gap: 14px;
-            margin-bottom: 18px;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 22px;
         }
+        .roblox-version-heading > div { min-width: 0; }
+        .roblox-version-heading .pc-icon { margin-left: auto; flex-shrink: 0; }
         .roblox-mark {
             position: relative;
             display: inline-grid;
@@ -155,10 +163,12 @@
         }
         .roblox-version-row {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
+            flex: 1;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: flex-start;
             gap: 18px;
-            padding: 16px 18px;
+            padding: 16px;
             border: 1px solid rgba(255,255,255,.075);
             border-radius: 12px;
             background: rgba(255,255,255,.035);
@@ -180,7 +190,7 @@
         }
         .roblox-version-meta .windows-label { color: #e4e7e7; }
         .roblox-version-link {
-            display: inline-flex;
+            display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 12px;
@@ -202,6 +212,9 @@
             outline: none;
         }
         .roblox-version-link svg { flex: 0 0 18px; }
+        .roblox-version-card:hover { transform: none !important; }
+        .roblox-version-card.tilting { transform: none !important; }
+        .roblox-version-card .ripple { display: none !important; }
         .roblox-version-note {
             position: relative;
             z-index: 1;
@@ -211,7 +224,8 @@
             line-height: 1.5;
         }
         @media (max-width: 640px) {
-            .roblox-version-row { align-items: stretch; flex-direction: column; padding: 14px; }
+            .roblox-version-card { min-height: 0; padding: 16px; }
+            .roblox-version-row { padding: 14px; }
             .roblox-version-link { width: 100%; box-sizing: border-box; font-size: .78rem; }
             .roblox-version-heading { gap: 10px; }
         }
