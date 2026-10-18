@@ -875,7 +875,7 @@ function init3DTilt() {
 
     document.addEventListener('mousemove', (e) => {
         const card = e.target.closest('.card[data-executor]');
-        if (!card) return;
+        if (!card || card.classList.contains('roblox-version-card')) return;
 
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
@@ -891,7 +891,7 @@ function init3DTilt() {
 
     document.addEventListener('mouseout', (e) => {
         const card = e.target.closest('.card[data-executor]');
-        if (!card) return;
+        if (!card || card.classList.contains('roblox-version-card')) return;
         if (card.contains(e.relatedTarget)) return;
 
         card.style.transform = '';
@@ -903,7 +903,7 @@ function init3DTilt() {
 function initRippleEffect() {
     document.addEventListener('click', (e) => {
         const card = e.target.closest('.card[data-executor]');
-        if (!card) return;
+        if (!card || card.classList.contains('roblox-version-card')) return;
         // Không ripple khi click button
         if (e.target.closest('button')) return;
 
