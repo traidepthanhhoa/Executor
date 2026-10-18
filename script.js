@@ -929,6 +929,12 @@ function initRippleEffect() {
 function initCardStagger() {
     const cards = document.querySelectorAll('.card[data-executor]');
     cards.forEach((card, index) => {
+        // Roblox version panel stays static: no inline transform that can make it stretch on interaction.
+        if (card.classList.contains('roblox-version-card')) {
+            card.style.opacity = '1';
+            card.style.removeProperty('transform');
+            return;
+        }
         card.style.opacity = '0';
         card.style.transform = 'translateY(20px)';
         setTimeout(() => {
@@ -972,4 +978,16 @@ window.addEventListener('error', (e) => {
 
 window.addEventListener('unhandledrejection', (e) => {
     console.error('[Unhandled Promise]', e.reason);
+});
+
+
+// Roblox version panel: lock its geometry against legacy hover/click animations.
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.roblox-version-card').forEach((card) => {
+        card.style.setProperty('transform', 'none', 'important');
+        card.addEventListener('click', (event) => {
+            if (event.target.closest('a, button')) return;
+            event.preventDefault();
+        });
+    });
 });
