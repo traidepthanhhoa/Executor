@@ -75,6 +75,146 @@
             flex-wrap: wrap;
             gap: 4px;
         }
+
+        /* Roblox PC version card — visual inspired by the supplied reference */
+        .roblox-version-card {
+            grid-column: 1 / -1;
+            position: relative;
+            overflow: hidden;
+            min-width: 0;
+            border: 1px solid rgba(255,255,255,.10);
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(38,40,40,.98), rgba(28,30,30,.98));
+            box-shadow: 0 8px 26px rgba(0,0,0,.12);
+            transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+        }
+        .roblox-version-card::before {
+            content: "";
+            position: absolute;
+            inset: 0 0 0 auto;
+            width: 42%;
+            pointer-events: none;
+            opacity: .22;
+            background-image:
+                linear-gradient(rgba(255,255,255,.055) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,.055) 1px, transparent 1px);
+            background-size: 34px 34px;
+            transform: skewX(-13deg) translateX(18%);
+            mask-image: linear-gradient(90deg, transparent, #000);
+        }
+        .roblox-version-card:hover {
+            border-color: rgba(255,255,255,.2);
+            box-shadow: 0 14px 36px rgba(0,0,0,.22);
+        }
+        .roblox-version-heading, .roblox-version-row, .roblox-version-meta {
+            position: relative;
+            z-index: 1;
+        }
+        .roblox-version-heading {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+        .roblox-mark {
+            position: relative;
+            display: inline-grid;
+            place-items: center;
+            width: 38px;
+            height: 38px;
+            flex: 0 0 38px;
+            color: #fff;
+            transform: rotate(15deg);
+        }
+        .roblox-mark::before {
+            content: "";
+            width: 28px;
+            height: 28px;
+            background: currentColor;
+            display: block;
+        }
+        .roblox-mark::after {
+            content: "";
+            position: absolute;
+            width: 9px;
+            height: 9px;
+            background: #242626;
+            transform: rotate(0deg);
+        }
+        .roblox-version-title {
+            margin: 0;
+            color: #f8f8f8;
+            font-size: clamp(1.25rem, 2.2vw, 1.7rem);
+            font-weight: 800;
+            letter-spacing: -.035em;
+        }
+        .roblox-version-subtitle {
+            margin: 3px 0 0;
+            color: #aeb2b2;
+            font-size: .9rem;
+        }
+        .roblox-version-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            padding: 16px 18px;
+            border: 1px solid rgba(255,255,255,.075);
+            border-radius: 12px;
+            background: rgba(255,255,255,.035);
+        }
+        .roblox-version-label {
+            display: block;
+            color: #f4f4f4;
+            font-size: 1.05rem;
+            font-weight: 750;
+            margin-bottom: 5px;
+        }
+        .roblox-version-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px 16px;
+            color: #b7bbbb;
+            font-size: .88rem;
+        }
+        .roblox-version-meta .windows-label { color: #e4e7e7; }
+        .roblox-version-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            max-width: 100%;
+            padding: 12px 14px;
+            border: 1px solid rgba(255,255,255,.12);
+            border-radius: 10px;
+            background: rgba(0,0,0,.12);
+            color: #f7f7f7;
+            font-family: "JetBrains Mono", monospace;
+            font-size: .9rem;
+            text-decoration: none;
+            overflow-wrap: anywhere;
+            transition: background .2s ease, border-color .2s ease;
+        }
+        .roblox-version-link:hover, .roblox-version-link:focus-visible {
+            background: rgba(255,255,255,.09);
+            border-color: rgba(255,255,255,.32);
+            outline: none;
+        }
+        .roblox-version-link svg { flex: 0 0 18px; }
+        .roblox-version-note {
+            position: relative;
+            z-index: 1;
+            margin: 13px 0 0;
+            color: #9da2a2;
+            font-size: .78rem;
+            line-height: 1.5;
+        }
+        @media (max-width: 640px) {
+            .roblox-version-row { align-items: stretch; flex-direction: column; padding: 14px; }
+            .roblox-version-link { width: 100%; box-sizing: border-box; font-size: .78rem; }
+            .roblox-version-heading { gap: 10px; }
+        }
     </style>
 </head>
 <body>
@@ -202,8 +342,7 @@
             </div>
         </div>
     </div>
-
-    <header class="site-header">
+        <header class="site-header">
         <h1>Download Executor &amp; Client</h1>
         <p>Mobile Executor &amp; Best Client – PC Executor</p>
 
@@ -266,11 +405,11 @@
     <!-- TAB MOBILE -->
     <div class="tab-content active" id="tab-mobile" role="tabpanel" aria-labelledby="tab-mobile-btn">
         <section class="hero" aria-label="Executor cho Mobile">
-            <!-- DELTA -->
+            <!-- DELTA + LOGO -->
             <article class="card card-client" data-executor="client" data-name="Delta" data-updated="2026-10-13">
                 <h2>
                     <img class="executor-logo" src="https://i.postimg.cc/0bNDk5kX/1741705989265.webp" alt="Delta Executor logo" width="28" height="28" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
-                    Delta
+                    Download Delta
                     <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
                 </h2>
                 <p>Tải phiên bản mới nhất.</p>
@@ -278,38 +417,28 @@
                     <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                     <span class="updated-text">Đang tính...</span>
                 </p>
-                <button class="btn" data-role="download" type="button">
-                    <span class="btn-text">Windows Version</span>
-                    <span class="btn-version">
-                        2.741.1062
-                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                    </span>
-                </button>
+                <button class="btn btn-client" data-role="download" type="button">Download</button>
                 <div class="info info-client">
+                    <span>Version: 2.741.1062</span>
                     <span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span>
                 </div>
             </article>
 
-            <!-- DELTA 32-BIT -->
-            <article class="card card-client" data-executor="D32" data-name="Delta 32-bit" data-updated="2026-10-13">
+            <!-- DELTA FONT MINE + LOGO -->
+            <article class="card card-client" data-executor="D32" data-name="Delta Font Mine" data-updated="2026-10-13">
                 <h2>
-                    <img class="executor-logo" src="https://i.postimg.cc/0bNDk5kX/1741705989265.webp" alt="Delta 32-bit logo" width="28" height="28" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
-                    Delta 32-bit
+                    <img class="executor-logo" src="https://i.postimg.cc/0bNDk5kX/1741705989265.webp" alt="Delta Font Mine logo" width="28" height="28" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+                    Download Delta Font Mine
                     <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
                 </h2>
-                <p>Tải phiên bản 32-bit mới nhất.</p>
+                <p>Tải phiên bản font mine mới nhất.</p>
                 <p class="card-updated" data-role="updated">
                     <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                     <span class="updated-text">Đang tính...</span>
                 </p>
-                <button class="btn" data-role="download" type="button">
-                    <span class="btn-text">Windows Version</span>
-                    <span class="btn-version">
-                        2.741.1062
-                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                    </span>
-                </button>
+                <button class="btn btn-client" data-role="download" type="button">Download</button>
                 <div class="info info-client">
+                    <span>Version: 2.741.1062</span>
                     <span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span>
                 </div>
             </article>
@@ -319,43 +448,11 @@
     <!-- TAB PC -->
     <div class="tab-content" id="tab-pc" role="tabpanel" aria-labelledby="tab-pc-btn">
         <section class="hero" aria-label="Executor cho PC">
-
-            <!-- 🤖 ROBLOX PC -->
-            <article class="card card-roblox" data-executor="robloxpc" data-name="Roblox PC" data-updated="2026-10-13">
-                <h2>
-                    <img class="executor-logo" src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Roblox_player_icon_black.svg"
-                         alt="Roblox PC logo" width="28" height="28" loading="lazy" decoding="async" referrerpolicy="no-referrer"
-                         onerror="this.style.display='none'" />
-                    Roblox
-                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC">
-                        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z" /></svg>PC
-                    </span>
-                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
-                </h2>
-                <p>Roblox Player PC — bản LIVE mới nhất, tải nhanh không cần key.</p>
-                <p class="card-updated" data-role="updated">
-                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-                    </svg>
-                    <span class="updated-text">Đang tính...</span>
-                </p>
-                <button class="btn" data-role="download" type="button">
-                    <span class="btn-text">Windows Version</span>
-                    <span class="btn-version">
-                        11f155f3450f4c8e
-                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                    </span>
-                </button>
-                <div class="info info-pc">
-                    <span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span>
-                </div>
-            </article>
-
-            <!-- VOLCANO -->
+            <!-- VOLCANO + LOGO -->
             <article class="card card-nx" data-executor="volcano" data-name="Volcano Executor" data-updated="2026-10-08">
                 <h2>
                     <img class="executor-logo" src="https://i.postimg.cc/Hr22Svkc/volcano.png" alt="Volcano Executor logo" width="28" height="28" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
-                    Volcano
+                    Volcano Executor
                     <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z" /></svg>PC</span>
                     <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
                 </h2>
@@ -364,23 +461,18 @@
                     <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                     <span class="updated-text">Đang tính...</span>
                 </p>
-                <button class="btn" data-role="download" type="button">
-                    <span class="btn-text">Windows Version</span>
-                    <span class="btn-version">
-                        1.0.0
-                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                    </span>
-                </button>
+                <button class="btn btn-pc" data-role="download" type="button">Download</button>
                 <div class="info info-nx">
+                    <span>Version: 1.0</span>
                     <span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span>
                 </div>
             </article>
 
-            <!-- UMI -->
+            <!-- UMI + LOGO -->
             <article class="card card-pc" data-executor="umi" data-name="Umi Executor" data-updated="2026-10-08">
                 <h2>
                     <img class="executor-logo" src="https://i.postimg.cc/s1HCLK18/Thiet-ke-chua-co-ten.png" alt="Umi Executor logo" width="28" height="28" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
-                    Umi
+                    Umi Executor
                     <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z" /></svg>PC</span>
                     <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
                 </h2>
@@ -389,23 +481,18 @@
                     <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                     <span class="updated-text">Đang tính...</span>
                 </p>
-                <button class="btn" data-role="download" type="button">
-                    <span class="btn-text">Windows Version</span>
-                    <span class="btn-version">
-                        1.0.0
-                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                    </span>
-                </button>
+                <button class="btn btn-pc" data-role="download" type="button">Download</button>
                 <div class="info info-pc">
+                    <span>Version: 1.0</span>
                     <span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span>
                 </div>
             </article>
 
-            <!-- EXECUTOR REAL -->
+            <!-- EXECUTOR REAL + LOGO -->
             <article class="card card-pc" data-executor="pc" data-name="Executor Real" data-updated="2026-10-08">
                 <h2>
                     <img class="executor-logo" src="https://i.postimg.cc/LJRD3F24/logo.png" alt="Executor Real logo" width="28" height="28" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
-                    Real
+                    Executor Real
                     <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z" /></svg>PC</span>
                     <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
                 </h2>
@@ -414,23 +501,18 @@
                     <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                     <span class="updated-text">Đang tính...</span>
                 </p>
-                <button class="btn" data-role="download" type="button">
-                    <span class="btn-text">Windows Version</span>
-                    <span class="btn-version">
-                        1.7.0
-                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                    </span>
-                </button>
+                <button class="btn btn-pc" data-role="download" type="button">Download</button>
                 <div class="info info-pc">
+                    <span>Version: 1.7.0</span>
                     <span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span>
                 </div>
             </article>
 
-            <!-- EXECUTOR MADIUM -->
+            <!-- EXECUTOR MEDIUM (MADIUM) + LOGO -->
             <article class="card card-pc" data-executor="px" data-name="Executor Medium" data-updated="2026-10-11">
                 <h2>
                     <img class="executor-logo" src="https://i.postimg.cc/rzBQztH0/images-(2).jpg" alt="Executor Medium logo" width="28" height="28" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
-                    Madium
+                    Executor Madium
                     <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z" /></svg>PC</span>
                     <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
                 </h2>
@@ -439,23 +521,18 @@
                     <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                     <span class="updated-text">Đang tính...</span>
                 </p>
-                <button class="btn" data-role="download" type="button">
-                    <span class="btn-text">Windows Version</span>
-                    <span class="btn-version">
-                        1.5.0
-                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                    </span>
-                </button>
+                <button class="btn btn-pc" data-role="download" type="button">Download</button>
                 <div class="info info-pc">
+                    <span>Version: 1.5.0</span>
                     <span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span>
                 </div>
             </article>
 
-            <!-- VELOCITY -->
+            <!-- VELOCITY + LOGO -->
             <article class="card card-pc" data-executor="pv" data-name="Executor Velocity" data-updated="2026-10-08">
                 <h2>
                     <img class="executor-logo" src="https://i.postimg.cc/pm4D1NtV/velocity-logo.webp" alt="Executor Velocity logo" width="28" height="28" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
-                    Velocity
+                    Executor Velocity
                     <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z" /></svg>PC</span>
                     <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
                 </h2>
@@ -464,23 +541,18 @@
                     <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                     <span class="updated-text">Đang tính...</span>
                 </p>
-                <button class="btn" data-role="download" type="button">
-                    <span class="btn-text">Windows Version</span>
-                    <span class="btn-version">
-                        1.3.7
-                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                    </span>
-                </button>
+                <button class="btn btn-pc" data-role="download" type="button">Download</button>
                 <div class="info info-pc">
+                    <span>Version: 1.3.7</span>
                     <span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span>
                 </div>
             </article>
 
-            <!-- SOLARA -->
+            <!-- SOLARA + LOGO -->
             <article class="card card-solara" data-executor="solara" data-name="Solara" data-updated="2026-10-08">
                 <h2>
                     <img class="executor-logo" src="https://i.postimg.cc/NKS1Phwr/images-(3).jpg" alt="Solara Executor logo" width="28" height="28" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
-                    Solara
+                    Solara Executor
                     <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z" /></svg>PC</span>
                     <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
                 </h2>
@@ -489,23 +561,18 @@
                     <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                     <span class="updated-text">Đang tính...</span>
                 </p>
-                <button class="btn" data-role="download" type="button">
-                    <span class="btn-text">Windows Version</span>
-                    <span class="btn-version">
-                        2.8.0
-                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                    </span>
-                </button>
+                <button class="btn btn-pc" data-role="download" type="button">Download</button>
                 <div class="info info-solara">
+                    <span>Version: 2.8.0</span>
                     <span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span>
                 </div>
             </article>
 
-            <!-- XENO -->
+            <!-- XENO + LOGO -->
             <article class="card card-xeno" data-executor="xeno" data-name="Xeno" data-updated="2026-10-08">
                 <h2>
                     <img class="executor-logo" src="https://i.postimg.cc/JDcZnGHS/images-(4).jpg" alt="Xeno Executor logo" width="28" height="28" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
-                    Xeno
+                    Xeno Executor
                     <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z" /></svg>PC</span>
                     <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
                 </h2>
@@ -514,23 +581,18 @@
                     <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                     <span class="updated-text">Đang tính...</span>
                 </p>
-                <button class="btn" data-role="download" type="button">
-                    <span class="btn-text">Windows Version</span>
-                    <span class="btn-version">
-                        1.3.60
-                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                    </span>
-                </button>
+                <button class="btn btn-pc" data-role="download" type="button">Download</button>
                 <div class="info info-xeno">
+                    <span>Version: 1.3.60</span>
                     <span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span>
                 </div>
             </article>
 
-            <!-- NAM -->
+            <!-- ✅ NAM EXECUTOR + LOGO -->
             <article class="card card-pc" data-executor="nam" data-name="Nam Executor" data-updated="2026-10-08">
                 <h2>
                     <img class="executor-logo" src="https://i.postimg.cc/PNJ1hrrp/c492f993-f771-4dcb-853c-a7fa133bb0ed.png" alt="Nam Executor logo" width="28" height="28" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
-                    Nam
+                    Nam Executor
                     <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z" /></svg>PC</span>
                     <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
                 </h2>
@@ -539,23 +601,18 @@
                     <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                     <span class="updated-text">Đang tính...</span>
                 </p>
-                <button class="btn" data-role="download" type="button">
-                    <span class="btn-text">Windows Version</span>
-                    <span class="btn-version">
-                        1.0.0
-                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                    </span>
-                </button>
+                <button class="btn btn-pc" data-role="download" type="button">Download</button>
                 <div class="info info-pc">
+                    <span>Version: 1.0</span>
                     <span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span>
                 </div>
             </article>
 
-            <!-- NEXOMIA -->
+            <!-- ✅ NEXOMIA EXECUTOR + LOGO -->
             <article class="card card-pc" data-executor="nexomia" data-name="Nexomia Executor" data-updated="2026-10-08">
                 <h2>
                     <img class="executor-logo" src="https://i.postimg.cc/YjTLH6PH/30527f3c-55cf-4eae-b8cb-9c5d1b5f661e.png" alt="Nexomia Executor logo" width="28" height="28" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
-                    Nexomia
+                    Nexomia Executor
                     <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z" /></svg>PC</span>
                     <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
                 </h2>
@@ -564,16 +621,37 @@
                     <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                     <span class="updated-text">Đang tính...</span>
                 </p>
-                <button class="btn" data-role="download" type="button">
-                    <span class="btn-text">Windows Version</span>
-                    <span class="btn-version">
-                        1.0.0
-                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                    </span>
-                </button>
+                <button class="btn btn-pc" data-role="download" type="button">Download</button>
                 <div class="info info-pc">
+                    <span>Version: 1.0</span>
                     <span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span>
                 </div>
+            </article>
+
+            <!-- ROBLOX PC CLIENT VERSION -->
+            <article class="card roblox-version-card" data-executor="roblox-version" data-name="Roblox PC New Version Windows Player version-11f155f3450f4c8e">
+                <div class="roblox-version-heading">
+                    <span class="roblox-mark" aria-hidden="true"></span>
+                    <div>
+                        <h2 class="roblox-version-title">Roblox</h2>
+                        <p class="roblox-version-subtitle">Windows Version · PC Client</p>
+                    </div>
+                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z" /></svg>PC</span>
+                </div>
+                <div class="roblox-version-row">
+                    <div>
+                        <span class="roblox-version-label">Windows Version</span>
+                        <div class="roblox-version-meta">
+                            <span class="windows-label">Last Updated: 10/15/2026, 7:56:27 PM UTC</span>
+                            <span aria-label="New version">↻ New Version</span>
+                        </div>
+                    </div>
+                    <a class="roblox-version-link" href="https://rdd.weao.gg/?channel=LIVE&amp;binaryType=WindowsPlayer&amp;version=version-7a0c6d10fcb34a2c" target="_blank" rel="noopener noreferrer" aria-label="Tải Roblox PC Windows Player phiên bản được liên kết">
+                        <span>version-11f155f3450f4c8e</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    </a>
+                </div>
+                <p class="roblox-version-note">Mã phiên bản hiển thị theo ảnh bạn gửi. Khi nhấn vào mã, trang sẽ mở liên kết tải bạn đã cung cấp; mã trong URL hiện khác mã đang hiển thị.</p>
             </article>
         </section>
     </div>
@@ -634,4 +712,4 @@
 
     <script src="script.js" defer></script>
 </body>
-                            </html>
+</html>
