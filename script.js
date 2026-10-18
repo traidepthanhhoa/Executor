@@ -12,34 +12,29 @@ const MAINTENANCE_MODE = {
     xeno: false,
     umi: false,
     volcano: false,
-    nam: false,
-    nexomia: false,
-    robloxpc: false
+    nam: false,       
+    nexomia: false    
 };
 
 // ============================================================
 // CẤU HÌNH DOWNLOAD
 // ============================================================
 const DOWNLOADS = {
-    client:   { url: 'https://vuotnhanh.com/BBDK', filename: 'Delta-v2.735.1138.apk' },
-    D32:      { url: 'https://vuotnhanh.com/olXP', filename: 'Delta-32bit-v2.736.1408.apk' },
-    nx:       { url: 'https://vuotnhanh.com/TxPF', filename: 'Roblox-Lite-NX-v3.0.1.apk' },
-    pc:       { url: 'https://vuotnhanh.com/CEGE', filename: 'Executor-PC-Real-v1.7.0.zip' },
-    px:       { url: 'https://vuotnhanh.com/fXSZ', filename: 'Executor-PC-Medium-v1.5.0.zip' },
-    pv:       { url: 'https://vuotnhanh.com/zij1', filename: 'Executor-PC-Velocity-v1.6.0.zip' },
-    solara:   {
+    client:  { url: 'https://vuotnhanh.com/BBDK', filename: 'Delta-v2.735.1138.apk' },
+    D32:     { url: 'https://vuotnhanh.com/olXP', filename: 'Delta-32bit-v2.736.1408.apk' },
+    nx:      { url: 'https://vuotnhanh.com/TxPF', filename: 'Roblox-Lite-NX-v3.0.1.apk' },
+    pc:      { url: 'https://vuotnhanh.com/CEGE', filename: 'Executor-PC-Real-v1.7.0.zip' },
+    px:      { url: 'https://vuotnhanh.com/fXSZ', filename: 'Executor-PC-Medium-v1.5.0.zip' },
+    pv:      { url: 'https://vuotnhanh.com/zij1', filename: 'Executor-PC-Velocity-v1.6.0.zip' },
+    solara:  {
         url: 'https://4d38a1ec.solaraweb-alj.pages.dev/download/static/files/Bootstrapper.exe',
         filename: 'Solara-Bootstrapper.exe'
     },
-    xeno:     { url: 'https://xeno.now/', filename: 'Xeno-Executor.exe' },
-    umi:      { url: 'https://vuotnhanh.com/OSj9', filename: 'Umi-Executor.exe' },
-    volcano:  { url: 'https://vuotnhanh.com/YANb', filename: 'Volcano-Executor.exe' },
-    nam:      { url: 'https://vuotnhanh.com/U0US', filename: 'Nam-Executor.exe' },
-    nexomia:  { url: 'https://vuotnhanh.com/Krls', filename: 'Nexomia-Executor.exe' },
-    robloxpc: {
-        url: 'https://rdd.weao.gg/?channel=LIVE&binaryType=WindowsPlayer&version=version-7a0c6d10fcb34a2c',
-        filename: 'RobloxPlayerLauncher.exe'
-    }
+    xeno:    { url: 'https://xeno.now/', filename: 'Xeno-Executor.exe' },
+    umi:     { url: 'https://vuotnhanh.com/OSj9', filename: 'Umi-Executor.exe' },
+    volcano: { url: 'https://vuotnhanh.com/YANb', filename: 'Volcano-Executor.exe'},
+    nam:     { url: 'https://vuotnhanh.com/U0US', filename: 'Nam-Executor.exe' },
+    nexomia: { url: 'https://vuotnhanh.com/Krls', filename: 'Nexomia-Executor.exe' }
 };
 
 // ============================================================
@@ -61,7 +56,7 @@ const THEME_CONFIG = {
 };
 
 // ============================================================
-// CẤU HÌNH VERIFY (tạm tắt)
+// CẤU HÌNH VERIFY
 // ============================================================
 const VERIFY_CONFIG = {
     storageKey: 'matchat_verified_until',
@@ -75,14 +70,15 @@ const VERIFY_CONFIG = {
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // ============================================================
-// VERIFY CHECK — Đã tắt vì verify.html chưa tồn tại
+// VERIFY CHECK — Chặn nếu chưa verify
 // ============================================================
-// (function checkVerify() {
-//     const verifiedUntil = parseInt(localStorage.getItem(VERIFY_CONFIG.storageKey) || '0', 10);
-//     if (Date.now() >= verifiedUntil) {
-//         window.location.replace(VERIFY_CONFIG.verifyPage);
-//     }
-// })();
+(function checkVerify() {
+    const verifiedUntil = parseInt(localStorage.getItem(VERIFY_CONFIG.storageKey) || '0', 10);
+    if (Date.now() >= verifiedUntil) {
+        window.location.replace(VERIFY_CONFIG.verifyPage);
+        return;
+    }
+})();
 
 // ============================================================
 // BOOTSTRAP
@@ -102,11 +98,11 @@ document.addEventListener('DOMContentLoaded', () => {
     initDiscordFloat();
     initCookie();
     initInfoModal();
-    init3DTilt();
-    initRippleEffect();
-    initCardStagger();
-    initSkeletonLoader();
-    initTopProgress();
+    init3DTilt();          // ← ANIMATION #7
+    initRippleEffect();    // ← ANIMATION #3
+    initCardStagger();     // ← ANIMATION #8
+    initSkeletonLoader();  // ← ANIMATION #10
+    initTopProgress();     // ← ANIMATION #12
 });
 
 // ============================================================
@@ -212,7 +208,7 @@ function onLoaderDone() {
 }
 
 // ============================================================
-// 3️⃣ TABS
+// 3️⃣ TABS (với indicator trượt #14 + slide #13)
 // ============================================================
 function initTabs() {
     const tabBtns = document.querySelectorAll('.tab-btn');
@@ -249,6 +245,7 @@ function initTabs() {
                 if (el) {
                     el.classList.toggle('active', key === targetTab);
                     if (key === targetTab) {
+                        // Animation slide khi tab hiện
                         el.style.animation = 'none';
                         void el.offsetWidth;
                         el.style.animation = 'tabSlideIn .4s cubic-bezier(.2, .8, .2, 1)';
@@ -330,29 +327,20 @@ function initSearch() {
 // ============================================================
 function applyMaintenanceMode() {
     const cards = document.querySelectorAll('.card[data-executor]');
-    const counts = { mobile: 0, pc: 0 };
-
     cards.forEach((card) => {
         const key = card.dataset.executor;
         if (!key) return;
-
-        const tab = card.closest('#tab-mobile') ? 'mobile' : 'pc';
-        counts[tab] = (counts[tab] || 0) + 1;
-
         const btn = card.querySelector('[data-role="download"]');
         const badge = card.querySelector('[data-role="badge"]');
         const status = card.querySelector('[data-role="status"]');
         const dot = card.querySelector('.dot');
         const statusText = card.querySelector('.status-text');
         if (!btn) return;
-
         const isMaintenance = Boolean(MAINTENANCE_MODE[key]);
         btn.classList.toggle('btn-maintenance', isMaintenance);
         btn.textContent = isMaintenance ? '⛔ Đang bảo trì' : 'Download';
         btn.disabled = isMaintenance;
         btn.setAttribute('aria-disabled', isMaintenance ? 'true' : 'false');
-        btn.title = isMaintenance ? 'Executor đang bảo trì, vui lòng quay lại sau' : '';
-
         if (badge) badge.style.display = isMaintenance ? 'inline-block' : 'none';
         if (dot) {
             dot.classList.toggle('online-dot', !isMaintenance);
@@ -361,15 +349,10 @@ function applyMaintenanceMode() {
         if (statusText) statusText.textContent = isMaintenance ? 'Bảo trì' : 'Online';
         if (status) status.setAttribute('aria-label', isMaintenance ? 'Trạng thái: Bảo trì' : 'Trạng thái: Online');
     });
-
-    document.querySelectorAll('.tab-badge').forEach((b) => {
-        const k = b.dataset.count;
-        if (k && counts[k] !== undefined) b.textContent = counts[k];
-    });
 }
 
 // ============================================================
-// 6️⃣ DOWNLOAD
+// 6️⃣ DOWNLOAD (với countdown animation #18 + success check #19)
 // ============================================================
 function initDownloadButtons() {
     const buttons = document.querySelectorAll('[data-role="download"]');
@@ -390,6 +373,7 @@ async function handleDownload(key, btn) {
     const name = card?.dataset.name || 'Executor';
     if (!cfg) return;
 
+    // #17: Nút lún xuống khi click
     btn.classList.add('btn-pressing');
     setTimeout(() => btn.classList.remove('btn-pressing'), 200);
 
@@ -397,6 +381,7 @@ async function handleDownload(key, btn) {
     const originalDisabled = btn.disabled;
     btn.disabled = true;
 
+    // #18: Countdown với animation scale
     for (let i = 3; i > 0; i--) {
         btn.innerHTML = `<span class="countdown-num">${i}</span>`;
         btn.classList.add('countdown-active');
@@ -417,6 +402,7 @@ async function handleDownload(key, btn) {
         link.click();
         link.remove();
 
+        // #19: Success check với animation vẽ dần
         btn.innerHTML = '<svg class="success-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Tải thành công!';
         btn.style.background = 'linear-gradient(135deg, #10b981, #34d399)';
         btn.style.color = '#000';
@@ -440,7 +426,7 @@ async function handleDownload(key, btn) {
 }
 
 // ============================================================
-// 7️⃣ TOAST
+// 7️⃣ TOAST (với animation bay vào #15)
 // ============================================================
 const TOAST_ICONS = {
     success: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
@@ -456,29 +442,25 @@ function showToast(message, type = 'info', duration = 3000) {
     toast.innerHTML = (TOAST_ICONS[type] || TOAST_ICONS.info) + `<span>${message}</span>`;
     container.appendChild(toast);
     setTimeout(() => {
-        if (!toast.isConnected) return;
         toast.classList.add('toast-out');
         toast.addEventListener('animationend', () => toast.remove(), { once: true });
         setTimeout(() => toast.remove(), 500);
     }, duration);
 }
-
 // ============================================================
 // 8️⃣ NOTIFICATION
 // ============================================================
 let notifController = null;
 
 function initNotification() {
-    let shown = false;
-    const trigger = () => {
-        if (shown) return;
-        shown = true;
-        showNotificationIfNeeded();
-    };
     window.addEventListener('loader:done', () => {
-        setTimeout(trigger, NOTIFICATION_CONFIG.delayAfterLoader);
+        setTimeout(showNotificationIfNeeded, NOTIFICATION_CONFIG.delayAfterLoader);
     });
-    setTimeout(trigger, 5000);
+    setTimeout(() => {
+        if (!document.getElementById('notifOverlay')?.classList.contains('show')) {
+            showNotificationIfNeeded();
+        }
+    }, 5000);
 }
 
 function showNotificationIfNeeded() {
@@ -570,7 +552,6 @@ function openGuide() {
     const { signal } = guideController;
     overlay.classList.add('show');
     overlay.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('modal-open');
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && overlay.classList.contains('show')) closeGuide();
     }, { signal });
@@ -581,7 +562,6 @@ function closeGuide() {
     if (!overlay) return;
     overlay.classList.remove('show');
     overlay.setAttribute('aria-hidden', 'true');
-    document.body.classList.remove('modal-open');
     if (guideController) guideController.abort();
     guideController = null;
 }
@@ -622,12 +602,13 @@ function initReadingProgress() {
 }
 
 // ============================================================
-// 1️⃣2️⃣ TOP PROGRESS BAR
+// 1️⃣2️⃣ TOP PROGRESS BAR (#12)
 // ============================================================
 function initTopProgress() {
     const fill = document.getElementById('topProgressFill');
     if (!fill) return;
 
+    // Load animation: 0 → 100% trong 1.5s
     let progress = 0;
     const interval = setInterval(() => {
         progress += Math.random() * 15 + 5;
@@ -883,12 +864,11 @@ function initInfoModal() {
         if (e.key === 'Escape' && overlay.classList.contains('show')) closeInfoModal();
     });
 }
-
 // ============================================================
 // 🎬 ANIMATION FUNCTIONS
 // ============================================================
 
-// #7: 3D Tilt
+// #7: 3D Tilt cho card
 function init3DTilt() {
     if (window.matchMedia('(max-width: 900px)').matches) return;
     if (window.matchMedia('(hover: none)').matches) return;
@@ -896,9 +876,7 @@ function init3DTilt() {
     document.addEventListener('mousemove', (e) => {
         const card = e.target.closest('.card[data-executor]');
         if (!card) return;
-        if (card.dataset.baseTransform === undefined) {
-            card.dataset.baseTransform = card.style.transform || '';
-        }
+
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
@@ -906,6 +884,7 @@ function init3DTilt() {
         const cy = rect.height / 2;
         const rX = ((y - cy) / cy) * -4;
         const rY = ((x - cx) / cx) * 4;
+
         card.style.transform = `perspective(1000px) rotateX(${rX}deg) rotateY(${rY}deg) translateY(-6px)`;
         card.classList.add('tilting');
     });
@@ -914,17 +893,19 @@ function init3DTilt() {
         const card = e.target.closest('.card[data-executor]');
         if (!card) return;
         if (card.contains(e.relatedTarget)) return;
-        card.style.transform = card.dataset.baseTransform || '';
+
+        card.style.transform = '';
         card.classList.remove('tilting');
     });
 }
 
-// #3: Ripple effect
+// #3: Ripple effect khi click card
 function initRippleEffect() {
     document.addEventListener('click', (e) => {
         const card = e.target.closest('.card[data-executor]');
         if (!card) return;
-        if (e.target.closest('button') || e.target.closest('a')) return;
+        // Không ripple khi click button
+        if (e.target.closest('button')) return;
 
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
@@ -944,7 +925,7 @@ function initRippleEffect() {
     });
 }
 
-// #8: Card stagger
+// #8: Card xuất hiện từng cái (stagger)
 function initCardStagger() {
     const cards = document.querySelectorAll('.card[data-executor]');
     cards.forEach((card, index) => {
@@ -954,13 +935,14 @@ function initCardStagger() {
             card.style.transition = 'opacity .5s cubic-bezier(.2, .8, .2, 1), transform .5s cubic-bezier(.2, .8, .2, 1)';
             card.style.opacity = '1';
             card.style.transform = 'translateY(0)';
-            card.dataset.baseTransform = 'translateY(0)';
         }, 100 + index * 80);
     });
 }
 
-// #10: Skeleton loader (utility)
+// #10: Skeleton loading (khi search/tab đổi)
 function initSkeletonLoader() {
+    // Không cần thiết vì card đã có sẵn trong HTML
+    // Nhưng có thể dùng cho tương lai khi load từ API
     window.showSkeleton = function(container, count = 4) {
         if (!container) return;
         container.innerHTML = '';
