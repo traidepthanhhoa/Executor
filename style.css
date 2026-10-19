@@ -20,7 +20,7 @@
 /* DARK THEME (CYBERPUNK) */
 :root,
 [data-theme="dark"] {
-    --bg: #050510; /* Deep space black */
+    --bg: #050510; 
     --surface: #0a0a1a;
     --surface-2: #111126;
     --surface-hover: #16163a;
@@ -405,7 +405,7 @@ img, svg { display: block; max-width: 100%; }
 }
 .btn:hover:not(:disabled)::before { left: 100%; }
 
-/* FIX: Xóa logo Windows (không còn .btn::after, .btn::before chứa icon) */
+/* Xóa hoàn toàn logo Windows */
 .btn::after { content: none !important; display: none !important; }
 
 /* Trạng thái bảo trì */
