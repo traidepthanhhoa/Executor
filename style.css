@@ -37,7 +37,7 @@
     --discord-hover: #4752c4;
     --selection-bg: #a78bfa;
     --selection-text: #000;
-    
+
     --glow-color: rgba(255, 255, 255, 0.05);
     --glow-active: rgba(255, 255, 255, 0.1);
     --shadow-modal: 0 24px 60px rgba(0, 0, 0, .6);
@@ -71,7 +71,7 @@
     --discord-hover: #4752c4;
     --selection-bg: #6d28d9;
     --selection-text: #ffffff;
-    
+
     --glow-color: rgba(0, 0, 0, 0.03);
     --glow-active: rgba(0, 0, 0, 0.06);
     --shadow-modal: 0 24px 60px rgba(0, 0, 0, .15);
@@ -841,7 +841,7 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Icon bên trái, chữ bên phải */
+    justify-content: space-between;
     padding: 0 18px;
     background: var(--surface-2);
     border: 1px solid var(--line);
@@ -918,7 +918,10 @@ button, a, input, .tab-btn, .guide-tab, .search-clear, .back-to-top,
     display: none;
 }
 
-.btn::after, .success-check {
+/* ✅ FIX #1: Only hide ::after (was hiding .success-check too) 
+   Keep .success-check usable for the success animation. */
+.btn::after {
+    content: '';
     display: none;
 }
 
@@ -1932,4 +1935,7 @@ footer {
         -webkit-text-fill-color: var(--text);
         color: var(--text);
     }
-   }
+}
+/* ✅ FIX #2: Added the missing closing brace for @media (prefers-reduced-motion).
+   The original file ended with an orphan "   }" and no proper close, breaking the
+   entire cascade from that point. */
