@@ -875,7 +875,7 @@ function init3DTilt() {
 
     document.addEventListener('mousemove', (e) => {
         const card = e.target.closest('.card[data-executor]');
-        if (!card || card.classList.contains('roblox-version-card')) return;
+        if (!card || card.classList.contains('roblox-pc-panel')) return;
 
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
@@ -891,7 +891,7 @@ function init3DTilt() {
 
     document.addEventListener('mouseout', (e) => {
         const card = e.target.closest('.card[data-executor]');
-        if (!card || card.classList.contains('roblox-version-card')) return;
+        if (!card || card.classList.contains('roblox-pc-panel')) return;
         if (card.contains(e.relatedTarget)) return;
 
         card.style.transform = '';
@@ -903,7 +903,7 @@ function init3DTilt() {
 function initRippleEffect() {
     document.addEventListener('click', (e) => {
         const card = e.target.closest('.card[data-executor]');
-        if (!card || card.classList.contains('roblox-version-card')) return;
+        if (!card || card.classList.contains('roblox-pc-panel')) return;
         // Không ripple khi click button
         if (e.target.closest('button')) return;
 
@@ -929,8 +929,8 @@ function initRippleEffect() {
 function initCardStagger() {
     const cards = document.querySelectorAll('.card[data-executor]');
     cards.forEach((card, index) => {
-        // Roblox version panel stays static: no inline transform that can make it stretch on interaction.
-        if (card.classList.contains('roblox-version-card')) {
+        // Roblox PC panel stays static: no inline transform that can make it stretch on interaction.
+        if (card.classList.contains('roblox-pc-panel')) {
             card.style.opacity = '1';
             card.style.removeProperty('transform');
             return;
@@ -981,11 +981,11 @@ window.addEventListener('unhandledrejection', (e) => {
 });
 
 
-// Roblox version panel: lock its geometry against legacy hover/click animations.
+// Roblox PC panel: lock its geometry against legacy hover/click animations.
 document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.roblox-version-card').forEach((card) => {
-        card.style.setProperty('transform', 'none', 'important');
-        card.addEventListener('click', (event) => {
+    document.querySelectorAll('.roblox-pc-panel').forEach((panel) => {
+        panel.style.setProperty('transform', 'none', 'important');
+        panel.addEventListener('click', (event) => {
             if (event.target.closest('a, button')) return;
             event.preventDefault();
         });
