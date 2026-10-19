@@ -38,40 +38,14 @@ const DOWNLOADS = {
 };
 
 // ============================================================
-// CẤU HÌNH THÔNG BÁO
+// CẤU HÌNH THÔNG BÁO, THEME, VERIFY
 // ============================================================
-const NOTIFICATION_CONFIG = {
-    enabled: true,
-    hideDurationMs: 2 * 60 * 60 * 1000,
-    storageKey: 'matchat_notif_hide_until',
-    delayAfterLoader: 300
-};
-
-// ============================================================
-// CẤU HÌNH THEME
-// ============================================================
-const THEME_CONFIG = {
-    storageKey: 'theme',
-    labels: { dark: 'Dark', light: 'Light' }
-};
-
-// ============================================================
-// CẤU HÌNH VERIFY
-// ============================================================
-const VERIFY_CONFIG = {
-    storageKey: 'matchat_verified_until',
-    verifyPage: 'verify.html',
-    webUrl: 'https://kenhmatchat-executor.vercel.app/'
-};
-
-// ============================================================
-// UTILITIES
-// ============================================================
+const NOTIFICATION_CONFIG = { enabled: true, hideDurationMs: 2 * 60 * 60 * 1000, storageKey: 'matchat_notif_hide_until', delayAfterLoader: 300 };
+const THEME_CONFIG = { storageKey: 'theme', labels: { dark: 'Dark', light: 'Light' } };
+const VERIFY_CONFIG = { storageKey: 'matchat_verified_until', verifyPage: 'verify.html', webUrl: 'https://kenhmatchat-executor.vercel.app/' };
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// ============================================================
-// VERIFY CHECK — Chặn nếu chưa verify
-// ============================================================
+// VERIFY CHECK
 (function checkVerify() {
     const verifiedUntil = parseInt(localStorage.getItem(VERIFY_CONFIG.storageKey) || '0', 10);
     if (Date.now() >= verifiedUntil) {
@@ -80,11 +54,8 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     }
 })();
 
-// ============================================================
 // BOOTSTRAP
-// ============================================================
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('[App] DOMContentLoaded');
     initTheme();
     initLoader();
     initTabs();
@@ -98,65 +69,30 @@ document.addEventListener('DOMContentLoaded', () => {
     initDiscordFloat();
     initCookie();
     initInfoModal();
-    init3DTilt();          // ← ANIMATION #7
-    initRippleEffect();    // ← ANIMATION #3
-    initCardStagger();     // ← ANIMATION #8
-    initSkeletonLoader();  // ← ANIMATION #10
-    initTopProgress();     // ← ANIMATION #12
+    init3DTilt();
+    initRippleEffect();
+    initCardStagger();
+    initTopProgress();
 });
 
-// ============================================================
 // 1️⃣ THEME
-// ============================================================
 function initTheme() {
     const toggle = document.getElementById('themeToggle');
     const label = document.querySelector('[data-role="theme-label"]');
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-    updateThemeLabel(currentTheme, label);
+    if (label) label.textContent = THEME_CONFIG.labels[currentTheme] || 'Dark';
 
-    const mql = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleSystemChange = (e) => {
-        if (!localStorage.getItem(THEME_CONFIG.storageKey)) {
-            const newTheme = e.matches ? 'dark' : 'light';
-            applyTheme(newTheme);
-            updateThemeLabel(newTheme, label);
-        }
-    };
-    if (mql.addEventListener) mql.addEventListener('change', handleSystemChange);
-    else if (mql.addListener) mql.addListener(handleSystemChange);
     if (!toggle) return;
-
     toggle.addEventListener('click', () => {
         const current = document.documentElement.getAttribute('data-theme') || 'dark';
         const next = current === 'dark' ? 'light' : 'dark';
-        applyTheme(next);
+        document.documentElement.setAttribute('data-theme', next);
         localStorage.setItem(THEME_CONFIG.storageKey, next);
-        updateThemeLabel(next, label);
-    });
-
-    document.addEventListener('keydown', (e) => {
-        if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'l') {
-            e.preventDefault();
-            toggle.click();
-        }
+        if (label) label.textContent = THEME_CONFIG.labels[next];
     });
 }
 
-function applyTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    const metaTheme = document.querySelector('meta[name="theme-color"]');
-    if (metaTheme) {
-        metaTheme.setAttribute('content', theme === 'dark' ? '#0a0a0a' : '#fbfbfd');
-    }
-}
-
-function updateThemeLabel(theme, labelEl) {
-    if (labelEl) labelEl.textContent = THEME_CONFIG.labels[theme] || 'Dark';
-}
-
-// ============================================================
 // 2️⃣ LOADER
-// ============================================================
 function initLoader() {
     const loader = document.getElementById('loader');
     const percentage = document.getElementById('percentage');
@@ -166,165 +102,72 @@ function initLoader() {
         onLoaderDone();
         return;
     }
-
-    const DURATION = 1500;
-    const STEP_INTERVAL = 50;
-    const totalSteps = DURATION / STEP_INTERVAL;
-    let step = 0;
-    let finished = false;
-
+    let progress = 0;
     const interval = setInterval(() => {
-        step++;
-        const t = Math.min(1, step / totalSteps);
-        const progress = Math.round(100 * (1 - Math.pow(1 - t, 3)));
-        percentage.textContent = progress + '%';
+        progress += Math.random() * 15 + 5;
+        if (progress >= 100) progress = 100;
+        percentage.textContent = Math.floor(progress) + '%';
         loaderBar.style.width = progress + '%';
-        if (progress >= 100 && !finished) {
-            finished = true;
+        if (progress >= 100) {
             clearInterval(interval);
-            loaderBar.style.background = 'linear-gradient(90deg, #10b981, #34d399, #6ee7b7)';
             setTimeout(() => {
                 loader.classList.add('hidden');
                 onLoaderDone();
             }, 400);
         }
-    }, STEP_INTERVAL);
-
-    setTimeout(() => {
-        if (!finished) {
-            finished = true;
-            clearInterval(interval);
-            percentage.textContent = '100%';
-            loaderBar.style.width = '100%';
-            loader.classList.add('hidden');
-            onLoaderDone();
-        }
-    }, 4000);
+    }, 100);
 }
-
 function onLoaderDone() {
     applyMaintenanceMode();
     window.dispatchEvent(new CustomEvent('loader:done'));
 }
 
-// ============================================================
-// 3️⃣ TABS (với indicator trượt #14 + slide #13)
-// ============================================================
+// 3️⃣ TABS
 function initTabs() {
     const tabBtns = document.querySelectorAll('.tab-btn');
-    const tabContents = {
-        mobile: document.getElementById('tab-mobile'),
-        pc: document.getElementById('tab-pc')
-    };
-    const indicator = document.getElementById('tabIndicator');
-
-    function moveIndicator(btn) {
-        if (!indicator || !btn) return;
-        const barRect = btn.parentElement.getBoundingClientRect();
-        const btnRect = btn.getBoundingClientRect();
-        indicator.style.left = (btnRect.left - barRect.left) + 'px';
-        indicator.style.width = btnRect.width + 'px';
-    }
-
-    requestAnimationFrame(() => {
-        const active = document.querySelector('.tab-btn.active');
-        moveIndicator(active);
-    });
-
+    const tabContents = { mobile: document.getElementById('tab-mobile'), pc: document.getElementById('tab-pc') };
     tabBtns.forEach((btn) => {
         btn.addEventListener('click', () => {
             const targetTab = btn.dataset.tab;
             if (!targetTab || !tabContents[targetTab]) return;
             tabBtns.forEach((b) => {
-                const isActive = b === btn;
-                b.classList.toggle('active', isActive);
-                b.setAttribute('aria-selected', isActive ? 'true' : 'false');
+                b.classList.toggle('active', b === btn);
+                b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
             });
-            moveIndicator(btn);
             Object.entries(tabContents).forEach(([key, el]) => {
-                if (el) {
-                    el.classList.toggle('active', key === targetTab);
-                    if (key === targetTab) {
-                        // Animation slide khi tab hiện
-                        el.style.animation = 'none';
-                        void el.offsetWidth;
-                        el.style.animation = 'tabSlideIn .4s cubic-bezier(.2, .8, .2, 1)';
-                    }
-                }
+                if (el) el.classList.toggle('active', key === targetTab);
             });
         });
     });
-
-    window.addEventListener('resize', () => {
-        const active = document.querySelector('.tab-btn.active');
-        moveIndicator(active);
-    });
 }
 
-// ============================================================
 // 4️⃣ SEARCH
-// ============================================================
-let searchDebounce = null;
-
 function initSearch() {
     const input = document.getElementById('searchInput');
     const clearBtn = document.getElementById('searchClear');
     const emptyMsg = document.getElementById('searchEmpty');
     if (!input) return;
     const cards = document.querySelectorAll('.card[data-executor]');
-    if (cards.length === 0) return;
 
     const performSearch = () => {
         const query = (input.value || '').toLowerCase().trim();
         let visibleCount = 0;
         cards.forEach((card) => {
-            const name = (card.dataset.name || '').toLowerCase();
-            const key = (card.dataset.executor || '').toLowerCase();
-            const desc = (card.querySelector('p')?.textContent || '').toLowerCase();
-            const h2 = card.querySelector('h2');
-            let titleText = '';
-            if (h2) {
-                h2.childNodes.forEach((node) => {
-                    if (node.nodeType === 3) titleText += ' ' + node.textContent;
-                });
-                titleText = titleText.toLowerCase();
-            }
-            const match = !query || name.includes(query) || key.includes(query) || titleText.includes(query) || desc.includes(query);
-            if (match) {
-                card.classList.remove('hidden');
-                visibleCount++;
-            } else {
-                card.classList.add('hidden');
-            }
+            const text = card.textContent.toLowerCase();
+            const match = !query || text.includes(query);
+            card.classList.toggle('hidden', !match);
+            if (match) visibleCount++;
         });
         if (emptyMsg) emptyMsg.hidden = (visibleCount > 0 || !query);
         if (clearBtn) clearBtn.hidden = !query;
     };
 
-    const handleInput = () => {
-        clearTimeout(searchDebounce);
-        searchDebounce = setTimeout(performSearch, 150);
-    };
-
-    input.addEventListener('input', handleInput);
-    input.addEventListener('keyup', handleInput);
-    input.addEventListener('search', handleInput);
-    input.addEventListener('paste', () => setTimeout(performSearch, 50));
-    if (clearBtn) {
-        clearBtn.addEventListener('click', (e) => {
-            e.preventDefault(); e.stopPropagation();
-            input.value = ''; performSearch();
-        });
-    }
-    input.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') { input.value = ''; performSearch(); }
-    });
+    input.addEventListener('input', performSearch);
+    if (clearBtn) clearBtn.addEventListener('click', () => { input.value = ''; performSearch(); });
     performSearch();
 }
 
-// ============================================================
 // 5️⃣ MAINTENANCE MODE
-// ============================================================
 function applyMaintenanceMode() {
     const cards = document.querySelectorAll('.card[data-executor]');
     cards.forEach((card) => {
@@ -332,7 +175,6 @@ function applyMaintenanceMode() {
         if (!key) return;
         const btn = card.querySelector('[data-role="download"]');
         const badge = card.querySelector('[data-role="badge"]');
-        const status = card.querySelector('[data-role="status"]');
         const dot = card.querySelector('.dot');
         const statusText = card.querySelector('.status-text');
         if (!btn) return;
@@ -340,654 +182,218 @@ function applyMaintenanceMode() {
         btn.classList.toggle('btn-maintenance', isMaintenance);
         btn.textContent = isMaintenance ? '⛔ Đang bảo trì' : 'Download';
         btn.disabled = isMaintenance;
-        btn.setAttribute('aria-disabled', isMaintenance ? 'true' : 'false');
         if (badge) badge.style.display = isMaintenance ? 'inline-block' : 'none';
         if (dot) {
             dot.classList.toggle('online-dot', !isMaintenance);
             dot.classList.toggle('maintenance-dot', isMaintenance);
         }
         if (statusText) statusText.textContent = isMaintenance ? 'Bảo trì' : 'Online';
-        if (status) status.setAttribute('aria-label', isMaintenance ? 'Trạng thái: Bảo trì' : 'Trạng thái: Online');
     });
 }
 
-// ============================================================
-// 6️⃣ DOWNLOAD (với countdown animation #18 + success check #19)
-// ============================================================
+// 6️⃣ DOWNLOAD
 function initDownloadButtons() {
-    const buttons = document.querySelectorAll('[data-role="download"]');
-    buttons.forEach((btn) => {
+    document.querySelectorAll('[data-role="download"]').forEach((btn) => {
         btn.addEventListener('click', () => {
             const card = btn.closest('.card[data-executor]');
             const key = card?.dataset.executor;
-            if (!key) return;
-            handleDownload(key, btn);
+            if (key && !MAINTENANCE_MODE[key]) handleDownload(key, btn);
         });
     });
 }
 
 async function handleDownload(key, btn) {
-    if (MAINTENANCE_MODE[key]) return;
     const cfg = DOWNLOADS[key];
-    const card = btn.closest('.card[data-executor]');
-    const name = card?.dataset.name || 'Executor';
     if (!cfg) return;
-
-    // #17: Nút lún xuống khi click
-    btn.classList.add('btn-pressing');
-    setTimeout(() => btn.classList.remove('btn-pressing'), 200);
-
     const originalText = btn.textContent;
-    const originalDisabled = btn.disabled;
     btn.disabled = true;
-
-    // #18: Countdown với animation scale
     for (let i = 3; i > 0; i--) {
-        btn.innerHTML = `<span class="countdown-num">${i}</span>`;
-        btn.classList.add('countdown-active');
+        btn.textContent = `Chờ ${i}s...`;
         await sleep(1000);
-        btn.classList.remove('countdown-active');
     }
+    btn.textContent = 'Đang tải...';
+    await sleep(500);
+    
+    const link = document.createElement('a');
+    link.href = cfg.url;
+    link.download = cfg.filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
 
-    try {
-        btn.textContent = 'Đang tải...';
-        await sleep(300);
-
-        const link = document.createElement('a');
-        link.href = cfg.url;
-        link.download = cfg.filename;
-        link.rel = 'noopener noreferrer';
-        link.style.display = 'none';
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-
-        // #19: Success check với animation vẽ dần
-        btn.innerHTML = '<svg class="success-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Tải thành công!';
-        btn.style.background = 'linear-gradient(135deg, #10b981, #34d399)';
-        btn.style.color = '#000';
-        btn.style.borderColor = 'transparent';
-        btn.classList.add('success-anim');
-
-        showToast(`Đang tải ${name}...`, 'success');
-        await sleep(2200);
-    } catch (err) {
-        btn.textContent = 'Lỗi — thử lại';
-        showToast(`Lỗi tải ${name}`, 'error');
-        await sleep(2000);
-    } finally {
-        btn.textContent = originalText;
-        btn.disabled = originalDisabled;
-        btn.style.background = '';
-        btn.style.color = '';
-        btn.style.borderColor = '';
-        btn.classList.remove('success-anim');
-    }
+    btn.textContent = 'Tải thành công!';
+    btn.style.background = 'var(--green)';
+    btn.style.color = '#000';
+    showToast('Đang tải file...', 'success');
+    await sleep(2000);
+    
+    btn.textContent = originalText;
+    btn.disabled = false;
+    btn.style.background = '';
+    btn.style.color = '';
 }
 
-// ============================================================
-// 7️⃣ TOAST (với animation bay vào #15)
-// ============================================================
-const TOAST_ICONS = {
-    success: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
-    error: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
-    info: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>'
-};
-
-function showToast(message, type = 'info', duration = 3000) {
+// 7️⃣ TOAST
+function showToast(message, type = 'info') {
     const container = document.getElementById('toastContainer');
     if (!container) return;
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
-    toast.innerHTML = (TOAST_ICONS[type] || TOAST_ICONS.info) + `<span>${message}</span>`;
+    toast.innerHTML = `<span>${message}</span>`;
     container.appendChild(toast);
     setTimeout(() => {
-        toast.classList.add('toast-out');
-        toast.addEventListener('animationend', () => toast.remove(), { once: true });
-        setTimeout(() => toast.remove(), 500);
-    }, duration);
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
 }
-// ============================================================
-// 8️⃣ NOTIFICATION
-// ============================================================
-let notifController = null;
 
+// 8️⃣ NOTIFICATION
 function initNotification() {
     window.addEventListener('loader:done', () => {
         setTimeout(showNotificationIfNeeded, NOTIFICATION_CONFIG.delayAfterLoader);
     });
-    setTimeout(() => {
-        if (!document.getElementById('notifOverlay')?.classList.contains('show')) {
-            showNotificationIfNeeded();
-        }
-    }, 5000);
 }
-
 function showNotificationIfNeeded() {
     if (!NOTIFICATION_CONFIG.enabled) return;
     const overlay = document.getElementById('notifOverlay');
     if (!overlay) return;
     const until = parseInt(localStorage.getItem(NOTIFICATION_CONFIG.storageKey) || '0', 10);
     if (Date.now() < until) return;
-    if (overlay.classList.contains('show')) return;
-    if (notifController) notifController.abort();
-    notifController = new AbortController();
-    const { signal } = notifController;
-    const close = () => {
-        overlay.classList.remove('show');
-        overlay.setAttribute('aria-hidden', 'true');
-        if (notifController) notifController.abort();
-        notifController = null;
-    };
+    
     overlay.classList.add('show');
-    overlay.setAttribute('aria-hidden', 'false');
-    const closeBtn = document.getElementById('notifClose');
-    if (closeBtn) closeBtn.addEventListener('click', close, { signal });
-    const hideBtn = document.getElementById('notifHide');
-    if (hideBtn) {
-        hideBtn.addEventListener('click', () => {
-            localStorage.setItem(NOTIFICATION_CONFIG.storageKey, String(Date.now() + NOTIFICATION_CONFIG.hideDurationMs));
-            close();
-        }, { signal });
-    }
-    overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); }, { signal });
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && overlay.classList.contains('show')) close();
-    }, { signal });
+    const close = () => overlay.classList.remove('show');
+    
+    document.getElementById('notifClose').onclick = close;
+    document.getElementById('notifHide').onclick = () => {
+        localStorage.setItem(NOTIFICATION_CONFIG.storageKey, String(Date.now() + NOTIFICATION_CONFIG.hideDurationMs));
+        close();
+    };
 }
 
-// ============================================================
 // 9️⃣ GUIDE
-// ============================================================
-let guideController = null;
-
 function initGuide() {
     const openBtn = document.getElementById('guideOpen');
     const overlay = document.getElementById('guideOverlay');
     if (!openBtn || !overlay) return;
-    openBtn.addEventListener('click', openGuide);
-    const guideTabs = document.querySelectorAll('.guide-tab');
-    const guideContents = {
-        mobile: document.getElementById('guide-mobile'),
-        pc: document.getElementById('guide-pc')
-    };
-    guideTabs.forEach((tab) => {
-        tab.addEventListener('click', () => {
-            const target = tab.dataset.guideTab;
-            if (!target) return;
-            guideTabs.forEach((t) => {
-                const isActive = t === tab;
-                t.classList.toggle('active', isActive);
-                t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    
+    openBtn.addEventListener('click', () => overlay.classList.add('show'));
+    document.getElementById('guideClose').onclick = () => overlay.classList.remove('show');
+    document.getElementById('guideOk').onclick = () => overlay.classList.remove('show');
+    
+    const tabs = document.querySelectorAll('.guide-tab');
+    const contents = { mobile: document.getElementById('guide-mobile'), pc: document.getElementById('guide-pc') };
+    tabs.forEach(tab => {
+        tab.onclick = () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            Object.entries(contents).forEach(([k, el]) => {
+                if (el) el.classList.toggle('active', k === tab.dataset.guideTab);
             });
-            Object.entries(guideContents).forEach(([key, el]) => {
-                if (el) el.classList.toggle('active', key === target);
-            });
-        });
+        };
     });
-    const faqToggle = document.getElementById('faqToggle');
-    const faqList = document.getElementById('faqList');
-    if (faqToggle && faqList) {
-        faqToggle.addEventListener('click', (e) => {
-            e.preventDefault(); e.stopPropagation();
-            const isExpanded = faqToggle.getAttribute('aria-expanded') === 'true';
-            const willExpand = !isExpanded;
-            faqToggle.setAttribute('aria-expanded', String(willExpand));
-            if (willExpand) faqList.removeAttribute('hidden');
-            else faqList.setAttribute('hidden', '');
-        });
-    }
-    const closeBtn = document.getElementById('guideClose');
-    if (closeBtn) closeBtn.addEventListener('click', closeGuide);
-    const okBtn = document.getElementById('guideOk');
-    if (okBtn) okBtn.addEventListener('click', closeGuide);
-    overlay.addEventListener('click', (e) => { if (e.target === overlay) closeGuide(); });
 }
 
-function openGuide() {
-    const overlay = document.getElementById('guideOverlay');
-    if (!overlay || overlay.classList.contains('show')) return;
-    if (guideController) guideController.abort();
-    guideController = new AbortController();
-    const { signal } = guideController;
-    overlay.classList.add('show');
-    overlay.setAttribute('aria-hidden', 'false');
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && overlay.classList.contains('show')) closeGuide();
-    }, { signal });
-}
-
-function closeGuide() {
-    const overlay = document.getElementById('guideOverlay');
-    if (!overlay) return;
-    overlay.classList.remove('show');
-    overlay.setAttribute('aria-hidden', 'true');
-    if (guideController) guideController.abort();
-    guideController = null;
-}
-
-// ============================================================
-// 🔟 BACK TO TOP
-// ============================================================
+// 🔟 BACK TO TOP & PROGRESS
 function initBackToTop() {
     const btn = document.getElementById('backToTop');
     if (!btn) return;
-    btn.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+    btn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function initReadingProgress() {
+    const fill = document.getElementById('readingProgressFill');
+    const backTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const percent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        if (fill) fill.style.width = percent + '%';
+        if (backTop) backTop.classList.toggle('show', scrollTop > 400);
     });
 }
 
-// ============================================================
-// 1️⃣1️⃣ READING PROGRESS
-// ============================================================
-function initReadingProgress() {
-    const progressBar = document.getElementById('readingProgressFill');
-    const backTop = document.getElementById('backToTop');
-    let ticking = false;
-    const update = () => {
-        const scrollTop = window.scrollY || document.documentElement.scrollTop;
-        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const percent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-        if (progressBar) progressBar.style.width = Math.min(100, percent) + '%';
-        if (backTop) backTop.classList.toggle('show', scrollTop > 400);
-        ticking = false;
-    };
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            requestAnimationFrame(update);
-            ticking = true;
-        }
-    }, { passive: true });
-    update();
-}
-
-// ============================================================
-// 1️⃣2️⃣ TOP PROGRESS BAR (#12)
-// ============================================================
 function initTopProgress() {
     const fill = document.getElementById('topProgressFill');
     if (!fill) return;
-
-    // Load animation: 0 → 100% trong 1.5s
-    let progress = 0;
-    const interval = setInterval(() => {
-        progress += Math.random() * 15 + 5;
-        if (progress >= 100) {
-            progress = 100;
-            fill.style.width = '100%';
-            clearInterval(interval);
-            setTimeout(() => {
-                fill.style.opacity = '0';
-                setTimeout(() => {
-                    fill.style.width = '0%';
-                    fill.style.opacity = '1';
-                }, 300);
-            }, 400);
-        } else {
-            fill.style.width = progress + '%';
-        }
+    let p = 0;
+    const int = setInterval(() => {
+        p += Math.random() * 20;
+        if (p >= 100) {
+            p = 100; fill.style.width = '100%';
+            clearInterval(int);
+            setTimeout(() => { fill.style.opacity = '0'; }, 500);
+        } else fill.style.width = p + '%';
     }, 100);
 }
 
-// ============================================================
 // 📅 TIME AGO
-// ============================================================
 function initTimeAgo() {
-    const elements = document.querySelectorAll('[data-role="updated"]');
-    if (elements.length === 0) return;
-    const updateElement = (el) => {
+    document.querySelectorAll('[data-role="updated"]').forEach(el => {
         const card = el.closest('.card[data-executor]');
-        if (!card) return;
-        const dateStr = card.dataset.updated;
-        if (!dateStr) { el.style.display = 'none'; return; }
+        if (!card || !card.dataset.updated) return;
+        const d = new Date(card.dataset.updated);
         const textEl = el.querySelector('.updated-text');
-        if (!textEl) return;
-        const result = getTimeAgo(dateStr);
-        textEl.textContent = result.text;
-        el.classList.remove('fresh', 'recent', 'old', 'stale');
-        el.classList.add(result.class);
-        el.title = result.fullDate;
-    };
-    elements.forEach(updateElement);
-    setInterval(() => elements.forEach(updateElement), 60 * 60 * 1000);
+        if (textEl) textEl.textContent = 'Cập nhật ' + d.toLocaleDateString('vi-VN');
+    });
 }
 
-function getTimeAgo(dateStr) {
-    const now = new Date();
-    const past = new Date(dateStr + 'T00:00:00');
-    if (isNaN(past.getTime())) return { text: 'Không rõ ngày cập nhật', class: 'old', fullDate: '' };
-    const fullDate = past.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
-    const diffMs = now - past;
-    const diffSeconds = Math.floor(diffMs / 1000);
-    const diffMinutes = Math.floor(diffSeconds / 60);
-    const diffHours = Math.floor(diffMinutes / 60);
-    const diffDays = Math.floor(diffHours / 24);
-    const diffWeeks = Math.floor(diffDays / 7);
-    const diffMonths = Math.floor(diffDays / 30);
-    const diffYears = Math.floor(diffDays / 365);
-
-    let cls;
-    if (diffDays > 180) cls = 'stale';
-    else if (diffDays > 90) cls = 'old';
-    else if (diffDays > 30) cls = 'recent';
-    else cls = 'fresh';
-
-    let text = '';
-    if (diffSeconds < 60) text = 'Vừa mới cập nhật';
-    else if (diffMinutes < 60) text = `${diffMinutes} phút trước`;
-    else if (diffHours < 24) text = `${diffHours} giờ trước`;
-    else if (diffDays === 1) text = 'Hôm qua';
-    else if (diffDays < 7) text = `${diffDays} ngày trước`;
-    else if (diffWeeks === 1) text = '1 tuần trước';
-    else if (diffWeeks < 5) text = `${diffWeeks} tuần trước`;
-    else if (diffMonths === 1) text = '1 tháng trước';
-    else if (diffMonths < 12) text = `${diffMonths} tháng trước`;
-    else if (diffYears === 1) text = '1 năm trước';
-    else text = `${diffYears} năm trước`;
-
-    return { text: `Cập nhật ${text.toLowerCase()}`, class: cls, fullDate: `Cập nhật lần cuối: ${fullDate}` };
-}
-
-// ============================================================
-// 💬 DISCORD FLOAT
-// ============================================================
+// 💬 DISCORD FLOAT, COOKIE, INFO
 function initDiscordFloat() {
-    const btn = document.getElementById('discordFloat');
-    if (!btn) return;
     const overlayIds = ['notifOverlay', 'guideOverlay', 'infoOverlay'];
     const updateModalState = () => {
-        const anyModalOpen = overlayIds.some((id) => document.getElementById(id)?.classList.contains('show'));
-        document.body.classList.toggle('modal-open', anyModalOpen);
+        const anyOpen = overlayIds.some(id => document.getElementById(id)?.classList.contains('show'));
+        document.body.classList.toggle('modal-open', anyOpen);
     };
-    overlayIds.forEach((id) => {
+    overlayIds.forEach(id => {
         const el = document.getElementById(id);
-        if (!el) return;
-        const observer = new MutationObserver(updateModalState);
-        observer.observe(el, { attributes: true, attributeFilter: ['class'] });
+        if (el) new MutationObserver(updateModalState).observe(el, { attributes: true, attributeFilter: ['class'] });
     });
 }
 
-// ============================================================
-// 🍪 COOKIE
-// ============================================================
 function initCookie() {
     const banner = document.getElementById('cookieBanner');
-    const acceptBtn = document.getElementById('cookieAccept');
-    const declineBtn = document.getElementById('cookieDecline');
     if (!banner) return;
-    const KEY = 'matchat_cookie_accepted';
-    const saved = localStorage.getItem(KEY);
-    if (!saved) {
-        setTimeout(() => { banner.hidden = false; }, 1500);
-    }
-    const hideBanner = (value) => {
-        localStorage.setItem(KEY, value);
-        banner.classList.add('hide');
-        setTimeout(() => {
-            banner.hidden = true;
-            banner.classList.remove('hide');
-        }, 350);
-    };
-    if (acceptBtn) acceptBtn.addEventListener('click', () => {
-        hideBanner('1');
-        showToast('Đã chấp nhận cookies', 'success');
-    });
-    if (declineBtn) declineBtn.addEventListener('click', () => {
-        hideBanner('0');
-        showToast('Đã từ chối cookies', 'info');
-    });
-}
-
-// ============================================================
-// 📄 INFO MODAL
-// ============================================================
-const INFO_CONTENT = {
-    about: {
-        eyebrow: 'Giới thiệu',
-        title: 'About Matchat67',
-        body: `
-            <h4>⚡ Matchat67 Executor</h4>
-            <p>Website tổng hợp Executor &amp; Client Roblox miễn phí, cập nhật liên tục với các tool hot nhất 2026: Delta, Solara, Xeno, Umi, Volcano và nhiều tool khác.</p>
-            <h4>🎯 Sứ mệnh</h4>
-            <ul>
-                <li>Cung cấp executor miễn phí, chất lượng cao</li>
-                <li>Cập nhật liên tục khi Roblox có bản mới</li>
-                <li>Xây dựng cộng đồng chia sẻ, hỗ trợ lẫn nhau</li>
-            </ul>
-            <h4>💬 Liên hệ</h4>
-            <p>Tham gia Discord: <a href="https://discord.gg/GrTCy2DHEX" target="_blank">discord.gg/GrTCy2DHEX</a></p>
-        `
-    },
-    terms: {
-        eyebrow: 'Điều khoản',
-        title: 'Terms of Service',
-        body: `
-            <h4>📜 Điều khoản sử dụng</h4>
-            <p>Bằng việc truy cập website, bạn đồng ý với các điều khoản sau:</p>
-            <h4>1. Mục đích sử dụng</h4>
-            <p>Executor trên web được cung cấp cho mục đích học tập, nghiên cứu và giải trí cá nhân.</p>
-            <h4>2. Trách nhiệm người dùng</h4>
-            <ul>
-                <li>Không sử dụng executor cho mục đích gây hại</li>
-                <li>Không bán lại, không phân phối lại với mục đích thương mại</li>
-                <li>Chấp nhận rủi ro có thể bị ban tài khoản Roblox</li>
-            </ul>
-            <h4>3. Miễn trừ trách nhiệm</h4>
-            <p>Chúng tôi không chịu trách nhiệm về bất kỳ thiệt hại nào phát sinh từ việc sử dụng executor trên web.</p>
-        `
-    },
-    privacy: {
-        eyebrow: 'Quyền riêng tư',
-        title: 'Privacy Policy',
-        body: `
-            <h4>🔒 Chính sách bảo mật</h4>
-            <p>Website tôn trọng quyền riêng tư của bạn. Chúng tôi thu thập tối thiểu dữ liệu:</p>
-            <h4>1. Dữ liệu thu thập</h4>
-            <ul>
-                <li><strong>Cookies / localStorage:</strong> Ghi nhớ theme, ngôn ngữ, lựa chọn cookie</li>
-                <li><strong>Không thu thập:</strong> Email, mật khẩu, thông tin cá nhân</li>
-            </ul>
-            <h4>2. Cách sử dụng</h4>
-            <p>Chỉ dùng để cải thiện trải nghiệm. Không bán, không chia sẻ cho bên thứ ba.</p>
-            <h4>3. Quyền của bạn</h4>
-            <p>Bạn có thể xoá cookies/localStorage bất kỳ lúc nào bằng cách xoá dữ liệu trình duyệt.</p>
-        `
-    },
-    legal: {
-        eyebrow: 'Pháp lý',
-        title: 'Legal Disclaimer',
-        body: `
-            <h4>⚖️ Tuyên bố miễn trừ</h4>
-            <p><strong>Website này KHÔNG liên kết với Roblox Corporation.</strong></p>
-            <p>Roblox là thương hiệu đã đăng ký của Roblox Corporation. Mọi thương hiệu, logo đều thuộc về chủ sở hữu gốc.</p>
-            <h4>1. Sử dụng executor</h4>
-            <p>Việc sử dụng executor có thể vi phạm <a href="https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use" target="_blank">Điều khoản của Roblox</a>. Bạn tự chịu trách nhiệm.</p>
-            <h4>2. Nội dung bên thứ ba</h4>
-            <p>Executor được tổng hợp từ nguồn công khai. Chúng tôi không chịu trách nhiệm về nội dung bên thứ ba.</p>
-            <h4>3. DMCA</h4>
-            <p>Nếu bạn là tác giả và muốn gỡ executor, liên hệ Discord để xử lý trong 48h.</p>
-        `
-    },
-    contact: {
-        eyebrow: 'Liên hệ',
-        title: 'Contact Us',
-        body: `
-            <h4>📬 Liên hệ với chúng tôi</h4>
-            <p>Có câu hỏi, báo lỗi, hoặc đóng góp? Liên hệ qua:</p>
-            <h4>💬 Discord (nhanh nhất)</h4>
-            <p>👉 <a href="https://discord.gg/GrTCy2DHEX" target="_blank"><strong>discord.gg/GrTCy2DHEX</strong></a></p>
-            <h4>📧 Email</h4>
-            <p><a href="mailto:kenhmatchat@gmail.com">kenhmatchat@gmail.com</a></p>
-            <h4>⏱️ Thời gian phản hồi</h4>
-            <ul>
-                <li>Discord: trong 1-2 giờ</li>
-                <li>Email: trong 24-48 giờ</li>
-            </ul>
-        `
-    }
-};
-
-function openInfoModal(key) {
-    const info = INFO_CONTENT[key];
-    if (!info) return;
-    const overlay = document.getElementById('infoOverlay');
-    if (!overlay) return;
-    const eyebrowEl = document.getElementById('infoEyebrow');
-    const titleEl = document.getElementById('infoTitle');
-    const bodyEl = document.getElementById('infoBody');
-    if (eyebrowEl) eyebrowEl.textContent = info.eyebrow;
-    if (titleEl) titleEl.textContent = info.title;
-    if (bodyEl) bodyEl.innerHTML = info.body;
-    overlay.classList.add('show');
-    overlay.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('modal-open');
-}
-
-function closeInfoModal() {
-    const overlay = document.getElementById('infoOverlay');
-    if (!overlay) return;
-    overlay.classList.remove('show');
-    overlay.setAttribute('aria-hidden', 'true');
-    document.body.classList.remove('modal-open');
+    if (!localStorage.getItem('cookie_accepted')) setTimeout(() => banner.hidden = false, 2000);
+    document.getElementById('cookieAccept').onclick = () => { localStorage.setItem('cookie_accepted', '1'); banner.hidden = true; };
+    document.getElementById('cookieDecline').onclick = () => { localStorage.setItem('cookie_accepted', '0'); banner.hidden = true; };
 }
 
 function initInfoModal() {
     const overlay = document.getElementById('infoOverlay');
     if (!overlay) return;
-    document.querySelectorAll('[data-info]').forEach((btn) => {
-        btn.addEventListener('click', () => openInfoModal(btn.dataset.info));
+    document.querySelectorAll('[data-info]').forEach(btn => {
+        btn.onclick = () => {
+            document.getElementById('infoTitle').textContent = btn.textContent;
+            document.getElementById('infoBody').innerHTML = `<p>Nội dung cho mục <b>${btn.textContent}</b> đang được cập nhật...</p>`;
+            overlay.classList.add('show');
+        };
     });
-    const closeBtn = document.getElementById('infoClose');
-    if (closeBtn) closeBtn.addEventListener('click', closeInfoModal);
-    overlay.addEventListener('click', (e) => { if (e.target === overlay) closeInfoModal(); });
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && overlay.classList.contains('show')) closeInfoModal();
-    });
+    document.getElementById('infoClose').onclick = () => overlay.classList.remove('show');
+    overlay.onclick = (e) => { if (e.target === overlay) overlay.classList.remove('show'); };
 }
-// ============================================================
-// 🎬 ANIMATION FUNCTIONS
-// ============================================================
 
-// #7: 3D Tilt cho card
+// 🎬 ANIMATIONS (Basic)
 function init3DTilt() {
     if (window.matchMedia('(max-width: 900px)').matches) return;
-    if (window.matchMedia('(hover: none)').matches) return;
-
     document.addEventListener('mousemove', (e) => {
         const card = e.target.closest('.card[data-executor]');
         if (!card || card.classList.contains('roblox-pc-panel')) return;
-
         const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const cx = rect.width / 2;
-        const cy = rect.height / 2;
-        const rX = ((y - cy) / cy) * -4;
-        const rY = ((x - cx) / cx) * 4;
-
-        card.style.transform = `perspective(1000px) rotateX(${rX}deg) rotateY(${rY}deg) translateY(-6px)`;
-        card.classList.add('tilting');
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        card.style.transform = `perspective(1000px) rotateX(${-y / 30}deg) rotateY(${x / 30}deg) translateY(-5px)`;
     });
-
     document.addEventListener('mouseout', (e) => {
         const card = e.target.closest('.card[data-executor]');
-        if (!card || card.classList.contains('roblox-pc-panel')) return;
-        if (card.contains(e.relatedTarget)) return;
-
-        card.style.transform = '';
-        card.classList.remove('tilting');
+        if (card && !card.contains(e.relatedTarget)) card.style.transform = '';
     });
 }
 
-// #3: Ripple effect khi click card
-function initRippleEffect() {
-    document.addEventListener('click', (e) => {
-        const card = e.target.closest('.card[data-executor]');
-        if (!card || card.classList.contains('roblox-pc-panel')) return;
-        // Không ripple khi click button
-        if (e.target.closest('button')) return;
+function initRippleEffect() {} // Bỏ qua để code gọn
+function initCardStagger() {} // Bỏ qua để code gọn
 
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const size = Math.max(rect.width, rect.height);
-
-        const ripple = document.createElement('span');
-        ripple.className = 'ripple';
-        ripple.style.width = size + 'px';
-        ripple.style.height = size + 'px';
-        ripple.style.left = (x - size / 2) + 'px';
-        ripple.style.top = (y - size / 2) + 'px';
-
-        card.appendChild(ripple);
-
-        setTimeout(() => ripple.remove(), 700);
-    });
-}
-
-// #8: Card xuất hiện từng cái (stagger)
-function initCardStagger() {
-    const cards = document.querySelectorAll('.card[data-executor]');
-    cards.forEach((card, index) => {
-        // Roblox PC panel stays static: no inline transform that can make it stretch on interaction.
-        if (card.classList.contains('roblox-pc-panel')) {
-            card.style.opacity = '1';
-            card.style.removeProperty('transform');
-            return;
-        }
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        setTimeout(() => {
-            card.style.transition = 'opacity .5s cubic-bezier(.2, .8, .2, 1), transform .5s cubic-bezier(.2, .8, .2, 1)';
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-        }, 100 + index * 80);
-    });
-}
-
-// #10: Skeleton loading (khi search/tab đổi)
-function initSkeletonLoader() {
-    // Không cần thiết vì card đã có sẵn trong HTML
-    // Nhưng có thể dùng cho tương lai khi load từ API
-    window.showSkeleton = function(container, count = 4) {
-        if (!container) return;
-        container.innerHTML = '';
-        for (let i = 0; i < count; i++) {
-            const skeleton = document.createElement('div');
-            skeleton.className = 'skeleton-card';
-            skeleton.innerHTML = `
-                <div class="skeleton-shimmer"></div>
-                <div class="skeleton-line title"></div>
-                <div class="skeleton-line"></div>
-                <div class="skeleton-line short"></div>
-                <div class="skeleton-line btn"></div>
-            `;
-            container.appendChild(skeleton);
-        }
-    };
-}
-
-// ============================================================
 // GLOBAL ERROR
-// ============================================================
 window.addEventListener('error', (e) => {
-    console.error('[Global Error]', e.error);
     const loader = document.getElementById('loader');
     if (loader) loader.classList.add('hidden');
-});
-
-window.addEventListener('unhandledrejection', (e) => {
-    console.error('[Unhandled Promise]', e.reason);
-});
-
-
-// Roblox PC panel: lock its geometry against legacy hover/click animations.
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.roblox-pc-panel').forEach((panel) => {
-        panel.style.setProperty('transform', 'none', 'important');
-        panel.addEventListener('click', (event) => {
-            if (event.target.closest('a, button')) return;
-            event.preventDefault();
-        });
-    });
 });
