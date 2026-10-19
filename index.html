@@ -33,7 +33,7 @@
     <link rel="stylesheet" href="style.css" />
 
     <style>
-        /* ===== INLINE FIX CHO LOGO EXECUTOR & ROBLOX PANEL ===== */
+        /* ===== INLINE FIX CHO LOGO EXECUTOR ===== */
         .executor-logo {
             width: 28px; height: 28px; object-fit: contain; border-radius: 6px;
             background: rgba(255, 255, 255, 0.06); padding: 2px; flex-shrink: 0;
@@ -41,67 +41,86 @@
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
         .card:hover .executor-logo {
-            transform: scale(1.08); box-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
+            transform: scale(1.08); box-shadow: 0 0 12px rgba(5, 217, 232, 0.4);
         }
         .card h2 { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
 
-        /* FIX LỖI CARD BỊ DÀI RA */
+        /* ==========================================
+           FIX GIAO DIỆN ROBLOX PC PANEL (CYBERPUNK TERMINAL)
+           ========================================== */
         .roblox-pc-panel {
-            position: relative; box-sizing: border-box; width: 100%; max-width: 100%;
-            margin: 0 0 26px; padding: 18px 20px 16px; overflow: hidden;
-            border: 1px solid rgba(255,255,255,.10); border-radius: 16px;
-            background: linear-gradient(135deg, rgba(31,34,34,.98), rgba(25,27,27,.98));
-            box-shadow: 0 8px 24px rgba(0,0,0,.10);
-            align-self: flex-start; flex: 0 0 auto;
+            position: relative; box-sizing: border-box; 
+            width: calc(100% - 48px); max-width: 1328px;
+            margin: 0 auto 32px; padding: 16px 20px;
+            border: 1px solid rgba(5, 217, 232, 0.2);
+            border-left: 4px solid var(--cyan);
+            border-radius: 8px;
+            background: linear-gradient(90deg, rgba(5, 217, 232, 0.05) 0%, rgba(10, 10, 26, 0.8) 100%);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4), inset 0 0 20px rgba(5, 217, 232, 0.05);
+            display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+            gap: 16px;
         }
-        .roblox-pc-panel::after {
-            content: ""; position: absolute; inset: 0 0 0 auto; width: 35%;
-            pointer-events: none; opacity: .12;
-            background-image: linear-gradient(rgba(255,255,255,.055) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(255,255,255,.055) 1px, transparent 1px);
-            background-size: 30px 30px;
-            -webkit-mask-image: linear-gradient(90deg, transparent, #000);
-            mask-image: linear-gradient(90deg, transparent, #000);
+        [data-theme="light"] .roblox-pc-panel {
+            background: linear-gradient(90deg, rgba(8, 145, 178, 0.08) 0%, rgba(255, 255, 255, 0.9) 100%);
+            border-color: rgba(8, 145, 178, 0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
-        .roblox-pc-heading { position: relative; z-index: 1; display: flex; align-items: center; gap: 11px; margin: 0 0 14px; }
+        
+        .roblox-pc-heading {
+            display: flex; align-items: center; gap: 10px; margin: 0;
+        }
         .roblox-pc-mark {
-            position: relative; display: inline-grid; place-items: center;
-            width: 26px; height: 26px; flex: 0 0 26px; color: #f8f8f8; transform: rotate(15deg);
+            display: grid; place-items: center; width: 22px; height: 22px;
+            color: var(--cyan); transform: rotate(15deg);
+            filter: drop-shadow(0 0 5px var(--cyan));
         }
-        .roblox-pc-mark::before { content: ""; display: block; width: 21px; height: 21px; background: currentColor; }
-        .roblox-pc-mark::after { content: ""; position: absolute; width: 7px; height: 7px; background: #242626; }
-        .roblox-pc-heading h2 { margin: 0; font-size: 1.35rem; line-height: 1.2; color: #f8f8f8; font-weight: 800; letter-spacing: -.025em; }
+        .roblox-pc-mark::before { content: ""; width: 18px; height: 18px; background: currentColor; }
+        .roblox-pc-mark::after { content: ""; position: absolute; width: 6px; height: 6px; background: var(--bg); }
+        
+        .roblox-pc-heading h2 { 
+            margin: 0; font-family: var(--font-cyber); font-size: 1.1rem; 
+            color: var(--cyan); letter-spacing: .05em; 
+            text-shadow: 0 0 10px rgba(5, 217, 232, 0.4);
+        }
+        
         .roblox-pc-row {
-            position: relative; z-index: 1; display: flex; align-items: center;
-            justify-content: space-between; gap: 16px; min-width: 0; width: 100%;
-            box-sizing: border-box; padding: 13px 15px; border: 1px solid rgba(255,255,255,.075);
-            border-radius: 10px; background: rgba(255,255,255,.045);
+            display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
+            justify-content: space-between; flex: 1;
         }
-        .roblox-pc-details { min-width: 0; flex: 1 1 auto; overflow: hidden; }
-        .roblox-pc-label { display: flex; align-items: center; gap: 9px; margin: 0 0 5px; color: #f4f4f4; font-size: 1rem; font-weight: 750; }
-        .roblox-pc-label svg { width: 18px; height: 18px; flex: 0 0 18px; display: inline-block; vertical-align: middle; }
-        .roblox-pc-meta { display: flex; flex-wrap: wrap; gap: 5px 14px; color: #aeb3b3; font-size: .82rem; line-height: 1.4; min-width: 0; }
+        .roblox-pc-details { display: flex; flex-direction: column; gap: 4px; }
+        .roblox-pc-label { 
+            display: flex; align-items: center; gap: 6px; color: var(--text); 
+            font-size: .9rem; font-weight: 700; 
+        }
+        .roblox-pc-label svg { color: var(--cyan); filter: drop-shadow(0 0 5px var(--cyan)); }
+        
+        .roblox-pc-meta { 
+            display: flex; flex-wrap: wrap; gap: 4px 12px; 
+            color: var(--muted); font-family: var(--font-code); font-size: .75rem; 
+        }
+        
         .roblox-pc-version-link {
-            display: inline-flex; align-items: center; justify-content: space-between; gap: 9px;
-            max-width: 48%; min-width: 0; flex: 0 1 auto; padding: 9px 11px;
-            border: 1px solid rgba(255,255,255,.12); border-radius: 8px; background: rgba(0,0,0,.14);
-            color: #f7f7f7; font-size: .88rem; line-height: 1.35; text-decoration: none;
-            box-sizing: border-box; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
-            transition: background .18s ease, border-color .18s ease;
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 8px 14px; border: 1px solid rgba(5, 217, 232, 0.3); 
+            border-radius: 6px; background: rgba(0,0,0,0.3); color: var(--cyan);
+            font-family: var(--font-code); font-size: .8rem; font-weight: 700; text-decoration: none;
+            transition: all .2s ease;
         }
-        .roblox-pc-version-link > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .roblox-pc-version-link:hover, .roblox-pc-version-link:focus-visible {
-            background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.28); outline: none;
+        .roblox-pc-version-link:hover {
+            background: var(--cyan); color: #000; box-shadow: 0 0 15px rgba(5, 217, 232, 0.4);
         }
-        .roblox-pc-version-link svg { flex: 0 0 16px; }
-        .roblox-pc-note { position: relative; z-index: 1; margin: 8px 0 0; color: #909696; font-size: .72rem; line-height: 1.4; }
-        @media (max-width: 640px) {
-            .roblox-pc-panel { padding: 14px; margin-bottom: 20px; }
-            .roblox-pc-heading { margin-bottom: 11px; }
-            .roblox-pc-heading h2 { font-size: 1.2rem; }
-            .roblox-pc-row { align-items: stretch; flex-direction: column; gap: 10px; padding: 12px; }
-            .roblox-pc-version-link { max-width: none; width: 100%; font-size: .8rem; }
-            .roblox-pc-meta { font-size: .76rem; }
+        
+        .roblox-pc-note { 
+            width: 100%; margin: 0; font-family: var(--font-code); 
+            font-size: .7rem; color: var(--muted); opacity: 0.7; 
+            border-top: 1px dashed rgba(5, 217, 232, 0.2); padding-top: 10px;
+        }
+
+        @media (max-width: 900px) {
+            .roblox-pc-panel { width: calc(100% - 32px); flex-direction: column; align-items: flex-start; }
+            .roblox-pc-row { flex-direction: column; align-items: flex-start; width: 100%; gap: 12px; }
+            .roblox-pc-version-link { width: 100%; justify-content: space-between; }
         }
     </style>
 </head>
@@ -266,7 +285,6 @@
             <div class="roblox-pc-row">
                 <div class="roblox-pc-details">
                     <div class="roblox-pc-label">
-                        <!-- FIX ICON WINDOWS CHUẨN -->
                         <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 5.5 10.5 4.5v7H3v-6Zm8.5-1.1L21 3v8.5h-9.5V4.4ZM3 12.5h7.5v7L3 18.5v-6Zm8.5 0H21V21l-9.5-1.4v-7.1Z"/></svg>
                         Windows Version
                     </div>
