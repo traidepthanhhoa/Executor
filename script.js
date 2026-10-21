@@ -20,8 +20,8 @@ const MAINTENANCE_MODE = {
 // CẤU HÌNH DOWNLOAD
 // ============================================================
 const DOWNLOADS = {
-    client:  { url: 'https://vuotnhanh.com/BBDK', filename: 'Delta-v2.735.1138.apk' },
-    D32:     { url: 'https://vuotnhanh.com/olXP', filename: 'Delta-32bit-v2.736.1408.apk' },
+    client:  { url: 'https://vuotnhanh.com/8LD8', filename: 'Delta-v2.735.1138.apk' },
+    D32:     { url: 'https://vuotnhanh.com/Lla1', filename: 'Delta-32bit-v2.736.1408.apk' },
     nx:      { url: 'https://vuotnhanh.com/TxPF', filename: 'Roblox-Lite-NX-v3.0.1.apk' },
     pc:      { url: 'https://vuotnhanh.com/CEGE', filename: 'Executor-PC-Real-v1.7.0.zip' },
     px:      { url: 'https://vuotnhanh.com/fXSZ', filename: 'Executor-PC-Medium-v1.5.0.zip' },
