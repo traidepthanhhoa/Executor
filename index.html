@@ -130,27 +130,24 @@
     <div class="reading-progress" id="readingProgress" aria-hidden="true"><div class="reading-progress-fill" id="readingProgressFill"></div></div>
     <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
 
-    <!-- NOTIFICATION MODAL -->
-    <div class="notif-overlay" id="notifOverlay" aria-hidden="true">
-        <div class="notif-modal" role="dialog" aria-modal="true" aria-labelledby="notifTitle">
-            <div class="notif-head">
-                <div class="notif-head-left">
-                    <svg class="notif-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></svg>
-                    <h3 id="notifTitle">Thông Báo</h3>
-                </div>
-                <button class="notif-close" id="notifClose" aria-label="Đóng thông báo" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg></button>
-            </div>
-            <div class="notif-body">
-                <h4 class="notif-welcome">Welcome to GraiExecutor 👤</h4>
-                <div class="notif-lines">
-                    <p>Discord hỗ trợ – giao lưu: <a href="https://discord.gg/GrTCy2DHEX" target="_blank" rel="noopener noreferrer">Discord 💬</a></p>
-                    <p>⚠️ <strong>Tuyên bố miễn trừ trách nhiệm:</strong> Executor được cung cấp với mục đích nghiên cứu và tìm hiểu kỹ thuật. Người dùng tự chịu trách nhiệm về việc sử dụng công cụ này.</p>
-                </div>
-            </div>
-            <div class="notif-foot">
-                <button class="notif-btn-hide" id="notifHide" type="button">Không hiển thị lại trong 2 giờ</button>
-            </div>
-        </div>
+    <!-- ===== POPUP QUẢNG CÁO ===== -->
+    <div class="qc-nen" id="qcNen"
+         role="dialog" aria-modal="true"
+         aria-label="Quảng cáo">
+
+      <div class="qc-hop">
+        <button class="qc-dong" id="qcDong"
+                type="button" aria-label="Đóng">&times;</button>
+
+        <a id="qcLink"
+           href="https://www.facebook.com/TEN-TRANG-CUA-BAN"
+           target="_blank" rel="noopener noreferrer">
+
+          <img id="qcAnh"
+               src="https://i.postimg.cc/FkYFc3BN/Quang-cao-Game-Pass-Nhan-Doi-May-Man-(1).png"
+               alt="Quảng cáo Game Pass">
+        </a>
+      </div>
     </div>
 
     <!-- GUIDE MODAL -->
@@ -426,4 +423,4 @@
 
     <script src="script.js" defer></script>
 </body>
-</html>
+    </html>
