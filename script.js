@@ -12,8 +12,8 @@ const MAINTENANCE_MODE = {
     xeno: false,
     umi: false,
     volcano: false,
-    nam: false,       
-    nexomia: false    
+    nam: false,
+    nexomia: false
 };
 
 // ============================================================
@@ -32,36 +32,46 @@ const DOWNLOADS = {
     },
     xeno:    { url: 'https://xeno.now/', filename: 'Xeno-Executor.exe' },
     umi:     { url: 'https://vuotnhanh.com/OSj9', filename: 'Umi-Executor.exe' },
-    volcano: { url: 'https://vuotnhanh.com/YANb', filename: 'Volcano-Executor.exe'},
+    volcano: { url: 'https://vuotnhanh.com/YANb', filename: 'Volcano-Executor.exe' },
     nam:     { url: 'https://vuotnhanh.com/U0US', filename: 'Nam-Executor.exe' },
     nexomia: { url: 'https://vuotnhanh.com/Krls', filename: 'Nexomia-Executor.exe' }
 };
 
 // ============================================================
-// CẤU HÌNH THÔNG BÁO, THEME, VERIFY
+// CẤU HÌNH THEME, VERIFY
 // ============================================================
-const NOTIFICATION_CONFIG = { enabled: true, hideDurationMs: 2 * 60 * 60 * 1000, storageKey: 'matchat_notif_hide_until', delayAfterLoader: 300 };
 const THEME_CONFIG = { storageKey: 'theme', labels: { dark: 'Dark', light: 'Light' } };
 const VERIFY_CONFIG = { storageKey: 'matchat_verified_until', verifyPage: 'verify.html', webUrl: 'https://kenhmatchat-executor.vercel.app/' };
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// VERIFY CHECK
+// ============================================================
+// VERIFY CHECK (an toàn, tránh loop)
+// ============================================================
 (function checkVerify() {
-    const verifiedUntil = parseInt(localStorage.getItem(VERIFY_CONFIG.storageKey) || '0', 10);
-    if (Date.now() >= verifiedUntil) {
-        window.location.replace(VERIFY_CONFIG.verifyPage);
-        return;
+    try {
+        const currentPath = window.location.pathname;
+        if (currentPath.includes('verify')) return;
+
+        const verifiedUntil = parseInt(localStorage.getItem(VERIFY_CONFIG.storageKey) || '0', 10);
+        if (Date.now() >= verifiedUntil) {
+            sessionStorage.setItem('verify_redirect', '1');
+            window.location.replace(VERIFY_CONFIG.verifyPage);
+        }
+    } catch (e) {
+        console.warn('Verify check skipped:', e);
     }
 })();
 
+// ============================================================
 // BOOTSTRAP
+// ============================================================
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
     initLoader();
     initTabs();
     initSearch();
     initDownloadButtons();
-    initNotification();
+    initGamePassPopup();
     initGuide();
     initBackToTop();
     initReadingProgress();
@@ -70,12 +80,12 @@ document.addEventListener('DOMContentLoaded', () => {
     initCookie();
     initInfoModal();
     init3DTilt();
-    initRippleEffect();
-    initCardStagger();
     initTopProgress();
 });
 
+// ============================================================
 // 1️⃣ THEME
+// ============================================================
 function initTheme() {
     const toggle = document.getElementById('themeToggle');
     const label = document.querySelector('[data-role="theme-label"]');
@@ -87,12 +97,21 @@ function initTheme() {
         const current = document.documentElement.getAttribute('data-theme') || 'dark';
         const next = current === 'dark' ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', next);
-        localStorage.setItem(THEME_CONFIG.storageKey, next);
+        try { localStorage.setItem(THEME_CONFIG.storageKey, next); } catch (e) {}
         if (label) label.textContent = THEME_CONFIG.labels[next];
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.ctrlKey && e.shiftKey && e.key === 'L') {
+            e.preventDefault();
+            toggle.click();
+        }
     });
 }
 
+// ============================================================
 // 2️⃣ LOADER
+// ============================================================
 function initLoader() {
     const loader = document.getElementById('loader');
     const percentage = document.getElementById('percentage');
@@ -117,12 +136,15 @@ function initLoader() {
         }
     }, 100);
 }
+
 function onLoaderDone() {
     applyMaintenanceMode();
     window.dispatchEvent(new CustomEvent('loader:done'));
 }
 
-// 3️⃣ TABS
+// ============================================================
+// 3️⃣ TABS (reset search khi đổi tab)
+// ============================================================
 function initTabs() {
     const tabBtns = document.querySelectorAll('.tab-btn');
     const tabContents = { mobile: document.getElementById('tab-mobile'), pc: document.getElementById('tab-pc') };
@@ -137,11 +159,18 @@ function initTabs() {
             Object.entries(tabContents).forEach(([key, el]) => {
                 if (el) el.classList.toggle('active', key === targetTab);
             });
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput && searchInput.value) {
+                searchInput.value = '';
+                searchInput.dispatchEvent(new Event('input'));
+            }
         });
     });
 }
 
+// ============================================================
 // 4️⃣ SEARCH
+// ============================================================
 function initSearch() {
     const input = document.getElementById('searchInput');
     const clearBtn = document.getElementById('searchClear');
@@ -163,11 +192,13 @@ function initSearch() {
     };
 
     input.addEventListener('input', performSearch);
-    if (clearBtn) clearBtn.addEventListener('click', () => { input.value = ''; performSearch(); });
+    if (clearBtn) clearBtn.addEventListener('click', () => { input.value = ''; performSearch(); input.focus(); });
     performSearch();
 }
 
+// ============================================================
 // 5️⃣ MAINTENANCE MODE
+// ============================================================
 function applyMaintenanceMode() {
     const cards = document.querySelectorAll('.card[data-executor]');
     cards.forEach((card) => {
@@ -191,7 +222,9 @@ function applyMaintenanceMode() {
     });
 }
 
+// ============================================================
 // 6️⃣ DOWNLOAD
+// ============================================================
 function initDownloadButtons() {
     document.querySelectorAll('[data-role="download"]').forEach((btn) => {
         btn.addEventListener('click', () => {
@@ -213,7 +246,7 @@ async function handleDownload(key, btn) {
     }
     btn.textContent = 'Đang tải...';
     await sleep(500);
-    
+
     const link = document.createElement('a');
     link.href = cfg.url;
     link.download = cfg.filename;
@@ -226,14 +259,16 @@ async function handleDownload(key, btn) {
     btn.style.color = '#000';
     showToast('Đang tải file...', 'success');
     await sleep(2000);
-    
+
     btn.textContent = originalText;
     btn.disabled = false;
     btn.style.background = '';
     btn.style.color = '';
 }
 
+// ============================================================
 // 7️⃣ TOAST
+// ============================================================
 function showToast(message, type = 'info') {
     const container = document.getElementById('toastContainer');
     if (!container) return;
@@ -247,39 +282,89 @@ function showToast(message, type = 'info') {
     }, 3000);
 }
 
-// 8️⃣ NOTIFICATION
-function initNotification() {
-    window.addEventListener('loader:done', () => {
-        setTimeout(showNotificationIfNeeded, NOTIFICATION_CONFIG.delayAfterLoader);
+// ============================================================
+// 8️⃣ POPUP QUẢNG CÁO (fullscreen blur, nút X trong ảnh)
+// ============================================================
+function initGamePassPopup() {
+    var DANH_SACH_ANH = [
+        "https://i.postimg.cc/FkYFc3BN/Quang-cao-Game-Pass-Nhan-Doi-May-Man-(1).png",
+        "https://i.postimg.cc/XXPYW1rF/Quang-cao-Game-Pass-Nhan-Doi-May-Man-(2).png"
+    ];
+
+    var DOI_ANH_MS = 2500;
+    var HIEN_SAU_MS = 1000;
+    var NHO_DONG = true;
+
+    var nen = document.getElementById("qcNen");
+    var anh = document.getElementById("qcAnh");
+    var nutDong = document.getElementById("qcDong");
+
+    if (!nen || !anh || !nutDong) return;
+
+    var timer = null;
+    var i = 0;
+    var daDong = false;
+
+    try {
+        daDong = NHO_DONG && sessionStorage.getItem("daDongQC") === "1";
+    } catch (e) {}
+
+    // Preload ảnh
+    DANH_SACH_ANH.forEach(function (url) {
+        var img = new Image();
+        img.src = url;
+    });
+
+    function doiAnh() {
+        i = (i + 1) % DANH_SACH_ANH.length;
+        anh.src = DANH_SACH_ANH[i];
+    }
+
+    function dong() {
+        nen.classList.remove("hien");
+        clearInterval(timer);
+        timer = null;
+        if (NHO_DONG) {
+            try {
+                sessionStorage.setItem("daDongQC", "1");
+            } catch (e) {}
+        }
+    }
+
+    if (!daDong) {
+        setTimeout(function () {
+            nen.classList.add("hien");
+            timer = setInterval(doiAnh, DOI_ANH_MS);
+        }, HIEN_SAU_MS);
+    }
+
+    nutDong.addEventListener("click", dong);
+    nen.addEventListener("click", function (e) {
+        if (e.target === nen) dong();
+    });
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && nen.classList.contains("hien")) {
+            dong();
+        }
     });
 }
-function showNotificationIfNeeded() {
-    if (!NOTIFICATION_CONFIG.enabled) return;
-    const overlay = document.getElementById('notifOverlay');
-    if (!overlay) return;
-    const until = parseInt(localStorage.getItem(NOTIFICATION_CONFIG.storageKey) || '0', 10);
-    if (Date.now() < until) return;
-    
-    overlay.classList.add('show');
-    const close = () => overlay.classList.remove('show');
-    
-    document.getElementById('notifClose').onclick = close;
-    document.getElementById('notifHide').onclick = () => {
-        localStorage.setItem(NOTIFICATION_CONFIG.storageKey, String(Date.now() + NOTIFICATION_CONFIG.hideDurationMs));
-        close();
-    };
-}
 
+// ============================================================
 // 9️⃣ GUIDE
+// ============================================================
 function initGuide() {
     const openBtn = document.getElementById('guideOpen');
     const overlay = document.getElementById('guideOverlay');
     if (!openBtn || !overlay) return;
-    
+
     openBtn.addEventListener('click', () => overlay.classList.add('show'));
     document.getElementById('guideClose').onclick = () => overlay.classList.remove('show');
     document.getElementById('guideOk').onclick = () => overlay.classList.remove('show');
-    
+
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) overlay.classList.remove('show');
+    });
+
     const tabs = document.querySelectorAll('.guide-tab');
     const contents = { mobile: document.getElementById('guide-mobile'), pc: document.getElementById('guide-pc') };
     tabs.forEach(tab => {
@@ -291,9 +376,20 @@ function initGuide() {
             });
         };
     });
+
+    const faqToggle = document.getElementById('faqToggle');
+    const faqList = document.getElementById('faqList');
+    if (faqToggle && faqList) {
+        faqToggle.addEventListener('click', () => {
+            const isExpanded = faqToggle.getAttribute('aria-expanded') === 'true';
+            faqToggle.setAttribute('aria-expanded', String(!isExpanded));
+        });
+    }
 }
 
+// ============================================================
 // 🔟 BACK TO TOP & PROGRESS
+// ============================================================
 function initBackToTop() {
     const btn = document.getElementById('backToTop');
     if (!btn) return;
@@ -319,14 +415,17 @@ function initTopProgress() {
     const int = setInterval(() => {
         p += Math.random() * 20;
         if (p >= 100) {
-            p = 100; fill.style.width = '100%';
+            p = 100;
+            fill.style.width = '100%';
             clearInterval(int);
             setTimeout(() => { fill.style.opacity = '0'; }, 500);
         } else fill.style.width = p + '%';
     }, 100);
 }
 
+// ============================================================
 // 📅 TIME AGO
+// ============================================================
 function initTimeAgo() {
     document.querySelectorAll('[data-role="updated"]').forEach(el => {
         const card = el.closest('.card[data-executor]');
@@ -337,9 +436,11 @@ function initTimeAgo() {
     });
 }
 
+// ============================================================
 // 💬 DISCORD FLOAT, COOKIE, INFO
+// ============================================================
 function initDiscordFloat() {
-    const overlayIds = ['notifOverlay', 'guideOverlay', 'infoOverlay'];
+    const overlayIds = ['guideOverlay', 'infoOverlay'];
     const updateModalState = () => {
         const anyOpen = overlayIds.some(id => document.getElementById(id)?.classList.contains('show'));
         document.body.classList.toggle('modal-open', anyOpen);
@@ -353,18 +454,34 @@ function initDiscordFloat() {
 function initCookie() {
     const banner = document.getElementById('cookieBanner');
     if (!banner) return;
-    if (!localStorage.getItem('cookie_accepted')) setTimeout(() => banner.hidden = false, 2000);
-    document.getElementById('cookieAccept').onclick = () => { localStorage.setItem('cookie_accepted', '1'); banner.hidden = true; };
-    document.getElementById('cookieDecline').onclick = () => { localStorage.setItem('cookie_accepted', '0'); banner.hidden = true; };
+    let accepted = null;
+    try { accepted = localStorage.getItem('cookie_accepted'); } catch (e) {}
+    if (accepted === null) setTimeout(() => banner.hidden = false, 2000);
+    document.getElementById('cookieAccept').onclick = () => {
+        try { localStorage.setItem('cookie_accepted', '1'); } catch (e) {}
+        banner.hidden = true;
+    };
+    document.getElementById('cookieDecline').onclick = () => {
+        try { localStorage.setItem('cookie_accepted', '0'); } catch (e) {}
+        banner.hidden = true;
+    };
 }
 
 function initInfoModal() {
     const overlay = document.getElementById('infoOverlay');
     if (!overlay) return;
+    const INFO_CONTENT = {
+        about: '<p>Trang web tổng hợp các executor Roblox miễn phí cho Mobile và PC, được cập nhật thường xuyên bởi Matchat67.</p>',
+        terms: '<p>Sử dụng executor có thể vi phạm Điều khoản dịch vụ của Roblox. Người dùng tự chịu hoàn toàn trách nhiệm.</p>',
+        privacy: '<p>Chúng tôi chỉ dùng localStorage/sessionStorage để ghi nhớ theme, trạng thái popup và cookie. Không thu thập dữ liệu cá nhân.</p>',
+        legal: '<p>Trang web không liên kết với Roblox Corporation. Mọi file thực thi thuộc bản quyền của nhà phát triển tương ứng.</p>',
+        contact: '<p>Liên hệ qua Discord: <a href="https://discord.gg/GrTCy2DHEX" target="_blank" rel="noopener">discord.gg/GrTCy2DHEX</a></p>'
+    };
     document.querySelectorAll('[data-info]').forEach(btn => {
         btn.onclick = () => {
+            const key = btn.dataset.info;
             document.getElementById('infoTitle').textContent = btn.textContent;
-            document.getElementById('infoBody').innerHTML = `<p>Nội dung cho mục <b>${btn.textContent}</b> đang được cập nhật...</p>`;
+            document.getElementById('infoBody').innerHTML = INFO_CONTENT[key] || '<p>Đang cập nhật...</p>';
             overlay.classList.add('show');
         };
     });
@@ -372,9 +489,13 @@ function initInfoModal() {
     overlay.onclick = (e) => { if (e.target === overlay) overlay.classList.remove('show'); };
 }
 
-// 🎬 ANIMATIONS (Basic)
+// ============================================================
+// 🎬 ANIMATIONS
+// ============================================================
 function init3DTilt() {
     if (window.matchMedia('(max-width: 900px)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
     document.addEventListener('mousemove', (e) => {
         const card = e.target.closest('.card[data-executor]');
         if (!card || card.classList.contains('roblox-pc-panel')) return;
@@ -383,17 +504,17 @@ function init3DTilt() {
         const y = e.clientY - rect.top - rect.height / 2;
         card.style.transform = `perspective(1000px) rotateX(${-y / 30}deg) rotateY(${x / 30}deg) translateY(-5px)`;
     });
+
     document.addEventListener('mouseout', (e) => {
         const card = e.target.closest('.card[data-executor]');
         if (card && !card.contains(e.relatedTarget)) card.style.transform = '';
     });
 }
 
-function initRippleEffect() {} // Bỏ qua để code gọn
-function initCardStagger() {} // Bỏ qua để code gọn
-
-// GLOBAL ERROR
-window.addEventListener('error', (e) => {
+// ============================================================
+// GLOBAL ERROR HANDLER
+// ============================================================
+window.addEventListener('error', () => {
     const loader = document.getElementById('loader');
     if (loader) loader.classList.add('hidden');
 });
