@@ -12,7 +12,7 @@ const MAINTENANCE_MODE = {
     xeno: false,
     umi: false,
     volcano: false,
-    nam: false,
+    nam: true,
     nexomia: false
 };
 
