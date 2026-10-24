@@ -6,14 +6,19 @@ const MAINTENANCE_MODE = {
     nx: true,
     pc: false,
     px: false,
-    pv: false,
+    pv: true,
     D32: false,
     solara: false,
     xeno: false,
     umi: false,
     volcano: false,
     nam: true,
-    nexomia: false
+    nexomia: true,
+    supq: false,     // ← NEW
+    zynova: false,   // ← NEW
+    saiko: false,    // ← NEW
+    vortex: false,   // ← NEW
+    yubx: false      // ← NEW
 };
 
 // ============================================================
@@ -34,7 +39,13 @@ const DOWNLOADS = {
     umi:     { url: 'https://vuotnhanh.com/Ypmy', filename: 'Umi-Executor.exe' },
     volcano: { url: 'https://vuotnhanh.com/YANb', filename: 'Volcano-Executor.exe' },
     nam:     { url: 'https://vuotnhanh.com/U0US', filename: 'Nam-Executor.exe' },
-    nexomia: { url: 'https://vuotnhanh.com/Krls', filename: 'Nexomia-Executor.exe' }
+    nexomia: { url: 'https://vuotnhanh.com/Krls', filename: 'Nexomia-Executor.exe' },
+    // ↓↓↓ NEW ↓↓↓
+    supq:    { url: 'https://vuotnhanh.com/79TH', filename: 'supQ-Executor.exe' },
+    zynova:  { url: 'https://vuotnhanh.com/rhN3', filename: 'Zynova-Executor.exe' },
+    saiko:   { url: 'https://vuotnhanh.com/bZGB', filename: 'Saiko-Executor.exe' },
+    vortex:  { url: 'https://link4m.net/m605D',   filename: 'Vortex-Executor.exe' },
+    yubx:    { url: 'https://vuotnhanh.com/F44n', filename: 'Yub-X-Executor.exe' }
 };
 
 // ============================================================
@@ -51,6 +62,8 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     try {
         const currentPath = window.location.pathname;
         if (currentPath.includes('verify')) return;
+        // Tránh redirect loop: nếu đã thử trong session này thì bỏ qua
+        if (sessionStorage.getItem('verify_redirect') === '1') return;
 
         const verifiedUntil = parseInt(localStorage.getItem(VERIFY_CONFIG.storageKey) || '0', 10);
         if (Date.now() >= verifiedUntil) {
@@ -143,7 +156,7 @@ function onLoaderDone() {
 }
 
 // ============================================================
-// 3️⃣ TABS (reset search khi đổi tab)
+// 3️⃣ TABS
 // ============================================================
 function initTabs() {
     const tabBtns = document.querySelectorAll('.tab-btn');
@@ -169,7 +182,7 @@ function initTabs() {
 }
 
 // ============================================================
-// 4️⃣ SEARCH
+// 4️⃣ SEARCH (fix: filter theo data-name/data-executor)
 // ============================================================
 function initSearch() {
     const input = document.getElementById('searchInput');
@@ -182,8 +195,9 @@ function initSearch() {
         const query = (input.value || '').toLowerCase().trim();
         let visibleCount = 0;
         cards.forEach((card) => {
-            const text = card.textContent.toLowerCase();
-            const match = !query || text.includes(query);
+            const name = (card.dataset.name || '').toLowerCase();
+            const key = (card.dataset.executor || '').toLowerCase();
+            const match = !query || name.includes(query) || key.includes(query);
             card.classList.toggle('hidden', !match);
             if (match) visibleCount++;
         });
@@ -250,6 +264,8 @@ async function handleDownload(key, btn) {
     const link = document.createElement('a');
     link.href = cfg.url;
     link.download = cfg.filename;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
     document.body.appendChild(link);
     link.click();
     link.remove();
@@ -283,7 +299,7 @@ function showToast(message, type = 'info') {
 }
 
 // ============================================================
-// 8️⃣ POPUP QUẢNG CÁO (fullscreen blur, nút X trong ảnh)
+// 8️⃣ POPUP QUẢNG CÁO
 // ============================================================
 function initGamePassPopup() {
     var DANH_SACH_ANH = [
@@ -322,6 +338,7 @@ function initGamePassPopup() {
 
     function dong() {
         nen.classList.remove("hien");
+        nen.setAttribute("aria-hidden", "true");
         clearInterval(timer);
         timer = null;
         if (NHO_DONG) {
@@ -333,7 +350,9 @@ function initGamePassPopup() {
 
     if (!daDong) {
         setTimeout(function () {
+            anh.src = DANH_SACH_ANH[0];
             nen.classList.add("hien");
+            nen.setAttribute("aria-hidden", "false");
             timer = setInterval(doiAnh, DOI_ANH_MS);
         }, HIEN_SAU_MS);
     }
@@ -413,7 +432,7 @@ function initTopProgress() {
     if (!fill) return;
     let p = 0;
     const int = setInterval(() => {
-        p += Math.random() * 20;
+        p += Math.max(5, Math.random() * 20); // luôn tăng tối thiểu 5%
         if (p >= 100) {
             p = 100;
             fill.style.width = '100%';
@@ -517,4 +536,5 @@ function init3DTilt() {
 window.addEventListener('error', () => {
     const loader = document.getElementById('loader');
     if (loader) loader.classList.add('hidden');
+    onLoaderDone(); // fix: đảm bảo maintenance mode vẫn áp dụng
 });
