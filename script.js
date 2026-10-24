@@ -31,7 +31,7 @@ const DOWNLOADS = {
         filename: 'Solara-Bootstrapper.exe'
     },
     xeno:    { url: 'https://xeno.now/', filename: 'Xeno-Executor.exe' },
-    umi:     { url: 'https://vuotnhanh.com/OSj9', filename: 'Umi-Executor.exe' },
+    umi:     { url: 'https://vuotnhanh.com/Ypmy', filename: 'Umi-Executor.exe' },
     volcano: { url: 'https://vuotnhanh.com/YANb', filename: 'Volcano-Executor.exe' },
     nam:     { url: 'https://vuotnhanh.com/U0US', filename: 'Nam-Executor.exe' },
     nexomia: { url: 'https://vuotnhanh.com/Krls', filename: 'Nexomia-Executor.exe' }
