@@ -1,13 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi" data-theme="dark">
 <head>
-    <script src="https://quge5.com/88/tag.min.js" data-zone="300171" async data-cfasync="false"></script>
-    <script src="https://uplcm.com/4/12094968" async data-cfasync="false"></script>
-
-    <!-- ===== QUẢNG CÁO MỚI (accountut + bellnewyork) ===== -->
-    <script data-cfasync="false" src="https://accountut.com/1/98f962d0288c3fcb9e5deb1c50510f09"></script>
-    <script async="async" data-cfasync="false" src="https://bellnewyork.org/21/87c563c43ce3973bdab55cd829e35144"></script>
-
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -51,6 +44,24 @@
             transform: scale(1.08); box-shadow: 0 0 12px rgba(5, 217, 232, 0.4);
         }
         .card h2 { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
+
+        /* ===== CONTAINER QUẢNG CÁO ===== */
+        .qc-container {
+            max-width: 1328px;
+            margin: 16px auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 60px;
+        }
+        #container-87c563c43ce3973bdab55cd829e35144 {
+            min-height: 60px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
         /* ==========================================
            FIX GIAO DIỆN ROBLOX PC PANEL (CYBERPUNK TERMINAL)
@@ -128,65 +139,7 @@
             .roblox-pc-panel { width: calc(100% - 32px); flex-direction: column; align-items: flex-start; }
             .roblox-pc-row { flex-direction: column; align-items: flex-start; width: 100%; gap: 12px; }
             .roblox-pc-version-link { width: 100%; justify-content: space-between; }
-        }
-
-        /* ============================================================
-           🆕 CSS CHO QUẢNG CÁO MỚI (thay thế popup Game Pass cũ)
-           ============================================================ */
-        #qcMoi {
-            position: fixed;
-            inset: 0;
-            z-index: 99999;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-            padding: 16px;
-        }
-        #qcMoi.hien { display: flex; }
-
-        #qcMoi .qc-box {
-            position: relative;
-            max-width: 92vw;
-            max-height: 90vh;
-            padding: 8px;
-            background: transparent;
-            border-radius: 12px;
-            overflow: auto;
-        }
-
-        #qcMoi .qc-close {
-            position: fixed;
-            top: 16px;
-            right: 16px;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            border: none;
-            background: rgba(255, 255, 255, 0.92);
-            color: #111;
-            font-size: 1.6rem;
-            font-weight: 700;
-            line-height: 1;
-            cursor: pointer;
-            z-index: 100000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,.4);
-            transition: transform .15s, background .2s;
-        }
-        #qcMoi .qc-close:hover { transform: scale(1.1); background: #fff; }
-
-        /* Container quảng cáo 468x60 */
-        #container-87c563c43ce3973bdab55cd829e35144 {
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 10px 0;
+            .qc-container { padding: 0 16px; }
         }
     </style>
 </head>
@@ -195,17 +148,6 @@
     <div class="top-progress" aria-hidden="true"><div class="top-progress-fill" id="topProgressFill"></div></div>
     <div class="reading-progress" id="readingProgress" aria-hidden="true"><div class="reading-progress-fill" id="readingProgressFill"></div></div>
     <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
-
-    <!-- ============================================================
-         🆕 POPUP QUẢNG CÁO MỚI (thay thế popup Game Pass cũ)
-         ============================================================ -->
-    <div id="qcMoi" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Quảng cáo">
-        <button class="qc-close" id="qcMoiClose" aria-label="Đóng quảng cáo" type="button">✕</button>
-        <div class="qc-box">
-            <!-- Container quảng cáo 468x60 -->
-            <div id="container-87c563c43ce3973bdab55cd829e35144"></div>
-        </div>
-    </div>
 
     <!-- GUIDE MODAL -->
     <div class="guide-overlay" id="guideOverlay" aria-hidden="true">
@@ -292,6 +234,17 @@
             </button>
         </div>
     </header>
+
+    <!-- ===== QUẢNG CÁO 1: bellnewyork 468x60 ===== -->
+    <div class="qc-container">
+        <script async="async" data-cfasync="false" src="https://bellnewyork.org/21/87c563c43ce3973bdab55cd829e35144"></script>
+        <div id="container-87c563c43ce3973bdab55cd829e35144"></div>
+    </div>
+
+    <!-- ===== QUẢNG CÁO 2: accountut ===== -->
+    <div class="qc-container">
+        <script data-cfasync="false" src="https://accountut.com/1/98f962d0288c3fcb9e5deb1c50510f09"></script>
+    </div>
 
     <div class="tab-bar" role="tablist" aria-label="Chọn nền tảng">
         <div class="tab-indicator" id="tabIndicator"></div>
@@ -477,21 +430,6 @@
             </div>
         </div>
     </div>
-
-    <!-- ===== SCRIPT QUẢNG CÁO MỚI (đặt cuối body) ===== -->
-    <script data-cfasync="false" src="https://accountut.com/1/98f962d0288c3fcb9e5deb1c50510f09"></script>
-    <script async="async" data-cfasync="false" src="https://bellnewyork.org/21/87c563c43ce3973bdab55cd829e35144"></script>
-    <script data-cfasync="false" src="https://bellnewyork.org/14/adc4e0f4f2c7d7e9341f157ee81fbf7f"></script>
-    <script>
-      atOptions = {
-        'key' : '60ad2ddea097029fd38cc4dc9f503037',
-        'format' : 'iframe',
-        'height' : 60,
-        'width' : 468,
-        'params' : {}
-      };
-    </script>
-    <script src="https://bellnewyork.org/22/60ad2ddea097029fd38cc4dc9f503037"></script>
 
     <script src="script.js" defer></script>
 </body>
