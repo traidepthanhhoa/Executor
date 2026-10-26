@@ -14,11 +14,13 @@ const MAINTENANCE_MODE = {
     volcano: false,
     nam: true,
     nexomia: true,
-    supq: false,     // ← NEW
-    zynova: false,   // ← NEW
-    saiko: false,    // ← NEW
-    vortex: false,   // ← NEW
-    yubx: false      // ← NEW
+    supq: false,        // NEW
+    zynova: false,      // NEW
+    saiko: false,       // NEW
+    vortex: false,      // NEW
+    yubx: false,        // NEW
+    codex: false,       // ★ NEW - CodeX
+    worldclient: false  // ★ NEW - World Client
 };
 
 // ============================================================
@@ -45,7 +47,10 @@ const DOWNLOADS = {
     zynova:  { url: 'https://vuotnhanh.com/rhN3', filename: 'Zynova-Executor.exe' },
     saiko:   { url: 'https://vuotnhanh.com/bZGB', filename: 'Saiko-Executor.exe' },
     vortex:  { url: 'https://link4m.net/m605D',   filename: 'Vortex-Executor.exe' },
-    yubx:    { url: 'https://vuotnhanh.com/F44n', filename: 'Yub-X-Executor.exe' }
+    yubx:    { url: 'https://vuotnhanh.com/F44n', filename: 'Yub-X-Executor.exe' },
+    // ★ CODE X & WORLD CLIENT ★
+    codex:       { url: 'https://vuotnhanh.com/POAS', filename: 'CodeX.exe' },
+    worldclient: { url: 'https://vuotnhanh.com/j1lz', filename: 'World-Client.exe' }
 };
 
 // ============================================================
@@ -62,7 +67,6 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
     try {
         const currentPath = window.location.pathname;
         if (currentPath.includes('verify')) return;
-        // Tránh redirect loop: nếu đã thử trong session này thì bỏ qua
         if (sessionStorage.getItem('verify_redirect') === '1') return;
 
         const verifiedUntil = parseInt(localStorage.getItem(VERIFY_CONFIG.storageKey) || '0', 10);
@@ -182,7 +186,7 @@ function initTabs() {
 }
 
 // ============================================================
-// 4️⃣ SEARCH (fix: filter theo data-name/data-executor)
+// 4️⃣ SEARCH
 // ============================================================
 function initSearch() {
     const input = document.getElementById('searchInput');
@@ -244,7 +248,23 @@ function initDownloadButtons() {
         btn.addEventListener('click', () => {
             const card = btn.closest('.card[data-executor]');
             const key = card?.dataset.executor;
-            if (key && !MAINTENANCE_MODE[key]) handleDownload(key, btn);
+            if (!key) return;
+
+            // Bảo trì thì không cho tải
+            if (MAINTENANCE_MODE[key]) return;
+
+            // Có cấu hình trong DOWNLOADS → xử lý chuẩn
+            if (DOWNLOADS[key]) {
+                handleDownload(key, btn);
+                return;
+            }
+
+            // Fallback: nếu card có data-url trực tiếp (dành cho executor thêm mới)
+            const directUrl = btn.getAttribute('data-url');
+            if (directUrl) {
+                window.open(directUrl, '_blank', 'noopener');
+                showToast('Đang mở link tải...', 'success');
+            }
         });
     });
 }
@@ -325,7 +345,6 @@ function initGamePassPopup() {
         daDong = NHO_DONG && sessionStorage.getItem("daDongQC") === "1";
     } catch (e) {}
 
-    // Preload ảnh
     DANH_SACH_ANH.forEach(function (url) {
         var img = new Image();
         img.src = url;
@@ -432,7 +451,7 @@ function initTopProgress() {
     if (!fill) return;
     let p = 0;
     const int = setInterval(() => {
-        p += Math.max(5, Math.random() * 20); // luôn tăng tối thiểu 5%
+        p += Math.max(5, Math.random() * 20);
         if (p >= 100) {
             p = 100;
             fill.style.width = '100%';
@@ -536,5 +555,5 @@ function init3DTilt() {
 window.addEventListener('error', () => {
     const loader = document.getElementById('loader');
     if (loader) loader.classList.add('hidden');
-    onLoaderDone(); // fix: đảm bảo maintenance mode vẫn áp dụng
+    onLoaderDone();
 });
