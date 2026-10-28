@@ -7,7 +7,7 @@ const MAINTENANCE_MODE = {
     pc: false,
     px: false,
     pv: true,
-    D32: false,
+    D32: true,
     solara: false,
     xeno: false,
     umi: false,
@@ -15,9 +15,9 @@ const MAINTENANCE_MODE = {
     nam: true,
     nexomia: true,
     supq: false,        // NEW
-    zynova: false,      // NEW
+    zynova: true,      // NEW
     saiko: false,       // NEW
-    vortex: false,      // NEW
+    vortex: true,      // NEW
     yubx: false,        // NEW
     codex: false,       // ★ NEW - CodeX
     worldclient: false  // ★ NEW - World Client
