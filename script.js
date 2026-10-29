@@ -6,7 +6,7 @@ const MAINTENANCE_MODE = {
     nx: true,
     pc: false,
     px: false,
-    pv: true,
+    pv: false,
     D32: false,
     solara: false,
     xeno: false,
