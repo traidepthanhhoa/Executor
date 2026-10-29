@@ -46,7 +46,7 @@ const DOWNLOADS = {
     nam:     { url: 'https://vuotnhanh.com/U0US', filename: 'Nam-Executor.exe' },
     nexomia: { url: 'https://vuotnhanh.com/Krls', filename: 'Nexomia-Executor.exe' },
     supq:    { url: 'https://vuotnhanh.com/79TH', filename: 'supQ-Executor.exe' },
-    zynova:  { url: 'https://vuotnhanh.com/rhN3', filename: 'Zynova-Executor.exe' },
+    zynova:  { url: 'https://vuotnhanh.com/gidc', filename: 'Zynova-Executor.exe' },
     saiko:   { url: 'https://vuotnhanh.com/bZGB', filename: 'Saiko-Executor.exe' },
     vortex:  { url: 'https://link4m.net/m605D',   filename: 'Vortex-Executor.exe' },
     yubx:    { url: 'https://vuotnhanh.com/F44n', filename: 'Yub-X-Executor.exe' },
