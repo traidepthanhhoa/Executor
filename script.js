@@ -7,20 +7,23 @@ const MAINTENANCE_MODE = {
     pc: false,
     px: false,
     pv: true,
-    D32: true,
+    D32: false,
     solara: false,
     xeno: false,
     umi: false,
     volcano: false,
     nam: true,
     nexomia: true,
-    supq: false,        // NEW
-    zynova: true,      // NEW
-    saiko: false,       // NEW
-    vortex: true,      // NEW
-    yubx: false,        // NEW
-    codex: false,       // ★ NEW - CodeX
-    worldclient: false  // ★ NEW - World Client
+    supq: false,
+    zynova: false,
+    saiko: false,
+    vortex: false,
+    yubx: false,
+    codex: false,
+    worldclient: false,
+    aevix: false,
+    yuari: false,
+    luna: false
 };
 
 // ============================================================
@@ -42,15 +45,16 @@ const DOWNLOADS = {
     volcano: { url: 'https://vuotnhanh.com/YANb', filename: 'Volcano-Executor.exe' },
     nam:     { url: 'https://vuotnhanh.com/U0US', filename: 'Nam-Executor.exe' },
     nexomia: { url: 'https://vuotnhanh.com/Krls', filename: 'Nexomia-Executor.exe' },
-    // ↓↓↓ NEW ↓↓↓
     supq:    { url: 'https://vuotnhanh.com/79TH', filename: 'supQ-Executor.exe' },
     zynova:  { url: 'https://vuotnhanh.com/rhN3', filename: 'Zynova-Executor.exe' },
     saiko:   { url: 'https://vuotnhanh.com/bZGB', filename: 'Saiko-Executor.exe' },
     vortex:  { url: 'https://link4m.net/m605D',   filename: 'Vortex-Executor.exe' },
     yubx:    { url: 'https://vuotnhanh.com/F44n', filename: 'Yub-X-Executor.exe' },
-    // ★ CODE X & WORLD CLIENT ★
     codex:       { url: 'https://vuotnhanh.com/POAS', filename: 'CodeX.exe' },
-    worldclient: { url: 'https://vuotnhanh.com/j1lz', filename: 'World-Client.exe' }
+    worldclient: { url: 'https://vuotnhanh.com/j1lz', filename: 'World-Client.exe' },
+    aevix: { url: 'https://vuotnhanh.com/E0W7', filename: 'Aevix.exe' },
+    yuari: { url: 'https://vuotnhanh.com/LL57', filename: 'Yuari.exe' },
+    luna:  { url: 'https://vuotnhanh.com/zTlA', filename: 'Luna.exe' }
 };
 
 // ============================================================
@@ -250,16 +254,13 @@ function initDownloadButtons() {
             const key = card?.dataset.executor;
             if (!key) return;
 
-            // Bảo trì thì không cho tải
             if (MAINTENANCE_MODE[key]) return;
 
-            // Có cấu hình trong DOWNLOADS → xử lý chuẩn
             if (DOWNLOADS[key]) {
                 handleDownload(key, btn);
                 return;
             }
 
-            // Fallback: nếu card có data-url trực tiếp (dành cho executor thêm mới)
             const directUrl = btn.getAttribute('data-url');
             if (directUrl) {
                 window.open(directUrl, '_blank', 'noopener');
