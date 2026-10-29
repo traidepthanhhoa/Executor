@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Hướng Dẫn Vượt Link | Phuc03 Executor</title>
+    <meta name="description" content="Video hướng dẫn vượt link tải executor Roblox nhanh chóng, an toàn." />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://kenhmatchat-executor.vercel.app/huongdan.html" />
+
+    <meta name="theme-color" content="#050510" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f0f4f8" media="(prefers-color-scheme: light)" />
+
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme');
+          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var theme = stored || (prefersDark ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=JetBrains+Mono:wght@500;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet" />
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #0a0a1a;
+            --bg-soft: #0f1024;
+            --text: #e8ecf4;
+            --muted: #8b93a7;
+            --cyan: #05d9e8;
+            --pink: #ff2a6d;
+            --green: #00ff88;
+            --purple: #a855f7;
+            --yellow: #fbbf24;
+            --border: rgba(5, 217, 232, 0.2);
+            --card-bg: linear-gradient(160deg, #1e222c 0%, #151820 100%);
+            --font-cyber: 'Orbitron', sans-serif;
+            --font-code: 'JetBrains Mono', monospace;
+            --font-body: 'Inter', sans-serif;
+        }
+        [data-theme="light"] {
+            --bg: #f0f4f8;
+            --bg-soft: #ffffff;
+            --text: #1a1d24;
+            --muted: #5a6175;
+            --cyan: #0891b2;
+            --border: rgba(8, 145, 178, 0.25);
+            --card-bg: linear-gradient(160deg, #ffffff 0%, #f0f4f8 100%);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(5, 217, 232, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(5, 217, 232, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ===== HEADER ===== */
+        .site-header {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+            background: rgba(10, 10, 26, 0.7);
+        }
+        [data-theme="light"] .site-header { background: rgba(255, 255, 255, 0.8); }
+
+        .header-logo {
+            display: flex; align-items: center; gap: 10px;
+            font-family: var(--font-cyber);
+            font-size: 1.1rem; font-weight: 700;
+            color: var(--cyan); text-decoration: none;
+            text-shadow: 0 0 10px rgba(5, 217, 232, 0.4);
+            transition: transform 0.2s;
+        }
+        .header-logo:hover { transform: scale(1.03); }
+        .header-logo-mark {
+            position: relative;
+            display: grid; place-items: center;
+            width: 28px; height: 28px;
+            color: var(--cyan); transform: rotate(15deg);
+            filter: drop-shadow(0 0 5px var(--cyan));
+        }
+        .header-logo-mark::before {
+            content: ""; width: 20px; height: 20px; background: currentColor;
+        }
+        .header-logo-mark::after {
+            content: ""; position: absolute;
+            width: 7px; height: 7px; background: var(--bg);
+        }
+        .header-actions { display: flex; align-items: center; gap: 12px; }
+        .btn-back {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 8px 16px;
+            border: 1px solid var(--border); border-radius: 8px;
+            background: transparent; color: var(--cyan);
+            font-family: var(--font-code); font-size: 0.85rem; font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s ease; cursor: pointer;
+        }
+        .btn-back:hover {
+            background: var(--cyan); color: #000;
+            box-shadow: 0 0 15px rgba(5, 217, 232, 0.4);
+            transform: translateX(-3px);
+        }
+        .theme-toggle {
+            display: flex; align-items: center; gap: 8px;
+            background: transparent; border: 1px solid var(--border);
+            border-radius: 8px; padding: 6px 12px;
+            color: var(--text); cursor: pointer;
+            font-family: var(--font-code); font-size: 0.75rem;
+            transition: all 0.2s;
+        }
+        .theme-toggle:hover { border-color: var(--cyan); }
+
+        /* ===== MAIN ===== */
+        main {
+            position: relative; z-index: 1;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+        }
+
+        /* HERO */
+        .page-hero { text-align: center; margin-bottom: 36px; }
+        .page-eyebrow {
+            display: inline-block;
+            padding: 4px 12px; margin-bottom: 16px;
+            border: 1px solid var(--border); border-radius: 20px;
+            font-family: var(--font-code); font-size: 0.7rem;
+            font-weight: 700; letter-spacing: 0.15em;
+            text-transform: uppercase; color: var(--cyan);
+            background: rgba(5, 217, 232, 0.05);
+        }
+        .page-hero h1 {
+            font-family: var(--font-cyber);
+            font-size: clamp(1.6rem, 4vw, 2.6rem);
+            font-weight: 900; letter-spacing: 0.02em;
+            background: linear-gradient(90deg, var(--cyan), var(--purple), var(--cyan));
+            background-size: 200% auto;
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 4s linear infinite;
+            margin-bottom: 12px;
+        }
+        @keyframes shine { to { background-position: 200% center; } }
+        .page-hero p {
+            color: var(--muted); font-size: 1rem;
+            max-width: 620px; margin: 0 auto;
+        }
+
+        /* ===== VIDEO CARD ===== */
+        .video-card {
+            position: relative;
+            border: 1px solid var(--border);
+            border-radius: 16px; overflow: hidden;
+            background: var(--card-bg);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4), 0 0 30px rgba(5, 217, 232, 0.08);
+            margin-bottom: 32px;
+            transition: box-shadow 0.3s;
+        }
+        .video-card:hover {
+            box-shadow: 0 15px 50px rgba(0,0,0,0.5), 0 0 40px rgba(5, 217, 232, 0.2);
+        }
+        .video-card-head {
+            display: flex; align-items: center; gap: 10px;
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(0, 0, 0, 0.2);
+        }
+        [data-theme="light"] .video-card-head { background: rgba(8, 145, 178, 0.05); }
+        .video-card-dot {
+            width: 10px; height: 10px; border-radius: 50%;
+            background: var(--pink);
+            box-shadow: 0 0 8px var(--pink);
+            animation: pulseDot 1.5s ease-in-out infinite;
+        }
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+        .video-card-title {
+            font-family: var(--font-code); font-size: 0.85rem;
+            font-weight: 700; color: var(--pink); letter-spacing: 0.03em;
+        }
+
+        .video-wrap {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            background: #000;
+        }
+        .video-wrap iframe,
+        .video-wrap video {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            border: 0;
+        }
+
+        /* ===== STEP LIST ===== */
+        .steps-title {
+            font-family: var(--font-cyber); font-size: 1.1rem;
+            color: var(--cyan); margin-bottom: 16px;
+            letter-spacing: 0.03em;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .steps-list {
+            list-style: none;
+            display: flex; flex-direction: column; gap: 12px;
+        }
+        .step-item {
+            display: flex; gap: 14px;
+            padding: 16px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--card-bg);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .step-item:hover {
+            transform: translateX(4px);
+            border-color: var(--cyan);
+        }
+        .step-num {
+            flex-shrink: 0;
+            display: grid; place-items: center;
+            width: 32px; height: 32px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--cyan), var(--purple));
+            color: #000;
+            font-family: var(--font-cyber); font-weight: 900; font-size: 0.9rem;
+        }
+        .step-body strong {
+            display: block; color: var(--text);
+            margin-bottom: 4px; font-size: 0.95rem;
+        }
+        .step-body p { color: var(--muted); font-size: 0.85rem; }
+        .step-body code {
+            background: rgba(5, 217, 232, 0.1);
+            color: var(--cyan);
+            padding: 1px 6px; border-radius: 4px;
+            font-family: var(--font-code); font-size: 0.78rem;
+        }
+
+        /* ===== WARNING BOX ===== */
+        .warning-box {
+            display: flex; gap: 12px; align-items: flex-start;
+            padding: 16px; margin-top: 32px;
+            border: 1px solid rgba(255, 42, 109, 0.3);
+            border-left: 4px solid var(--pink);
+            border-radius: 10px;
+            background: rgba(255, 42, 109, 0.05);
+        }
+        .warning-box-icon { flex-shrink: 0; font-size: 1.3rem; }
+        .warning-box p { color: var(--muted); font-size: 0.88rem; line-height: 1.5; }
+        .warning-box strong { color: var(--pink); }
+
+        /* ===== TIP BOX ===== */
+        .tip-box {
+            display: flex; gap: 12px; align-items: flex-start;
+            padding: 16px; margin-top: 20px;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-left: 4px solid var(--yellow);
+            border-radius: 10px;
+            background: rgba(251, 191, 36, 0.05);
+        }
+        .tip-box-icon { flex-shrink: 0; font-size: 1.3rem; }
+        .tip-box p { color: var(--muted); font-size: 0.88rem; line-height: 1.5; }
+        .tip-box strong { color: var(--yellow); }
+
+        /* ===== CTA ===== */
+        .cta-box {
+            text-align: center;
+            margin-top: 40px;
+            padding: 32px 24px;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(5, 217, 232, 0.08), rgba(168, 85, 247, 0.08));
+        }
+        .cta-box h3 {
+            font-family: var(--font-cyber); font-size: 1.2rem;
+            color: var(--cyan); margin-bottom: 8px;
+        }
+        .cta-box p { color: var(--muted); font-size: 0.9rem; margin-bottom: 20px; }
+        .cta-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 12px 28px;
+            background: linear-gradient(135deg, var(--cyan), var(--purple));
+            color: #000; font-family: var(--font-code);
+            font-weight: 700; font-size: 0.9rem;
+            text-decoration: none; border-radius: 10px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 20px rgba(5, 217, 232, 0.3);
+        }
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(5, 217, 232, 0.5);
+        }
+
+        /* ===== FOOTER ===== */
+        .page-footer {
+            position: relative; z-index: 1;
+            text-align: center; padding: 24px;
+            border-top: 1px solid var(--border);
+            color: var(--muted); font-size: 0.8rem;
+        }
+        .page-footer a { color: var(--cyan); text-decoration: none; }
+        .page-footer a:hover { text-decoration: underline; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 640px) {
+            .site-header { padding: 12px 16px; }
+            .header-logo { font-size: 0.95rem; }
+            .btn-back span { display: none; }
+            main { padding: 24px 16px 60px; }
+            .page-hero { margin-bottom: 28px; }
+            .step-item { padding: 12px; }
+            .step-num { width: 28px; height: 28px; font-size: 0.8rem; }
+            .cta-box { padding: 24px 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="site-header">
+        <a href="/" class="header-logo">
+            <span class="header-logo-mark" aria-hidden="true"></span>
+            PHUC03
+        </a>
+        <div class="header-actions">
+            <button class="theme-toggle" id="themeToggle" type="button" aria-label="Chuyển chế độ sáng/tối">
+                <span id="themeLabel">🌙 Dark</span>
+            </button>
+            <a href="/" class="btn-back" aria-label="Quay về trang chủ">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="19" y1="12" x2="5" y2="12"/>
+                    <polyline points="12 19 5 12 12 5"/>
+                </svg>
+                <span>Về trang chủ</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <main>
+
+        <!-- HERO -->
+        <div class="page-hero">
+            <span class="page-eyebrow">🎬 Video hướng dẫn</span>
+            <h1>Cách Vượt Link Tải</h1>
+            <p>Xem video hướng dẫn chi tiết cách vượt qua trang rút gọn link để tải executor nhanh chóng.</p>
+        </div>
+
+        <!-- VIDEO -->
+        <div class="video-card">
+            <div class="video-card-head">
+                <span class="video-card-dot" aria-hidden="true"></span>
+                <span class="video-card-title">VIDEO HƯỚNG DẪN VƯỢT LINK</span>
+            </div>
+            <div class="video-wrap">
+                <iframe
+                    src="https://www.youtube.com/embed/vAiclq0k0Cw"
+                    title="Hướng dẫn vượt link tải executor"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen
+                    loading="lazy">
+                </iframe>
+            </div>
+        </div>
+
+        <!-- STEPS -->
+        <h2 class="steps-title">⚡ Các bước vượt link</h2>
+        <ol class="steps-list">
+            <li class="step-item">
+                <span class="step-num">1</span>
+                <div class="step-body">
+                    <strong>Nhấn Download trên card executor</strong>
+                    <p>Chọn executor bạn muốn tải, nhấn nút <b>Download</b> để mở trang rút gọn link.</p>
+                </div>
+            </li>
+            <li class="step-item">
+                <span class="step-num">2</span>
+                <div class="step-body">
+                    <strong>Chờ 5 giây</strong>
+                    <p>Trang sẽ hiện đồng hồ đếm ngược. Đợi hết thời gian quy định.</p>
+                </div>
+            </li>
+            <li class="step-item">
+                <span class="step-num">3</span>
+                <div class="step-body">
+                    <strong>Nhấn "Tiếp tục" / "Continue"</strong>
+                    <p>Tìm nút <b>Continue</b> hoặc <b>Skip Ad</b> (bỏ qua quảng cáo) để đi tiếp.</p>
+                </div>
+            </li>
+            <li class="step-item">
+                <span class="step-num">4</span>
+                <div class="step-body">
+                    <strong>Xác minh (nếu có)</strong>
+                    <p>Một số trang yêu cầu tick <code>I'm not a robot</code> hoặc chọn hình ảnh xác minh.</p>
+                </div>
+            </li>
+            <li class="step-item">
+                <span class="step-num">5</span>
+                <div class="step-body">
+                    <strong>Nhấn "Get Link"</strong>
+                    <p>Sau khi xác minh xong, nhấn <b>Get Link</b> để lấy link tải trực tiếp.</p>
+                </div>
+            </li>
+            <li class="step-item">
+                <span class="step-num">6</span>
+                <div class="step-body">
+                    <strong>Tải file về máy</strong>
+                    <p>Trình duyệt sẽ tự động tải file hoặc mở trang tải xuống. Lưu file và cài đặt.</p>
+                </div>
+            </li>
+        </ol>
+
+        <!-- TIP BOX -->
+        <div class="tip-box">
+            <span class="tip-box-icon">💡</span>
+            <p><strong>Mẹo:</strong> Nếu trang rút gọn hiện quá nhiều quảng cáo, hãy dùng trình duyệt <b>Brave</b> hoặc cài extension <b>uBlock Origin</b> để chặn quảng cáo độc hại và trang load nhanh hơn.</p>
+        </div>
+
+        <!-- WARNING BOX -->
+        <div class="warning-box">
+            <span class="warning-box-icon">⚠️</span>
+            <p><strong>Cảnh báo:</strong> Chỉ tải file từ nguồn bạn tin tưởng. Quét file bằng <b>VirusTotal</b> hoặc Windows Defender trước khi chạy. Không nhập mật khẩu Roblox vào bất kỳ trang lạ nào. Tự chịu rủi ro khi sử dụng executor.</p>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-box">
+            <h3>Sẵn sàng tải executor?</h3>
+            <p>Quay lại trang chủ để chọn executor phù hợp với bạn.</p>
+            <a href="/" class="cta-btn">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                Về trang tải xuống
+            </a>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="page-footer">
+        &copy; 2026 <a href="/">Matchat67 – Executor</a> · Trang web không liên kết với Roblox Corporation.
+    </footer>
+
+    <!-- SCRIPT -->
+    <script>
+        // THEME TOGGLE
+        (function () {
+            const toggle = document.getElementById('themeToggle');
+            const label = document.getElementById('themeLabel');
+            const updateLabel = () => {
+                const theme = document.documentElement.getAttribute('data-theme') || 'dark';
+                if (label) label.textContent = theme === 'dark' ? '🌙 Dark' : '☀️ Light';
+            };
+            updateLabel();
+            if (!toggle) return;
+            toggle.addEventListener('click', () => {
+                const current = document.documentElement.getAttribute('data-theme') || 'dark';
+                const next = current === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', next);
+                try { localStorage.setItem('theme', next); } catch (e) {}
+                updateLabel();
+            });
+        })();
+    </script>
+
+</body>
+</html>
