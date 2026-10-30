@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Phuc03 Executor Hub</title>
-    <meta name="description" content="Phuc03 Executor Hub - tổng hợp Executor & Client Roblox cho Mobile, PC và Premium." />
+    <title>Phuc03 Executor</title>
+    <meta name="description" content="Phuc03 Executor Hub - tổng hợp Executor & Client Roblox cho Mobile, PC, External và Premium." />
     <meta name="theme-color" content="#050510" />
 
     <!-- Áp dụng theme sớm để tránh nháy màn hình -->
@@ -135,7 +135,7 @@
     <!-- ===== HEADER ===== -->
     <header class="site-header">
         <h1>Phuc03 Executor Hub</h1>
-        <p>Mobile Executor &amp; Best Client – PC Executor – Premium</p>
+        <p>Mobile Executor &amp; Best Client – PC Executor – External – Premium</p>
         <div class="header-actions">
             <button class="theme-toggle" id="themeToggle" type="button" aria-label="Chuyển chế độ sáng/tối" title="Chuyển chế độ (Ctrl+Shift+L)">
                 <span aria-hidden="true">🌗</span>
@@ -154,11 +154,6 @@
         <script src="https://uplcm.com/4/12152027" data-cfasync="false" async></script>
     </div>
 
-    <div class="qc-container">
-        <script src="https://quge5.com/88/tag.min.js" data-zone="303527" async data-cfasync="false"></script>
-    </div>
-
-
     <!-- ===== TAB BAR ===== -->
     <nav class="tab-bar" role="tablist" aria-label="Chọn nền tảng">
         <button class="tab-btn active" id="tab-mobile-btn" data-tab="mobile" role="tab" aria-selected="true" aria-controls="tab-mobile" type="button">
@@ -166,6 +161,9 @@
         </button>
         <button class="tab-btn" id="tab-pc-btn" data-tab="pc" role="tab" aria-selected="false" aria-controls="tab-pc" type="button">
             <span aria-hidden="true">💻</span> PC <span class="tab-badge" data-count="pc">0</span>
+        </button>
+        <button class="tab-btn" id="tab-external-btn" data-tab="external" role="tab" aria-selected="false" aria-controls="tab-external" type="button">
+            <span aria-hidden="true">🧩</span> External <span class="tab-badge" data-count="external">0</span>
         </button>
         <button class="tab-btn" id="tab-premium-btn" data-tab="premium" role="tab" aria-selected="false" aria-controls="tab-premium" type="button">
             <span aria-hidden="true">👑</span> Premium <span class="tab-badge" data-count="premium">0</span>
@@ -182,8 +180,8 @@
         <p class="search-empty" id="searchEmpty" hidden>Không tìm thấy executor nào phù hợp 😢</p>
     </div>
 
-    <!-- ===== TAB MOBILE ===== -->
     <main>
+        <!-- ===== TAB MOBILE ===== -->
         <div class="tab-content active" id="tab-mobile" role="tabpanel" aria-labelledby="tab-mobile-btn">
             <section class="hero" id="grid-mobile" aria-label="Executor cho Mobile">
             <!-- DELTA -->
@@ -198,7 +196,6 @@
                 <button class="btn btn-mobile" data-role="download" type="button">Download</button>
                 <div class="info"><span>Version: 2.743.1136</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
-
             <!-- DELTA FONT MINE -->
             <article class="card" data-executor="D32" data-name="Delta Font Mine" data-updated="2026-10-19">
                 <h2>
@@ -217,20 +214,6 @@
         <!-- ===== TAB PC ===== -->
         <div class="tab-content" id="tab-pc" role="tabpanel" aria-labelledby="tab-pc-btn">
             <section class="hero" id="grid-pc" aria-label="Executor cho PC">
-            <!-- EXTERNAL MADIUS -->
-            <article class="card" data-executor="madius" data-name="External Madius" data-updated="2026-10-30">
-                <h2>
-                    <img class="executor-logo" src="https://i.postimg.cc/ZWV1ZG6v/Thiet-ke-chua-co-ten-(3).png" alt="External Madius logo" loading="lazy" width="28" height="28" />
-                    <span>External Madius</span>
-                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z"/></svg>PC</span>
-                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
-                </h2>
-                <p>External · Fast execution · Multi-instance</p>
-                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 30/10/2026</span></p>
-                <button class="btn btn-pc" data-role="download" type="button">Download</button>
-                <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
-            </article>
-
             <!-- AEVIX -->
             <article class="card" data-executor="aevix" data-name="Aevix" data-updated="2026-10-29">
                 <h2>
@@ -245,7 +228,6 @@
                 <button class="btn btn-new" data-role="download" type="button">Download</button>
                 <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
-
             <!-- YUARI -->
             <article class="card" data-executor="yuari" data-name="Yuari" data-updated="2026-10-29">
                 <h2>
@@ -260,7 +242,6 @@
                 <button class="btn btn-new" data-role="download" type="button">Download</button>
                 <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
-
             <!-- LUNA -->
             <article class="card" data-executor="luna" data-name="Luna" data-updated="2026-10-29">
                 <h2>
@@ -275,7 +256,6 @@
                 <button class="btn btn-new" data-role="download" type="button">Download</button>
                 <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
-
             <!-- CODEX -->
             <article class="card" data-executor="codex" data-name="CodeX" data-updated="2026-10-29">
                 <h2>
@@ -289,7 +269,6 @@
                 <button class="btn btn-pc" data-role="download" type="button">Download</button>
                 <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
-
             <!-- WORLD CLIENT -->
             <article class="card" data-executor="worldclient" data-name="World Client" data-updated="2026-10-29">
                 <h2>
@@ -303,7 +282,6 @@
                 <button class="btn btn-pc" data-role="download" type="button">Download</button>
                 <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
-
             <!-- SUPQ EXECUTOR -->
             <article class="card" data-executor="supq" data-name="supQ Executor" data-updated="2026-10-29">
                 <h2>
@@ -317,7 +295,6 @@
                 <button class="btn btn-pc" data-role="download" type="button">Download</button>
                 <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
-
             <!-- ZYNOVA EXECUTOR -->
             <article class="card" data-executor="zynova" data-name="Zynova Executor" data-updated="2026-10-29">
                 <h2>
@@ -331,7 +308,6 @@
                 <button class="btn btn-pc" data-role="download" type="button">Download</button>
                 <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
-
             <!-- SAIKO EXECUTOR -->
             <article class="card" data-executor="saiko" data-name="Saiko Executor" data-updated="2026-10-29">
                 <h2>
@@ -345,7 +321,6 @@
                 <button class="btn btn-pc" data-role="download" type="button">Download</button>
                 <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
-
             <!-- VORTEX EXECUTOR -->
             <article class="card" data-executor="vortex" data-name="Vortex Executor" data-updated="2026-10-29">
                 <h2>
@@ -359,7 +334,6 @@
                 <button class="btn btn-pc" data-role="download" type="button">Download</button>
                 <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
-
             <!-- YUB-X EXECUTOR -->
             <article class="card" data-executor="yubx" data-name="Yub-X Executor" data-updated="2026-10-29">
                 <h2>
@@ -373,7 +347,6 @@
                 <button class="btn btn-pc" data-role="download" type="button">Download</button>
                 <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
-
             <!-- VOLCANO EXECUTOR -->
             <article class="card" data-executor="volcano" data-name="Volcano Executor" data-updated="2026-10-29">
                 <h2>
@@ -387,7 +360,6 @@
                 <button class="btn btn-pc" data-role="download" type="button">Download</button>
                 <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
-
             <!-- UMI EXECUTOR -->
             <article class="card" data-executor="umi" data-name="Umi Executor" data-updated="2026-10-29">
                 <h2>
@@ -401,7 +373,6 @@
                 <button class="btn btn-pc" data-role="download" type="button">Download</button>
                 <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
-
             <!-- EXECUTOR REAL -->
             <article class="card" data-executor="pc" data-name="Executor Real" data-updated="2026-10-29">
                 <h2>
@@ -415,7 +386,6 @@
                 <button class="btn btn-pc" data-role="download" type="button">Download</button>
                 <div class="info"><span>Version: 1.7.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
-
             <!-- EXECUTOR MEDIUM -->
             <article class="card" data-executor="px" data-name="Executor Medium" data-updated="2026-10-29">
                 <h2>
@@ -429,7 +399,6 @@
                 <button class="btn btn-pc" data-role="download" type="button">Download</button>
                 <div class="info"><span>Version: 1.5.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
-
             <!-- EXECUTOR VELOCITY -->
             <article class="card" data-executor="pv" data-name="Executor Velocity" data-updated="2026-10-29">
                 <h2>
@@ -443,7 +412,6 @@
                 <button class="btn btn-pc" data-role="download" type="button">Download</button>
                 <div class="info"><span>Version: 1.3.7</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
-
             <!-- SOLARA EXECUTOR -->
             <article class="card" data-executor="solara" data-name="Solara Executor" data-updated="2026-10-29">
                 <h2>
@@ -457,7 +425,6 @@
                 <button class="btn btn-solara" data-role="download" type="button">Download</button>
                 <div class="info"><span>Version: 2.8.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
-
             <!-- XENO EXECUTOR -->
             <article class="card" data-executor="xeno" data-name="Xeno Executor" data-updated="2026-10-29">
                 <h2>
@@ -471,7 +438,6 @@
                 <button class="btn btn-xeno" data-role="download" type="button">Download</button>
                 <div class="info"><span>Version: 1.3.60</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
-
             <!-- NAM EXECUTOR -->
             <article class="card" data-executor="nam" data-name="Nam Executor" data-updated="2026-10-29">
                 <h2>
@@ -485,7 +451,6 @@
                 <button class="btn btn-pc" data-role="download" type="button">Download</button>
                 <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
-
             <!-- NEXOMIA EXECUTOR -->
             <article class="card" data-executor="nexomia" data-name="Nexomia Executor" data-updated="2026-10-29">
                 <h2>
@@ -496,6 +461,137 @@
                 </h2>
                 <p>Keyless · Fast execution · Multi-instance</p>
                 <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 29/10/2026</span></p>
+                <button class="btn btn-pc" data-role="download" type="button">Download</button>
+                <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+            </article>
+            <!-- EMBERLY EXECUTOR -->
+            <article class="card" data-executor="emberly" data-name="Emberly Executor" data-updated="2026-10-30">
+                <h2>
+                    <img class="executor-logo" src="https://i.postimg.cc/ygdrTKYm/logo-(1).png" alt="Emberly Executor logo" loading="lazy" width="28" height="28" />
+                    <span>Emberly Executor</span>
+                    <span class="new-badge">NEW</span>
+                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z"/></svg>PC</span>
+                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
+                </h2>
+                <p>Keyless · Fast execution · Multi-instance</p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 30/10/2026</span></p>
+                <button class="btn btn-new" data-role="download" type="button">Download</button>
+                <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+            </article>
+            <!-- FLUXUSZ EXECUTOR -->
+            <article class="card" data-executor="fluxusz" data-name="FluxusZ Executor" data-updated="2026-10-30">
+                <h2>
+                    <img class="executor-logo" src="https://i.postimg.cc/D41Qrpsp/fluxus-z-111125.webp" alt="FluxusZ Executor logo" loading="lazy" width="28" height="28" />
+                    <span>FluxusZ Executor</span>
+                    <span class="new-badge">NEW</span>
+                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z"/></svg>PC</span>
+                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
+                </h2>
+                <p>Keyless · Fast execution · Multi-instance</p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 30/10/2026</span></p>
+                <button class="btn btn-new" data-role="download" type="button">Download</button>
+                <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+            </article>
+            <!-- CRESCENT EXECUTOR -->
+            <article class="card" data-executor="crescent" data-name="Crescent Executor" data-updated="2026-10-30">
+                <h2>
+                    <img class="executor-logo" src="https://i.postimg.cc/D41Qrpsp/fluxus-z-111125.webp" alt="Crescent Executor logo" loading="lazy" width="28" height="28" />
+                    <span>Crescent Executor</span>
+                    <span class="new-badge">NEW</span>
+                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z"/></svg>PC</span>
+                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
+                </h2>
+                <p>Keyless · Fast execution · Multi-instance</p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 30/10/2026</span></p>
+                <button class="btn btn-new" data-role="download" type="button">Download</button>
+                <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+            </article>
+        </section>
+        </div>
+
+        <!-- ===== TAB EXTERNAL ===== -->
+        <div class="tab-content" id="tab-external" role="tabpanel" aria-labelledby="tab-external-btn">
+            <section class="hero" id="grid-external" aria-label="Executor External">
+            <!-- YUARI EXTERNAL -->
+            <article class="card" data-executor="yuari-ext" data-name="Yuari External" data-updated="2026-10-30">
+                <h2>
+                    <img class="executor-logo" src="https://i.postimg.cc/WDhwNJMk/f7279a08-0ecc-4444-9f36-1af7c77769b5.png" alt="Yuari External logo" loading="lazy" width="28" height="28" />
+                    <span>Yuari External</span>
+                    <span class="new-badge">NEW</span>
+                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z"/></svg>PC</span>
+                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
+                </h2>
+                <p>External · Fast execution · Multi-instance</p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 30/10/2026</span></p>
+                <button class="btn btn-new" data-role="download" type="button">Download</button>
+                <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+            </article>
+            <!-- FLUXUSZ EXTERNAL -->
+            <article class="card" data-executor="fluxusz-ext" data-name="FluxusZ External" data-updated="2026-10-30">
+                <h2>
+                    <img class="executor-logo" src="https://i.postimg.cc/D41Qrpsp/fluxus-z-111125.webp" alt="FluxusZ External logo" loading="lazy" width="28" height="28" />
+                    <span>FluxusZ External</span>
+                    <span class="new-badge">NEW</span>
+                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z"/></svg>PC</span>
+                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
+                </h2>
+                <p>External · Fast execution · Multi-instance</p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 30/10/2026</span></p>
+                <button class="btn btn-new" data-role="download" type="button">Download</button>
+                <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+            </article>
+            <!-- VEXOR EXTERNAL -->
+            <article class="card" data-executor="vexor-ext" data-name="Vexor External" data-updated="2026-10-30">
+                <h2>
+                    <img class="executor-logo" src="https://i.postimg.cc/V05P309N/Thiet-ke-chua-co-ten-(2).png" alt="Vexor External logo" loading="lazy" width="28" height="28" />
+                    <span>Vexor External</span>
+                    <span class="new-badge">NEW</span>
+                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z"/></svg>PC</span>
+                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
+                </h2>
+                <p>External · Fast execution · Multi-instance</p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 30/10/2026</span></p>
+                <button class="btn btn-new" data-role="download" type="button">Download</button>
+                <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+            </article>
+            <!-- WORLD CLIENT EXTERNAL -->
+            <article class="card" data-executor="worldclient-ext" data-name="World Client External" data-updated="2026-10-30">
+                <h2>
+                    <img class="executor-logo" src="https://i.postimg.cc/fkVMw0P1/logo.webp" alt="World Client External logo" loading="lazy" width="28" height="28" />
+                    <span>World Client External</span>
+                    <span class="new-badge">NEW</span>
+                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z"/></svg>PC</span>
+                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
+                </h2>
+                <p>External · Fast execution · Multi-instance</p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 30/10/2026</span></p>
+                <button class="btn btn-new" data-role="download" type="button">Download</button>
+                <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+            </article>
+            <!-- RIFT EXTERNAL -->
+            <article class="card" data-executor="rift-ext" data-name="Rift External" data-updated="2026-10-30">
+                <h2>
+                    <img class="executor-logo" src="https://i.postimg.cc/S2MWVD36/Screenshot-20261030-195430-Chrome.jpg" alt="Rift External logo" loading="lazy" width="28" height="28" />
+                    <span>Rift External</span>
+                    <span class="new-badge">NEW</span>
+                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z"/></svg>PC</span>
+                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
+                </h2>
+                <p>External · Fast execution · Multi-instance</p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 30/10/2026</span></p>
+                <button class="btn btn-new" data-role="download" type="button">Download</button>
+                <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+            </article>
+            <!-- EXTERNAL MADIUS -->
+            <article class="card" data-executor="madius" data-name="External Madius" data-updated="2026-10-30">
+                <h2>
+                    <img class="executor-logo" src="https://i.postimg.cc/ZWV1ZG6v/Thiet-ke-chua-co-ten-(3).png" alt="External Madius logo" loading="lazy" width="28" height="28" />
+                    <span>External Madius</span>
+                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z"/></svg>PC</span>
+                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
+                </h2>
+                <p>External · Fast execution · Multi-instance</p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 30/10/2026</span></p>
                 <button class="btn btn-pc" data-role="download" type="button">Download</button>
                 <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
@@ -524,7 +620,6 @@
                 <button class="btn btn-premium" data-role="download" type="button" data-url="https://shyun.shop/?aff=9WBAP3F5">Mua ngay</button>
                 <div class="info info-premium"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
-
             <!-- DELTA PAID -->
             <article class="card card-premium" data-executor="delta-paid" data-name="Delta Paid" data-updated="2026-10-29">
                 <span class="premium-ribbon" aria-hidden="true">👑 PREMIUM</span>
@@ -540,7 +635,6 @@
                 <button class="btn btn-premium" data-role="download" type="button" data-url="https://shyun.shop/?aff=9WBAP3F5">Mua ngay</button>
                 <div class="info info-premium"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
-
             <!-- REAL EXECUTOR PAID -->
             <article class="card card-premium" data-executor="real-paid" data-name="Real Executor Paid" data-updated="2026-10-29">
                 <span class="premium-ribbon" aria-hidden="true">👑 PREMIUM</span>
@@ -556,7 +650,6 @@
                 <button class="btn btn-premium" data-role="download" type="button" data-url="https://shyun.shop/?aff=9WBAP3F5">Mua ngay</button>
                 <div class="info info-premium"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
-
             <!-- VOLT -->
             <article class="card card-premium" data-executor="volt" data-name="Volt" data-updated="2026-10-29">
                 <span class="premium-ribbon" aria-hidden="true">👑 PREMIUM</span>
@@ -572,7 +665,6 @@
                 <button class="btn btn-premium" data-role="download" type="button" data-url="https://shyun.shop/?aff=9WBAP3F5">Mua ngay</button>
                 <div class="info info-premium"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
-
             <!-- WAVE -->
             <article class="card card-premium" data-executor="wave" data-name="Wave" data-updated="2026-10-29">
                 <span class="premium-ribbon" aria-hidden="true">👑 PREMIUM</span>
@@ -588,7 +680,6 @@
                 <button class="btn btn-premium" data-role="download" type="button" data-url="https://shyun.shop/?aff=9WBAP3F5">Mua ngay</button>
                 <div class="info info-premium"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
-
             <!-- ISAEVA -->
             <article class="card card-premium" data-executor="isaeva" data-name="Isaeva" data-updated="2026-10-29">
                 <span class="premium-ribbon" aria-hidden="true">👑 PREMIUM</span>
@@ -643,4 +734,4 @@
 
     <script src="script.js" defer></script>
 </body>
-</html>
+    </html>
