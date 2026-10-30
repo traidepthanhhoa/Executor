@@ -3,258 +3,128 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Phuc03 Executor Hub</title>
+    <meta name="description" content="Phuc03 Executor Hub - tổng hợp Executor & Client Roblox cho Mobile, PC và Premium." />
+    <meta name="theme-color" content="#050510" />
 
-    <title>Phuc03 Executor</title>
-    <meta name="description" content="Tải Executor & Client Roblox miễn phí: Delta, Solara, Xeno, Umi, Volcano, supQ, Zynova, Saiko, Vortex, Yub-X, CodeX, World Client, Aevix, Yuari, Luna. Cập nhật 29/10/2026." />
-    <meta name="keywords" content="roblox executor, delta executor, solara, xeno, umi executor, volcano executor, executor pc, nam executor, nexomia executor, supq, zynova, saiko, vortex, yub-x, codex, world client, aevix, yuari, luna" />
-    <meta name="author" content="Matchat67" />
-    <link rel="canonical" href="https://kenhmatchat-executor.vercel.app/" />
-
-    <meta name="theme-color" content="#050510" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#f0f4f8" media="(prefers-color-scheme: light)" />
-
+    <!-- Áp dụng theme sớm để tránh nháy màn hình -->
     <script>
-      (function () {
-        try {
-          var stored = localStorage.getItem('theme');
-          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          var theme = stored || (prefersDark ? 'dark' : 'light');
-          document.documentElement.setAttribute('data-theme', theme);
-        } catch (e) {
-          document.documentElement.setAttribute('data-theme', 'dark');
-        }
-      })();
+        (function () {
+            try {
+                var stored = localStorage.getItem('theme');
+                var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                document.documentElement.setAttribute('data-theme', stored || (prefersDark ? 'dark' : 'light'));
+            } catch (e) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
     </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=JetBrains+Mono:wght@500;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet" />
-
     <link rel="stylesheet" href="style.css" />
-
-    <style>
-        /* ===== INLINE FIX CHO LOGO EXECUTOR ===== */
-        .executor-logo {
-            width: 28px; height: 28px; object-fit: contain; border-radius: 6px;
-            background: rgba(255, 255, 255, 0.06); padding: 2px; flex-shrink: 0;
-            vertical-align: middle; margin-right: 8px; display: inline-block;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        .card:hover .executor-logo {
-            transform: scale(1.08); box-shadow: 0 0 12px rgba(5, 217, 232, 0.4);
-        }
-        .card h2 { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
-
-        /* Badge NEW cho card mới */
-        .new-badge {
-            display: inline-block;
-            padding: 2px 8px;
-            margin-left: 4px;
-            font-size: 0.65rem;
-            font-weight: 800;
-            letter-spacing: 0.06em;
-            color: #000;
-            background: linear-gradient(90deg, #05d9e8, #00ff88);
-            border-radius: 4px;
-            text-transform: uppercase;
-            box-shadow: 0 0 10px rgba(5, 217, 232, 0.6);
-            animation: pulseNew 2s ease-in-out infinite;
-        }
-        @keyframes pulseNew {
-            0%, 100% { box-shadow: 0 0 10px rgba(5, 217, 232, 0.6); }
-            50% { box-shadow: 0 0 18px rgba(0, 255, 136, 0.9); }
-        }
-
-        /* ===== CONTAINER QUẢNG CÁO ===== */
-        .qc-container {
-            max-width: 1328px;
-            margin: 16px auto;
-            padding: 0 24px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 60px;
-        }
-        #container-87c563c43ce3973bdab55cd829e35144 {
-            min-height: 60px;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* ==========================================
-           FIX GIAO DIỆN ROBLOX PC PANEL (CYBERPUNK TERMINAL)
-           ========================================== */
-        .roblox-pc-panel {
-            position: relative; box-sizing: border-box;
-            width: calc(100% - 48px); max-width: 1328px;
-            margin: 0 auto 32px; padding: 16px 20px;
-            border: 1px solid rgba(5, 217, 232, 0.2);
-            border-left: 4px solid var(--cyan);
-            border-radius: 8px;
-            background: linear-gradient(90deg, rgba(5, 217, 232, 0.05) 0%, rgba(10, 10, 26, 0.8) 100%);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.4), inset 0 0 20px rgba(5, 217, 232, 0.05);
-            display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
-            gap: 16px;
-        }
-        [data-theme="light"] .roblox-pc-panel {
-            background: linear-gradient(90deg, rgba(8, 145, 178, 0.08) 0%, rgba(255, 255, 255, 0.9) 100%);
-            border-color: rgba(8, 145, 178, 0.3);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-
-        .roblox-pc-heading {
-            display: flex; align-items: center; gap: 10px; margin: 0;
-        }
-        .roblox-pc-mark {
-            position: relative;
-            display: grid; place-items: center; width: 22px; height: 22px;
-            color: var(--cyan); transform: rotate(15deg);
-            filter: drop-shadow(0 0 5px var(--cyan));
-        }
-        .roblox-pc-mark::before { content: ""; width: 18px; height: 18px; background: currentColor; }
-        .roblox-pc-mark::after { content: ""; position: absolute; width: 6px; height: 6px; background: var(--bg); }
-
-        .roblox-pc-heading h2 {
-            margin: 0; font-family: var(--font-cyber); font-size: 1.1rem;
-            color: var(--cyan); letter-spacing: .05em;
-            text-shadow: 0 0 10px rgba(5, 217, 232, 0.4);
-        }
-
-        .roblox-pc-row {
-            display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
-            justify-content: space-between; flex: 1;
-        }
-        .roblox-pc-details { display: flex; flex-direction: column; gap: 4px; }
-        .roblox-pc-label {
-            display: flex; align-items: center; gap: 6px; color: var(--text);
-            font-size: .9rem; font-weight: 700;
-        }
-        .roblox-pc-label svg { color: var(--cyan); filter: drop-shadow(0 0 5px var(--cyan)); }
-
-        .roblox-pc-meta {
-            display: flex; flex-wrap: wrap; gap: 4px 12px;
-            color: var(--muted); font-family: var(--font-code); font-size: .75rem;
-        }
-
-        .roblox-pc-version-link {
-            display: inline-flex; align-items: center; gap: 8px;
-            padding: 8px 14px; border: 1px solid rgba(5, 217, 232, 0.3);
-            border-radius: 6px; background: rgba(0,0,0,0.3); color: var(--cyan);
-            font-family: var(--font-code); font-size: .8rem; font-weight: 700; text-decoration: none;
-            transition: all .2s ease;
-        }
-        .roblox-pc-version-link:hover {
-            background: var(--cyan); color: #000; box-shadow: 0 0 15px rgba(5, 217, 232, 0.4);
-        }
-
-        .roblox-pc-note {
-            width: 100%; margin: 0; font-family: var(--font-code);
-            font-size: .7rem; color: var(--muted); opacity: 0.7;
-            border-top: 1px dashed rgba(5, 217, 232, 0.2); padding-top: 10px;
-        }
-
-        @media (max-width: 900px) {
-            .roblox-pc-panel { width: calc(100% - 32px); flex-direction: column; align-items: flex-start; }
-            .roblox-pc-row { flex-direction: column; align-items: flex-start; width: 100%; gap: 12px; }
-            .roblox-pc-version-link { width: 100%; justify-content: space-between; }
-            .qc-container { padding: 0 16px; }
-        }
-
-        /* ===== CSS POPUP QC ===== */
-        .qc-popup {
-            position: fixed; inset: 0; z-index: 99999;
-            display: none; align-items: center; justify-content: center;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(8px);
-            padding: 20px;
-        }
-        .qc-popup.hien { display: flex; }
-        .qc-popup-inner {
-            position: relative; max-width: 90vw; max-height: 90vh;
-            animation: qcFadeIn 0.3s ease;
-        }
-        .qc-popup-inner img {
-            max-width: 100%; max-height: 90vh; display: block;
-            border-radius: 12px; box-shadow: 0 0 40px rgba(5, 217, 232, 0.4);
-        }
-        #qcDong {
-            position: absolute; top: -12px; right: -12px;
-            width: 36px; height: 36px; border-radius: 50%;
-            background: #ff2a6d; color: #fff; border: 2px solid #fff;
-            font-size: 18px; font-weight: 900; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 0 20px rgba(255, 42, 109, 0.8);
-            transition: transform 0.2s ease;
-        }
-        #qcDong:hover { transform: scale(1.15) rotate(90deg); }
-        @keyframes qcFadeIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-    </style>
 </head>
 <body>
 
+    <!-- ===== THANH TIẾN TRÌNH ===== -->
     <div class="top-progress" aria-hidden="true"><div class="top-progress-fill" id="topProgressFill"></div></div>
-    <div class="reading-progress" id="readingProgress" aria-hidden="true"><div class="reading-progress-fill" id="readingProgressFill"></div></div>
+    <div class="reading-progress" aria-hidden="true"><div class="reading-progress-fill" id="readingProgressFill"></div></div>
+
+    <!-- ===== TOAST ===== -->
     <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
 
-    <!-- GUIDE MODAL -->
-    <div class="guide-overlay" id="guideOverlay" aria-hidden="true">
-        <div class="guide-modal" role="dialog" aria-modal="true" aria-labelledby="guideTitle">
-            <div class="guide-head">
-                <div class="guide-head-left">
-                    <svg class="guide-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-                    <h3 id="guideTitle">Hướng dẫn cài đặt &amp; sử dụng</h3>
+    <!-- ===== LOADER ===== -->
+    <div id="loader" role="status" aria-live="polite" aria-label="Đang tải trang">
+        <div class="loader-container">
+            <div class="loader-spinner" aria-hidden="true"></div>
+            <div class="loader-dots" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+            <div class="loader-percentage" id="percentage">0%</div>
+            <div class="loading-title">ĐANG TẢI</div>
+            <div class="loading-sub">Vui lòng đợi trong giây lát...</div>
+            <div class="loader-progress" aria-hidden="true"><div class="loader-progress-fill" id="loaderBar"></div></div>
+        </div>
+    </div>
+
+    <!-- ===== MODAL HƯỚNG DẪN ===== -->
+    <div class="overlay" id="guideOverlay" aria-hidden="true">
+        <div class="modal guide-modal" role="dialog" aria-modal="true" aria-labelledby="guideTitle">
+            <div class="modal-head">
+                <div class="modal-head-left">
+                    <svg class="modal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                    <h3 id="guideTitle">Hướng dẫn tải Executor &amp; vượt link</h3>
                 </div>
-                <button class="guide-close" id="guideClose" aria-label="Đóng hướng dẫn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg></button>
+                <button class="icon-btn" id="guideClose" type="button" aria-label="Đóng hướng dẫn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
             </div>
-            <div class="guide-body">
+
+            <div class="modal-body">
+                <div class="guide-cta">
+                    <p>Xem video hướng dẫn chi tiết và các bước vượt link tải executor nhanh chóng trên trang hướng dẫn chính thức:</p>
+                    <a class="guide-cta-btn" href="https://kenhmatchat-executor.vercel.app/huongdan.html" target="_blank" rel="noopener noreferrer">🎬 Mở trang hướng dẫn Executor</a>
+                </div>
+
                 <div class="guide-tabs" role="tablist" aria-label="Chọn nền tảng hướng dẫn">
                     <button class="guide-tab active" data-guide-tab="mobile" role="tab" aria-selected="true" type="button">📱 Mobile</button>
                     <button class="guide-tab" data-guide-tab="pc" role="tab" aria-selected="false" type="button">💻 PC</button>
                 </div>
+
                 <div class="guide-content active" id="guide-mobile" role="tabpanel">
                     <ol class="guide-steps">
-                        <li><span class="step-num">1</span><div class="step-body"><strong>Tải file APK</strong><p>Nhấn nút <b>Download</b> executor bạn muốn.</p></div></li>
-                        <li><span class="step-num">2</span><div class="step-body"><strong>Cho phép cài đặt ngoài</strong><p>Vào <code>Settings → Security → Install unknown apps</code></p></div></li>
-                        <li><span class="step-num">3</span><div class="step-body"><strong>Cài đặt APK</strong><p>Mở file vừa tải → nhấn <b>Install</b></p></div></li>
-                        <li><span class="step-num">4</span><div class="step-body"><strong>Mở Roblox</strong><p>Đăng nhập Roblox và vào game</p></div></li>
-                        <li><span class="step-num">5</span><div class="step-body"><strong>Getkey</strong><p>Mở app executor → nhấn Getkey</p></div></li>
-                        <li><span class="step-num">6</span><div class="step-body"><strong>Paste &amp; Execute</strong><p>Dán script → nhấn Execute</p></div></li>
+                        <li><span class="step-num">1</span><div><strong>Tải file APK</strong><p>Nhấn nút <b>Download</b> trên executor bạn muốn.</p></div></li>
+                        <li><span class="step-num">2</span><div><strong>Vượt link</strong><p>Hoàn thành các bước trên trang rút gọn link để nhận file tải.</p></div></li>
+                        <li><span class="step-num">3</span><div><strong>Cho phép cài đặt ngoài</strong><p>Vào <code>Settings → Security → Install unknown apps</code>.</p></div></li>
+                        <li><span class="step-num">4</span><div><strong>Cài đặt APK</strong><p>Mở file vừa tải rồi nhấn <b>Install</b>.</p></div></li>
+                        <li><span class="step-num">5</span><div><strong>Getkey</strong><p>Mở app executor, nhấn Getkey và làm theo hướng dẫn.</p></div></li>
+                        <li><span class="step-num">6</span><div><strong>Execute</strong><p>Vào game Roblox, dán script rồi nhấn Execute.</p></div></li>
                     </ol>
                 </div>
+
                 <div class="guide-content" id="guide-pc" role="tabpanel">
                     <ol class="guide-steps">
-                        <li><span class="step-num">1</span><div class="step-body"><strong>Tải file ZIP/EXE</strong><p>Nhấn Download trên card PC</p></div></li>
-                        <li><span class="step-num">2</span><div class="step-body"><strong>Giải nén</strong><p>Dùng 7-Zip hoặc WinRAR</p></div></li>
-                        <li><span class="step-num">3</span><div class="step-body"><strong>Tắt antivirus</strong><p>Windows Defender có thể báo nhầm</p></div></li>
-                        <li><span class="step-num">4</span><div class="step-body"><strong>Dùng Microsoft Edge</strong><p>Đôi khi ít bị chặn hơn Chrome</p></div></li>
-                        <li><span class="step-num">5</span><div class="step-body"><strong>Mở Roblox</strong><p>Vào game bất kỳ</p></div></li>
-                        <li><span class="step-num">6</span><div class="step-body"><strong>Attach &amp; Execute</strong><p>Chọn Roblox → dán script → Execute</p></div></li>
+                        <li><span class="step-num">1</span><div><strong>Tải file ZIP/EXE</strong><p>Nhấn Download trên card executor PC.</p></div></li>
+                        <li><span class="step-num">2</span><div><strong>Vượt link</strong><p>Hoàn thành các bước trên trang rút gọn link để nhận file.</p></div></li>
+                        <li><span class="step-num">3</span><div><strong>Giải nén &amp; kiểm tra file</strong><p>Giải nén bằng 7-Zip/WinRAR. Hãy quét file bằng VirusTotal trước khi chạy và chỉ dùng nguồn bạn tin tưởng.</p></div></li>
+                        <li><span class="step-num">4</span><div><strong>Mở Roblox</strong><p>Đăng nhập và vào một game bất kỳ.</p></div></li>
+                        <li><span class="step-num">5</span><div><strong>Attach &amp; Execute</strong><p>Chọn tiến trình Roblox, dán script rồi nhấn Execute.</p></div></li>
                     </ol>
                 </div>
-                <div class="guide-faq">
-                    <button class="faq-toggle" id="faqToggle" type="button" aria-expanded="true" aria-controls="faqList"><span>❓ Câu hỏi thường gặp</span><span class="faq-arrow" aria-hidden="true">▾</span></button>
+
+                <div class="faq">
+                    <button class="faq-toggle" id="faqToggle" type="button" aria-expanded="true" aria-controls="faqList">
+                        <span>❓ Câu hỏi thường gặp</span><span class="faq-arrow" aria-hidden="true">▾</span>
+                    </button>
                     <div class="faq-list" id="faqList">
-                        <div class="faq-item"><strong>Executor không attach or inject được?</strong><p>Đúng phiên bản Roblox Executor cần. Tắt antivirus tạm thời.</p></div>
-                        <div class="faq-item"><strong>Antivirus báo virus?</strong><p>False positive — thêm file vào whitelist.</p></div>
-                        <div class="faq-item"><strong>Roblox crash sau khi inject?</strong><p>Cập nhật executor lên bản mới nhất.</p></div>
-                        <div class="faq-item"><strong>Có bị ban tài khoản không?</strong><p>Có thể. Dùng tài khoản phụ để test.</p></div>
+                        <div class="faq-item"><strong>Executor không inject được?</strong><p>Kiểm tra đúng phiên bản Roblox mà executor hỗ trợ và cập nhật executor lên bản mới nhất.</p></div>
+                        <div class="faq-item"><strong>Antivirus báo virus?</strong><p>Các công cụ kiểu này thường bị cảnh báo. Hãy quét bằng VirusTotal và chỉ chạy khi bạn chấp nhận rủi ro.</p></div>
+                        <div class="faq-item"><strong>Roblox crash sau inject?</strong><p>Cập nhật executor, tắt bớt phần mềm chạy nền và thử lại.</p></div>
+                        <div class="faq-item"><strong>Có bị ban không?</strong><p>Có thể. Nên dùng tài khoản phụ để thử.</p></div>
                     </div>
                 </div>
             </div>
-            <div class="guide-foot">
-                <p class="guide-warning">⚠️ Sử dụng executor có thể vi phạm ToS của Roblox. Tự chịu rủi ro.</p>
-                <button class="guide-btn-ok" id="guideOk" type="button">Đã hiểu ✓</button>
+
+            <div class="modal-foot">
+                <p class="warning">⚠️ Sử dụng executor có thể vi phạm ToS Roblox</p>
+                <button class="btn-ok" id="guideOk" type="button">Đã hiểu ✓</button>
             </div>
         </div>
     </div>
 
-    <!-- POPUP QUẢNG CÁO GAME PASS -->
+    <!-- ===== MODAL THÔNG TIN (footer) ===== -->
+    <div class="overlay" id="infoOverlay" aria-hidden="true">
+        <div class="modal info-modal" role="dialog" aria-modal="true" aria-labelledby="infoTitle">
+            <div class="modal-head">
+                <h3 id="infoTitle">About</h3>
+                <button class="icon-btn" id="infoClose" type="button" aria-label="Đóng">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="modal-body" id="infoBody"></div>
+        </div>
+    </div>
+
+    <!-- ===== POPUP QUẢNG CÁO ===== -->
     <div class="qc-popup" id="qcNen" aria-hidden="true">
         <div class="qc-popup-inner">
             <img id="qcAnh" src="" alt="Quảng cáo" />
@@ -262,334 +132,478 @@
         </div>
     </div>
 
-    <!-- LOADER -->
-    <div id="loader" role="status" aria-live="polite" aria-label="Đang tải trang">
-        <div class="loader-container">
-            <div class="loader-neon" aria-hidden="true"></div>
-            <div class="dots-reup" aria-hidden="true"><div class="dot-reup"></div><div class="dot-reup"></div><div class="dot-reup"></div><div class="dot-reup"></div></div>
-            <div class="loader-percentage" id="percentage">0%</div>
-            <div class="loading-title">ĐANG TẢI</div>
-            <div class="loading-sub">Vui lòng đợi trong giây lát...</div>
-            <div class="progress-reup" aria-hidden="true"><div class="progress-fill-reup" id="loader-bar"></div></div>
-        </div>
-    </div>
-
+    <!-- ===== HEADER ===== -->
     <header class="site-header">
-        <h1>Download Executor &amp; Client</h1>
-        <p>Mobile Executor &amp; Best Client – PC Executor</p>
-
+        <h1>Phuc03 Executor Hub</h1>
+        <p>Mobile Executor &amp; Best Client – PC Executor – Premium</p>
         <div class="header-actions">
-            <button class="theme-toggle" id="themeToggle" type="button" aria-label="Chuyển chế độ sáng/tối" title="Chuyển chế độ sáng/tối (Ctrl+Shift+L)">
-                <span class="theme-toggle-track" aria-hidden="true">
-                    <span class="theme-toggle-thumb">
-                        <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
-                        <svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-                    </span>
-                </span>
-                <span class="theme-toggle-label" data-role="theme-label">Dark</span>
+            <button class="theme-toggle" id="themeToggle" type="button" aria-label="Chuyển chế độ sáng/tối" title="Chuyển chế độ (Ctrl+Shift+L)">
+                <span aria-hidden="true">🌗</span>
+                <span data-role="theme-label">Dark</span>
             </button>
-
-            <button class="guide-open-btn" id="guideOpen" type="button" aria-label="Mở hướng dẫn cài đặt">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-                <span>Hướng dẫn</span>
-            </button>
+            <button class="guide-open-btn" id="guideOpen" type="button" aria-label="Mở hướng dẫn">📖 Hướng dẫn</button>
         </div>
     </header>
 
-    <!-- ===== QUẢNG CÁO 1 ===== -->
-    <div class="qc-container">
-        <script>(function(s){s.dataset.zone='12118014',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-    </div>
+    <!-- ===== TAB BAR ===== -->
+    <nav class="tab-bar" role="tablist" aria-label="Chọn nền tảng">
+        <button class="tab-btn active" id="tab-mobile-btn" data-tab="mobile" role="tab" aria-selected="true" aria-controls="tab-mobile" type="button">
+            <span aria-hidden="true">📱</span> Mobile <span class="tab-badge" data-count="mobile">0</span>
+        </button>
+        <button class="tab-btn" id="tab-pc-btn" data-tab="pc" role="tab" aria-selected="false" aria-controls="tab-pc" type="button">
+            <span aria-hidden="true">💻</span> PC <span class="tab-badge" data-count="pc">0</span>
+        </button>
+        <button class="tab-btn" id="tab-premium-btn" data-tab="premium" role="tab" aria-selected="false" aria-controls="tab-premium" type="button">
+            <span aria-hidden="true">👑</span> Premium <span class="tab-badge" data-count="premium">0</span>
+        </button>
+    </nav>
 
-    <!-- ===== QUẢNG CÁO 2 ===== -->
-    <div class="qc-container">
-        <script src="https://5gvci.com/act/files/tag.min.js?z=12118015" data-cfasync="false" async></script>
-    </div>
-
-    <!-- ===== QUẢNG CÁO 3 ===== -->
-    <div class="qc-container">
-        <script>(function(s){s.dataset.zone='12118018',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-    </div>
-
-    <!-- ===== QUẢNG CÁO 4 ===== -->
-    <div class="qc-container">
-        <div id="container-12118044"></div>
-        <script src="https://uplcm.com/4/12118044" data-cfasync="false" async></script>
-    </div>
-
-    <div class="tab-bar" role="tablist" aria-label="Chọn nền tảng">
-        <div class="tab-indicator" id="tabIndicator"></div>
-        <button class="tab-btn active" id="tab-mobile-btn" data-tab="mobile" role="tab" aria-selected="true" aria-controls="tab-mobile" type="button"><span class="tab-icon" aria-hidden="true">📱</span> Mobile <span class="tab-badge" data-count="mobile">2</span></button>
-        <button class="tab-btn" id="tab-pc-btn" data-tab="pc" role="tab" aria-selected="false" aria-controls="tab-pc" type="button"><span class="tab-icon" aria-hidden="true">💻</span> PC <span class="tab-badge" data-count="pc">20</span></button>
-    </div>
-
+    <!-- ===== SEARCH ===== -->
     <div class="search-wrap">
         <div class="search-box">
             <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input type="text" class="search-input" id="searchInput" placeholder="Tìm executor... (Delta, Solara, Xeno, CodeX, Aevix...)" aria-label="Tìm kiếm executor" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
-            <button class="search-clear" id="searchClear" type="button" aria-label="Xóa tìm kiếm" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+            <input type="text" class="search-input" id="searchInput" placeholder="Tìm executor... (Delta, Solara, Xeno, CodeX, Aevix...)" aria-label="Tìm kiếm executor" autocomplete="off" spellcheck="false" />
+            <button class="search-clear" id="searchClear" type="button" aria-label="Xóa tìm kiếm" hidden>✕</button>
         </div>
         <p class="search-empty" id="searchEmpty" hidden>Không tìm thấy executor nào phù hợp 😢</p>
     </div>
 
-    <!-- TAB MOBILE -->
-    <div class="tab-content active" id="tab-mobile" role="tabpanel" aria-labelledby="tab-mobile-btn">
-        <section class="hero" aria-label="Executor cho Mobile">
-            <article class="card card-client" data-executor="client" data-name="Delta" data-updated="2026-10-19">
-                <h2><img class="executor-logo" src="https://i.postimg.cc/0bNDk5kX/1741705989265.webp" alt="Delta logo" loading="lazy" /> Download Delta <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span></h2>
+    <!-- ===== TAB MOBILE ===== -->
+    <main>
+        <div class="tab-content active" id="tab-mobile" role="tabpanel" aria-labelledby="tab-mobile-btn">
+            <section class="hero" id="grid-mobile" aria-label="Executor cho Mobile">
+            <!-- DELTA -->
+            <article class="card" data-executor="client" data-name="Delta" data-updated="2026-10-19">
+                <h2>
+                    <img class="executor-logo" src="https://i.postimg.cc/0bNDk5kX/1741705989265.webp" alt="Delta logo" loading="lazy" width="28" height="28" />
+                    <span>Download Delta</span>
+                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
+                </h2>
                 <p>Tải phiên bản mới nhất.</p>
-                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Đang tính...</span></p>
-                <button class="btn btn-client" data-role="download" type="button">Download</button>
-                <div class="info info-client"><span>Version: 2.743.1136</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 19/10/2026</span></p>
+                <button class="btn btn-mobile" data-role="download" type="button">Download</button>
+                <div class="info"><span>Version: 2.743.1136</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
 
-            <article class="card card-client" data-executor="D32" data-name="Delta Font Mine" data-updated="2026-10-19">
-                <h2><img class="executor-logo" src="https://i.postimg.cc/0bNDk5kX/1741705989265.webp" alt="Delta Font Mine logo" loading="lazy" /> Download Delta Font Mine <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span></h2>
+            <!-- DELTA FONT MINE -->
+            <article class="card" data-executor="D32" data-name="Delta Font Mine" data-updated="2026-10-19">
+                <h2>
+                    <img class="executor-logo" src="https://i.postimg.cc/0bNDk5kX/1741705989265.webp" alt="Delta Font Mine logo" loading="lazy" width="28" height="28" />
+                    <span>Download Delta Font Mine</span>
+                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
+                </h2>
                 <p>Tải phiên bản font mine mới nhất.</p>
-                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Đang tính...</span></p>
-                <button class="btn btn-client" data-role="download" type="button">Download</button>
-                <div class="info info-client"><span>Version: 2.743.1136</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 19/10/2026</span></p>
+                <button class="btn btn-mobile" data-role="download" type="button">Download</button>
+                <div class="info"><span>Version: 2.743.1136</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
         </section>
-    </div>
+        </div>
 
-    <!-- TAB PC -->
-    <div class="tab-content" id="tab-pc" role="tabpanel" aria-labelledby="tab-pc-btn">
-        <section class="roblox-pc-panel" aria-labelledby="roblox-pc-heading">
-            <div class="roblox-pc-heading">
-                <span class="roblox-pc-mark" aria-hidden="true"></span>
-                <h2 id="roblox-pc-heading">Roblox</h2>
-            </div>
-            <div class="roblox-pc-row">
-                <div class="roblox-pc-details">
-                    <div class="roblox-pc-label">
-                        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 5.5 10.5 4.5v7H3v-6Zm8.5-1.1L21 3v8.5h-9.5V4.4ZM3 12.5h7.5v7L3 18.5v-6Zm8.5 0H21V21l-9.5-1.4v-7.1Z"/></svg>
-                        Windows Version
-                    </div>
-                    <div class="roblox-pc-meta">
-                        <span>Last Updated: 10/29/2026, 12:00:00 AM UTC</span>
-                        <span>↻ Download Previous Version</span>
-                    </div>
-                </div>
-                <a class="roblox-pc-version-link" href="https://rdd.weao.gg/?channel=LIVE&amp;binaryType=WindowsPlayer&amp;version=version-5a21b87bbc2641cf" target="_blank" rel="noopener noreferrer" aria-label="Mở liên kết tải Roblox PC Windows Player">
-                    <span>version-5a21b87bbc2641cf</span>
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M14 3h7v7M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-                </a>
-            </div>
-            <p class="roblox-pc-note">Mã hiển thị theo yêu cầu; mã trong URL tải khác mã đang hiển thị.</p>
-        </section>
-
-        <section class="hero" aria-label="Executor cho PC">
-
-            <!-- AEVIX (NEW) -->
-            <article class="card card-pc" data-executor="aevix" data-name="Aevix" data-updated="2026-10-29">
+        <!-- ===== TAB PC ===== -->
+        <div class="tab-content" id="tab-pc" role="tabpanel" aria-labelledby="tab-pc-btn">
+            <section class="hero" id="grid-pc" aria-label="Executor cho PC">
+            <!-- EXTERNAL MADIUS -->
+            <article class="card" data-executor="madius" data-name="External Madius" data-updated="2026-10-30">
                 <h2>
-                    <img class="executor-logo" src="https://i.postimg.cc/zLjRKDqN/tai-xuong-(1).webp" alt="Aevix logo" loading="lazy" />
-                    Aevix
-                    <span class="new-badge">NEW</span>
-                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z" /></svg>PC</span>
+                    <img class="executor-logo" src="https://i.postimg.cc/ZWV1ZG6v/Thiet-ke-chua-co-ten-(3).png" alt="External Madius logo" loading="lazy" width="28" height="28" />
+                    <span>External Madius</span>
+                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z"/></svg>PC</span>
                     <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
                 </h2>
-                <p>Keyless · Fast execution · Multi-instance.</p>
-                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Đang tính...</span></p>
-                <button class="btn btn-pc" data-role="download" type="button" data-url="https://vuotnhanh.com/E0W7">Download</button>
-                <div class="info info-pc"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+                <p>External · Fast execution · Multi-instance</p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 30/10/2026</span></p>
+                <button class="btn btn-pc" data-role="download" type="button">Download</button>
+                <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
 
-            <!-- YUARI (NEW) -->
-            <article class="card card-pc" data-executor="yuari" data-name="Yuari" data-updated="2026-10-29">
+            <!-- AEVIX -->
+            <article class="card" data-executor="aevix" data-name="Aevix" data-updated="2026-10-29">
                 <h2>
-                    <img class="executor-logo" src="https://i.postimg.cc/WDhwNJMk/f7279a08-0ecc-4444-9f36-1af7c77769b5.png" alt="Yuari logo" loading="lazy" />
-                    Yuari
+                    <img class="executor-logo" src="https://i.postimg.cc/zLjRKDqN/tai-xuong-(1).webp" alt="Aevix logo" loading="lazy" width="28" height="28" />
+                    <span>Aevix</span>
                     <span class="new-badge">NEW</span>
-                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z" /></svg>PC</span>
+                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z"/></svg>PC</span>
                     <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
                 </h2>
-                <p>Keyless · Fast execution · Multi-instance.</p>
-                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Đang tính...</span></p>
-                <button class="btn btn-pc" data-role="download" type="button" data-url="https://vuotnhanh.com/LL57">Download</button>
-                <div class="info info-pc"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+                <p>Keyless · Fast execution · Multi-instance</p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 29/10/2026</span></p>
+                <button class="btn btn-new" data-role="download" type="button">Download</button>
+                <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
 
-            <!-- LUNA (NEW) -->
-            <article class="card card-pc" data-executor="luna" data-name="Luna" data-updated="2026-10-29">
+            <!-- YUARI -->
+            <article class="card" data-executor="yuari" data-name="Yuari" data-updated="2026-10-29">
                 <h2>
-                    <img class="executor-logo" src="https://i.postimg.cc/S2bdgxMP/logo.png" alt="Luna logo" loading="lazy" />
-                    Luna
+                    <img class="executor-logo" src="https://i.postimg.cc/WDhwNJMk/f7279a08-0ecc-4444-9f36-1af7c77769b5.png" alt="Yuari logo" loading="lazy" width="28" height="28" />
+                    <span>Yuari</span>
                     <span class="new-badge">NEW</span>
-                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z" /></svg>PC</span>
+                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z"/></svg>PC</span>
                     <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
                 </h2>
-                <p>Keyless · Fast execution · Multi-instance.</p>
-                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Đang tính...</span></p>
-                <button class="btn btn-pc" data-role="download" type="button" data-url="https://vuotnhanh.com/zTlA">Download</button>
-                <div class="info info-pc"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+                <p>Keyless · Fast execution · Multi-instance</p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 29/10/2026</span></p>
+                <button class="btn btn-new" data-role="download" type="button">Download</button>
+                <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+            </article>
+
+            <!-- LUNA -->
+            <article class="card" data-executor="luna" data-name="Luna" data-updated="2026-10-29">
+                <h2>
+                    <img class="executor-logo" src="https://i.postimg.cc/S2bdgxMP/logo.png" alt="Luna logo" loading="lazy" width="28" height="28" />
+                    <span>Luna</span>
+                    <span class="new-badge">NEW</span>
+                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z"/></svg>PC</span>
+                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
+                </h2>
+                <p>Keyless · Fast execution · Multi-instance</p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 29/10/2026</span></p>
+                <button class="btn btn-new" data-role="download" type="button">Download</button>
+                <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
 
             <!-- CODEX -->
-            <article class="card card-pc" data-executor="codex" data-name="CodeX" data-updated="2026-10-29">
+            <article class="card" data-executor="codex" data-name="CodeX" data-updated="2026-10-29">
                 <h2>
-                    <img class="executor-logo" src="https://i.postimg.cc/CzfM4fHc/6d8ceab644fef7db17423cd6fe453418.jpg" alt="CodeX logo" loading="lazy" />
-                    CodeX
-                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z" /></svg>PC</span>
+                    <img class="executor-logo" src="https://i.postimg.cc/CzfM4fHc/6d8ceab644fef7db17423cd6fe453418.jpg" alt="CodeX logo" loading="lazy" width="28" height="28" />
+                    <span>CodeX</span>
+                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z"/></svg>PC</span>
                     <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
                 </h2>
-                <p>Keyless · Fast execution · Multi-instance.</p>
-                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Đang tính...</span></p>
-                <button class="btn btn-pc" data-role="download" type="button" data-url="https://vuotnhanh.com/POAS">Download</button>
-                <div class="info info-pc"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+                <p>Keyless · Fast execution · Multi-instance</p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 29/10/2026</span></p>
+                <button class="btn btn-pc" data-role="download" type="button">Download</button>
+                <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
 
             <!-- WORLD CLIENT -->
-            <article class="card card-pc" data-executor="worldclient" data-name="World Client" data-updated="2026-10-29">
+            <article class="card" data-executor="worldclient" data-name="World Client" data-updated="2026-10-29">
                 <h2>
-                    <img class="executor-logo" src="https://i.postimg.cc/fkVMw0P1/logo.webp" alt="World Client logo" loading="lazy" />
-                    World Client
-                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z" /></svg>PC</span>
+                    <img class="executor-logo" src="https://i.postimg.cc/fkVMw0P1/logo.webp" alt="World Client logo" loading="lazy" width="28" height="28" />
+                    <span>World Client</span>
+                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z"/></svg>PC</span>
                     <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
                 </h2>
-                <p>Keyless · Fast execution · Multi-instance.</p>
-                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Đang tính...</span></p>
-                <button class="btn btn-pc" data-role="download" type="button" data-url="https://vuotnhanh.com/j1lz">Download</button>
-                <div class="info info-pc"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+                <p>Keyless · Fast execution · Multi-instance</p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 29/10/2026</span></p>
+                <button class="btn btn-pc" data-role="download" type="button">Download</button>
+                <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
 
-            <!-- SUPQ -->
-            <article class="card card-pc" data-executor="supq" data-name="supQ Executor" data-updated="2026-10-29">
-                <h2><img class="executor-logo" src="https://i.postimg.cc/p522MTNR/f934142b-c462-4d17-9251-54587eac1ac9.png" alt="supQ logo" loading="lazy" /> supQ Executor <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z" /></svg>PC</span> <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span></h2>
-                <p>Keyless · Fast execution · Multi-instance.</p>
-                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Đang tính...</span></p>
+            <!-- SUPQ EXECUTOR -->
+            <article class="card" data-executor="supq" data-name="supQ Executor" data-updated="2026-10-29">
+                <h2>
+                    <img class="executor-logo" src="https://i.postimg.cc/p522MTNR/f934142b-c462-4d17-9251-54587eac1ac9.png" alt="supQ Executor logo" loading="lazy" width="28" height="28" />
+                    <span>supQ Executor</span>
+                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z"/></svg>PC</span>
+                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
+                </h2>
+                <p>Keyless · Fast execution · Multi-instance</p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 29/10/2026</span></p>
                 <button class="btn btn-pc" data-role="download" type="button">Download</button>
-                <div class="info info-pc"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+                <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
 
-            <!-- ZYNOVA -->
-            <article class="card card-pc" data-executor="zynova" data-name="Zynova Executor" data-updated="2026-10-29">
-                <h2><img class="executor-logo" src="https://i.postimg.cc/NLYGHNKV/05fc499fcba6e421fbdd8e084374f8af.jpg" alt="Zynova logo" loading="lazy" /> Zynova Executor <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z" /></svg>PC</span> <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span></h2>
-                <p>Keyless · Fast execution · Multi-instance.</p>
-                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Đang tính...</span></p>
+            <!-- ZYNOVA EXECUTOR -->
+            <article class="card" data-executor="zynova" data-name="Zynova Executor" data-updated="2026-10-29">
+                <h2>
+                    <img class="executor-logo" src="https://i.postimg.cc/NLYGHNKV/05fc499fcba6e421fbdd8e084374f8af.jpg" alt="Zynova Executor logo" loading="lazy" width="28" height="28" />
+                    <span>Zynova Executor</span>
+                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z"/></svg>PC</span>
+                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
+                </h2>
+                <p>Keyless · Fast execution · Multi-instance</p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 29/10/2026</span></p>
                 <button class="btn btn-pc" data-role="download" type="button">Download</button>
-                <div class="info info-pc"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+                <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
 
-            <!-- SAIKO -->
-            <article class="card card-pc" data-executor="saiko" data-name="Saiko Executor" data-updated="2026-10-29">
-                <h2><img class="executor-logo" src="https://i.postimg.cc/87CjrZ0f/logo-mark.webp" alt="Saiko logo" loading="lazy" /> Saiko Executor <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z" /></svg>PC</span> <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span></h2>
-                <p>Keyless · Fast execution · Multi-instance.</p>
-                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Đang tính...</span></p>
+            <!-- SAIKO EXECUTOR -->
+            <article class="card" data-executor="saiko" data-name="Saiko Executor" data-updated="2026-10-29">
+                <h2>
+                    <img class="executor-logo" src="https://i.postimg.cc/87CjrZ0f/logo-mark.webp" alt="Saiko Executor logo" loading="lazy" width="28" height="28" />
+                    <span>Saiko Executor</span>
+                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z"/></svg>PC</span>
+                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
+                </h2>
+                <p>Keyless · Fast execution · Multi-instance</p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 29/10/2026</span></p>
                 <button class="btn btn-pc" data-role="download" type="button">Download</button>
-                <div class="info info-pc"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+                <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
 
-            <!-- VORTEX -->
-            <article class="card card-pc" data-executor="vortex" data-name="Vortex Executor" data-updated="2026-10-29">
-                <h2><img class="executor-logo" src="https://i.postimg.cc/qhGN3W44/7be20c3e-f961-4bca-aa91-c47650811eca-jfif.jpg" alt="Vortex logo" loading="lazy" /> Vortex Executor <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z" /></svg>PC</span> <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span></h2>
-                <p>Keyless · Fast execution · Multi-instance.</p>
-                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Đang tính...</span></p>
+            <!-- VORTEX EXECUTOR -->
+            <article class="card" data-executor="vortex" data-name="Vortex Executor" data-updated="2026-10-29">
+                <h2>
+                    <img class="executor-logo" src="https://i.postimg.cc/qhGN3W44/7be20c3e-f961-4bca-aa91-c47650811eca-jfif.jpg" alt="Vortex Executor logo" loading="lazy" width="28" height="28" />
+                    <span>Vortex Executor</span>
+                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z"/></svg>PC</span>
+                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
+                </h2>
+                <p>Keyless · Fast execution · Multi-instance</p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 29/10/2026</span></p>
                 <button class="btn btn-pc" data-role="download" type="button">Download</button>
-                <div class="info info-pc"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+                <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
 
-            <!-- YUB-X -->
-            <article class="card card-pc" data-executor="yubx" data-name="Yub-X Executor" data-updated="2026-10-29">
-                <h2><img class="executor-logo" src="https://i.postimg.cc/BjCkRgSK/logo-96.webp" alt="Yub-X logo" loading="lazy" /> Yub-X Executor <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z" /></svg>PC</span> <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span></h2>
-                <p>Keyless · Fast execution · Multi-instance.</p>
-                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Đang tính...</span></p>
+            <!-- YUB-X EXECUTOR -->
+            <article class="card" data-executor="yubx" data-name="Yub-X Executor" data-updated="2026-10-29">
+                <h2>
+                    <img class="executor-logo" src="https://i.postimg.cc/BjCkRgSK/logo-96.webp" alt="Yub-X Executor logo" loading="lazy" width="28" height="28" />
+                    <span>Yub-X Executor</span>
+                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z"/></svg>PC</span>
+                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
+                </h2>
+                <p>Keyless · Fast execution · Multi-instance</p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 29/10/2026</span></p>
                 <button class="btn btn-pc" data-role="download" type="button">Download</button>
-                <div class="info info-pc"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+                <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
 
-            <!-- VOLCANO -->
-            <article class="card card-nx" data-executor="volcano" data-name="Volcano Executor" data-updated="2026-10-29">
-                <h2><img class="executor-logo" src="https://i.postimg.cc/Hr22Svkc/volcano.png" alt="Volcano logo" loading="lazy" /> Volcano Executor <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z" /></svg>PC</span> <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span></h2>
-                <p>Keyless · Fast execution · Multi-instance.</p>
-                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Đang tính...</span></p>
+            <!-- VOLCANO EXECUTOR -->
+            <article class="card" data-executor="volcano" data-name="Volcano Executor" data-updated="2026-10-29">
+                <h2>
+                    <img class="executor-logo" src="https://i.postimg.cc/Hr22Svkc/volcano.png" alt="Volcano Executor logo" loading="lazy" width="28" height="28" />
+                    <span>Volcano Executor</span>
+                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z"/></svg>PC</span>
+                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
+                </h2>
+                <p>Keyless · Fast execution · Multi-instance</p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 29/10/2026</span></p>
                 <button class="btn btn-pc" data-role="download" type="button">Download</button>
-                <div class="info info-nx"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+                <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
 
-            <!-- UMI -->
-            <article class="card card-pc" data-executor="umi" data-name="Umi Executor" data-updated="2026-10-29">
-                <h2><img class="executor-logo" src="https://i.postimg.cc/s1HCLK18/Thiet-ke-chua-co-ten.png" alt="Umi logo" loading="lazy" /> Umi Executor <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z" /></svg>PC</span> <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span></h2>
-                <p>Keyless · Fast execution · Multi-instance.</p>
-                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Đang tính...</span></p>
+            <!-- UMI EXECUTOR -->
+            <article class="card" data-executor="umi" data-name="Umi Executor" data-updated="2026-10-29">
+                <h2>
+                    <img class="executor-logo" src="https://i.postimg.cc/s1HCLK18/Thiet-ke-chua-co-ten.png" alt="Umi Executor logo" loading="lazy" width="28" height="28" />
+                    <span>Umi Executor</span>
+                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z"/></svg>PC</span>
+                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
+                </h2>
+                <p>Keyless · Fast execution · Multi-instance</p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 29/10/2026</span></p>
                 <button class="btn btn-pc" data-role="download" type="button">Download</button>
-                <div class="info info-pc"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+                <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
 
             <!-- EXECUTOR REAL -->
-            <article class="card card-pc" data-executor="pc" data-name="Executor Real" data-updated="2026-10-29">
-                <h2><img class="executor-logo" src="https://i.postimg.cc/LJRD3F24/logo.png" alt="Executor Real logo" loading="lazy" /> Executor Real <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z" /></svg>PC</span> <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span></h2>
+            <article class="card" data-executor="pc" data-name="Executor Real" data-updated="2026-10-29">
+                <h2>
+                    <img class="executor-logo" src="https://i.postimg.cc/LJRD3F24/logo.png" alt="Executor Real logo" loading="lazy" width="28" height="28" />
+                    <span>Executor Real</span>
+                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z"/></svg>PC</span>
+                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
+                </h2>
                 <p>Real Client</p>
-                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Đang tính...</span></p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 29/10/2026</span></p>
                 <button class="btn btn-pc" data-role="download" type="button">Download</button>
-                <div class="info info-pc"><span>Version: 1.7.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+                <div class="info"><span>Version: 1.7.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
 
             <!-- EXECUTOR MEDIUM -->
-            <article class="card card-pc" data-executor="px" data-name="Executor Medium" data-updated="2026-10-29">
-                <h2><img class="executor-logo" src="https://i.postimg.cc/rzBQztH0/images-(2).jpg" alt="Executor Medium logo" loading="lazy" /> Executor Medium <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z" /></svg>PC</span> <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span></h2>
+            <article class="card" data-executor="px" data-name="Executor Medium" data-updated="2026-10-29">
+                <h2>
+                    <img class="executor-logo" src="https://i.postimg.cc/rzBQztH0/images-(2).jpg" alt="Executor Medium logo" loading="lazy" width="28" height="28" />
+                    <span>Executor Medium</span>
+                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z"/></svg>PC</span>
+                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
+                </h2>
                 <p>Medium Client</p>
-                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Đang tính...</span></p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 29/10/2026</span></p>
                 <button class="btn btn-pc" data-role="download" type="button">Download</button>
-                <div class="info info-pc"><span>Version: 1.5.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+                <div class="info"><span>Version: 1.5.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
 
-            <!-- VELOCITY -->
-            <article class="card card-pc" data-executor="pv" data-name="Executor Velocity" data-updated="2026-10-29">
-                <h2><img class="executor-logo" src="https://i.postimg.cc/pm4D1NtV/velocity-logo.webp" alt="Velocity logo" loading="lazy" /> Executor Velocity <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z" /></svg>PC</span> <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span></h2>
+            <!-- EXECUTOR VELOCITY -->
+            <article class="card" data-executor="pv" data-name="Executor Velocity" data-updated="2026-10-29">
+                <h2>
+                    <img class="executor-logo" src="https://i.postimg.cc/pm4D1NtV/velocity-logo.webp" alt="Executor Velocity logo" loading="lazy" width="28" height="28" />
+                    <span>Executor Velocity</span>
+                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z"/></svg>PC</span>
+                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
+                </h2>
                 <p>Velocity Client</p>
-                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Đang tính...</span></p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 29/10/2026</span></p>
                 <button class="btn btn-pc" data-role="download" type="button">Download</button>
-                <div class="info info-pc"><span>Version: 1.3.7</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+                <div class="info"><span>Version: 1.3.7</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
 
-            <!-- SOLARA -->
-            <article class="card card-solara" data-executor="solara" data-name="Solara" data-updated="2026-10-29">
-                <h2><img class="executor-logo" src="https://i.postimg.cc/NKS1Phwr/images-(3).jpg" alt="Solara logo" loading="lazy" /> Solara Executor <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z" /></svg>PC</span> <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span></h2>
-                <p>Keyless · Fast execution · Multi-instance.</p>
-                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Đang tính...</span></p>
-                <button class="btn btn-pc" data-role="download" type="button">Download</button>
-                <div class="info info-solara"><span>Version: 2.8.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+            <!-- SOLARA EXECUTOR -->
+            <article class="card" data-executor="solara" data-name="Solara Executor" data-updated="2026-10-29">
+                <h2>
+                    <img class="executor-logo" src="https://i.postimg.cc/NKS1Phwr/images-(3).jpg" alt="Solara Executor logo" loading="lazy" width="28" height="28" />
+                    <span>Solara Executor</span>
+                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z"/></svg>PC</span>
+                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
+                </h2>
+                <p>Keyless · Fast execution · Multi-instance</p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 29/10/2026</span></p>
+                <button class="btn btn-solara" data-role="download" type="button">Download</button>
+                <div class="info"><span>Version: 2.8.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
 
-            <!-- XENO -->
-            <article class="card card-xeno" data-executor="xeno" data-name="Xeno" data-updated="2026-10-29">
-                <h2><img class="executor-logo" src="https://i.postimg.cc/JDcZnGHS/images-(4).jpg" alt="Xeno logo" loading="lazy" /> Xeno Executor <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z" /></svg>PC</span> <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span></h2>
-                <p>Keyless · Fast execution · Multi-instance.</p>
-                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Đang tính...</span></p>
-                <button class="btn btn-pc" data-role="download" type="button">Download</button>
-                <div class="info info-xeno"><span>Version: 1.3.60</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+            <!-- XENO EXECUTOR -->
+            <article class="card" data-executor="xeno" data-name="Xeno Executor" data-updated="2026-10-29">
+                <h2>
+                    <img class="executor-logo" src="https://i.postimg.cc/JDcZnGHS/images-(4).jpg" alt="Xeno Executor logo" loading="lazy" width="28" height="28" />
+                    <span>Xeno Executor</span>
+                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z"/></svg>PC</span>
+                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
+                </h2>
+                <p>Keyless · Fast execution · Multi-instance</p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 29/10/2026</span></p>
+                <button class="btn btn-xeno" data-role="download" type="button">Download</button>
+                <div class="info"><span>Version: 1.3.60</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
 
-            <!-- NAM -->
-            <article class="card card-pc" data-executor="nam" data-name="Nam Executor" data-updated="2026-10-29">
-                <h2><img class="executor-logo" src="https://i.postimg.cc/PNJ1hrrp/c492f993-f771-4dcb-853c-a7fa133bb0ed.png" alt="Nam logo" loading="lazy" /> Nam Executor <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z" /></svg>PC</span> <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span></h2>
-                <p>Keyless · Fast execution · Multi-instance.</p>
-                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Đang tính...</span></p>
+            <!-- NAM EXECUTOR -->
+            <article class="card" data-executor="nam" data-name="Nam Executor" data-updated="2026-10-29">
+                <h2>
+                    <img class="executor-logo" src="https://i.postimg.cc/PNJ1hrrp/c492f993-f771-4dcb-853c-a7fa133bb0ed.png" alt="Nam Executor logo" loading="lazy" width="28" height="28" />
+                    <span>Nam Executor</span>
+                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z"/></svg>PC</span>
+                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
+                </h2>
+                <p>Keyless · Fast execution · Multi-instance</p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 29/10/2026</span></p>
                 <button class="btn btn-pc" data-role="download" type="button">Download</button>
-                <div class="info info-pc"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+                <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
 
-            <!-- NEXOMIA -->
-            <article class="card card-pc" data-executor="nexomia" data-name="Nexomia Executor" data-updated="2026-10-29">
-                <h2><img class="executor-logo" src="https://i.postimg.cc/YjTLH6PH/30527f3c-55cf-4eae-b8cb-9c5d1b5f661e.png" alt="Nexomia logo" loading="lazy" /> Nexomia Executor <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z" /></svg>PC</span> <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span></h2>
-                <p>Keyless · Fast execution · Multi-instance.</p>
-                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Đang tính...</span></p>
+            <!-- NEXOMIA EXECUTOR -->
+            <article class="card" data-executor="nexomia" data-name="Nexomia Executor" data-updated="2026-10-29">
+                <h2>
+                    <img class="executor-logo" src="https://i.postimg.cc/YjTLH6PH/30527f3c-55cf-4eae-b8cb-9c5d1b5f661e.png" alt="Nexomia Executor logo" loading="lazy" width="28" height="28" />
+                    <span>Nexomia Executor</span>
+                    <span class="pc-icon" aria-label="Chỉ hỗ trợ PC"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M4 6h16v10H4V6zm1 1v8h14V7H5zm1 10h12v1H6v-1z"/></svg>PC</span>
+                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
+                </h2>
+                <p>Keyless · Fast execution · Multi-instance</p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 29/10/2026</span></p>
                 <button class="btn btn-pc" data-role="download" type="button">Download</button>
-                <div class="info info-pc"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+                <div class="info"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
         </section>
-    </div>
+        </div>
 
+        <!-- ===== TAB PREMIUM ===== -->
+        <div class="tab-content" id="tab-premium" role="tabpanel" aria-labelledby="tab-premium-btn">
+            <section class="premium-banner" aria-label="Giới thiệu Premium">
+                <p>👑 Executor Premium — trả phí, keyless, ổn định cao, hỗ trợ 24/7</p>
+                <a class="premium-banner-btn" href="https://shyun.shop/?aff=9WBAP3F5" target="_blank" rel="noopener noreferrer">Mua ngay tại Shyun.shop →</a>
+            </section>
+            <section class="hero" id="grid-premium" aria-label="Executor Premium">
+            <!-- POTTASIUM -->
+            <article class="card card-premium" data-executor="pottasium" data-name="Pottasium" data-updated="2026-10-29">
+                <span class="premium-ribbon" aria-hidden="true">👑 PREMIUM</span>
+                <h2>
+                    <img class="executor-logo" src="https://i.postimg.cc/N9TGPsZq/1054851.webp" alt="Pottasium logo" loading="lazy" width="28" height="28" />
+                    <span>Pottasium</span>
+                    <span class="paid-badge">PAID</span>
+                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
+                </h2>
+                <p>Keyless · Fast execution · Multi-instance</p>
+                <p class="price-tag">💎 Mua tại Shyun.shop</p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 29/10/2026</span></p>
+                <button class="btn btn-premium" data-role="download" type="button" data-url="https://shyun.shop/?aff=9WBAP3F5">Mua ngay</button>
+                <div class="info info-premium"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+            </article>
+
+            <!-- DELTA PAID -->
+            <article class="card card-premium" data-executor="delta-paid" data-name="Delta Paid" data-updated="2026-10-29">
+                <span class="premium-ribbon" aria-hidden="true">👑 PREMIUM</span>
+                <h2>
+                    <img class="executor-logo" src="https://i.postimg.cc/0bNDk5kX/1741705989265.webp" alt="Delta Paid logo" loading="lazy" width="28" height="28" />
+                    <span>Delta Paid</span>
+                    <span class="paid-badge">PAID</span>
+                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
+                </h2>
+                <p>Keyless · Fast execution · Multi-instance</p>
+                <p class="price-tag">💎 Mua tại Shyun.shop</p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 29/10/2026</span></p>
+                <button class="btn btn-premium" data-role="download" type="button" data-url="https://shyun.shop/?aff=9WBAP3F5">Mua ngay</button>
+                <div class="info info-premium"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+            </article>
+
+            <!-- REAL EXECUTOR PAID -->
+            <article class="card card-premium" data-executor="real-paid" data-name="Real Executor Paid" data-updated="2026-10-29">
+                <span class="premium-ribbon" aria-hidden="true">👑 PREMIUM</span>
+                <h2>
+                    <img class="executor-logo" src="https://i.postimg.cc/LJRD3F24/logo.png" alt="Real Executor Paid logo" loading="lazy" width="28" height="28" />
+                    <span>Real Executor Paid</span>
+                    <span class="paid-badge">PAID</span>
+                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
+                </h2>
+                <p>Keyless · Fast execution · Multi-instance</p>
+                <p class="price-tag">💎 Mua tại Shyun.shop</p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 29/10/2026</span></p>
+                <button class="btn btn-premium" data-role="download" type="button" data-url="https://shyun.shop/?aff=9WBAP3F5">Mua ngay</button>
+                <div class="info info-premium"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+            </article>
+
+            <!-- VOLT -->
+            <article class="card card-premium" data-executor="volt" data-name="Volt" data-updated="2026-10-29">
+                <span class="premium-ribbon" aria-hidden="true">👑 PREMIUM</span>
+                <h2>
+                    <img class="executor-logo" src="https://i.postimg.cc/k6cMd1M1/roblox-vault-awp-v2-executor-1764921674-37063614-progressive.jpg" alt="Volt logo" loading="lazy" width="28" height="28" />
+                    <span>Volt</span>
+                    <span class="paid-badge">PAID</span>
+                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
+                </h2>
+                <p>Keyless · Fast execution · Multi-instance</p>
+                <p class="price-tag">💎 Mua tại Shyun.shop</p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 29/10/2026</span></p>
+                <button class="btn btn-premium" data-role="download" type="button" data-url="https://shyun.shop/?aff=9WBAP3F5">Mua ngay</button>
+                <div class="info info-premium"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+            </article>
+
+            <!-- WAVE -->
+            <article class="card card-premium" data-executor="wave" data-name="Wave" data-updated="2026-10-29">
+                <span class="premium-ribbon" aria-hidden="true">👑 PREMIUM</span>
+                <h2>
+                    <img class="executor-logo" src="https://i.postimg.cc/w7Spn8cm/Wave-Logo.webp" alt="Wave logo" loading="lazy" width="28" height="28" />
+                    <span>Wave</span>
+                    <span class="paid-badge">PAID</span>
+                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
+                </h2>
+                <p>Keyless · Fast execution · Multi-instance</p>
+                <p class="price-tag">💎 Mua tại Shyun.shop</p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 29/10/2026</span></p>
+                <button class="btn btn-premium" data-role="download" type="button" data-url="https://shyun.shop/?aff=9WBAP3F5">Mua ngay</button>
+                <div class="info info-premium"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+            </article>
+
+            <!-- ISAEVA -->
+            <article class="card card-premium" data-executor="isaeva" data-name="Isaeva" data-updated="2026-10-29">
+                <span class="premium-ribbon" aria-hidden="true">👑 PREMIUM</span>
+                <h2>
+                    <img class="executor-logo" src="https://i.postimg.cc/JDtY1tMP/Thiet-ke-chua-co-ten-(2).png" alt="Isaeva logo" loading="lazy" width="28" height="28" />
+                    <span>Isaeva</span>
+                    <span class="paid-badge">PAID</span>
+                    <span class="maintenance-badge" data-role="badge">🔧 Bảo trì</span>
+                </h2>
+                <p>Keyless · Fast execution · Multi-instance</p>
+                <p class="price-tag">💎 Mua tại Shyun.shop</p>
+                <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 29/10/2026</span></p>
+                <button class="btn btn-premium" data-role="download" type="button" data-url="https://shyun.shop/?aff=9WBAP3F5">Mua ngay</button>
+                <div class="info info-premium"><span>Version: 1.0</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+            </article>
+        </section>
+        </div>
+    </main>
+
+    <!-- ===== NỔI: DISCORD & BACK TO TOP ===== -->
     <a class="discord-float" id="discordFloat" href="https://discord.gg/GrTCy2DHEX" target="_blank" rel="noopener noreferrer" aria-label="Tham gia Discord server" title="Tham gia Discord">
-        <span class="discord-float-ring" aria-hidden="true"></span>
-        <span class="discord-float-icon"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg></span>
-        <span class="discord-float-label">Join Discord</span>
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+        <span>Join Discord</span>
     </a>
+    <button class="back-to-top" id="backToTop" type="button" aria-label="Cuộn lên đầu trang" title="Về đầu trang">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+    </button>
 
-    <button class="back-to-top" id="backToTop" type="button" aria-label="Cuộn lên đầu trang" title="Về đầu trang"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg></button>
-
+    <!-- ===== FOOTER ===== -->
     <footer>
         <div class="footer-links">
             <button type="button" data-info="about">About</button>
@@ -598,23 +612,14 @@
             <button type="button" data-info="legal">Legal</button>
             <button type="button" data-info="contact">Contact</button>
         </div>
-        &copy; 2026 Matchat67 – Executor
+        &copy; 2026 Phuc03 Executor Hub
         <small class="footer-disclaimer">Trang web không liên kết với Roblox Corporation.</small>
     </footer>
 
-    <div class="info-overlay" id="infoOverlay" aria-hidden="true">
-        <div class="info-modal" role="dialog" aria-modal="true">
-            <div class="info-head">
-                <h3><span class="info-eyebrow" id="infoEyebrow">Thông tin</span><span id="infoTitle">About</span></h3>
-                <button class="info-close" id="infoClose" aria-label="Đóng" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg></button>
-            </div>
-            <div class="info-body" id="infoBody"></div>
-        </div>
-    </div>
-
+    <!-- ===== COOKIE BANNER ===== -->
     <div class="cookie-banner" id="cookieBanner" hidden>
         <div class="cookie-content">
-            <div class="cookie-text"><strong>🍪 Cookies</strong><p>Trang web sử dụng cookie để ghi nhớ theme, ngôn ngữ và lựa chọn của bạn.</p></div>
+            <div><strong>🍪 Cookies</strong><p>Trang web dùng bộ nhớ trình duyệt để ghi nhớ theme và lựa chọn của bạn.</p></div>
             <div class="cookie-actions">
                 <button type="button" class="cookie-btn cookie-decline" id="cookieDecline">Từ chối</button>
                 <button type="button" class="cookie-btn cookie-accept" id="cookieAccept">Accept</button>
@@ -624,4 +629,4 @@
 
     <script src="script.js" defer></script>
 </body>
-</html>
+                </html>
