@@ -13,6 +13,9 @@
         solara: false, xeno: false, umi: false, volcano: false, nam: true, nexomia: true,
         supq: false, zynova: false, saiko: false, vortex: false, yubx: false, codex: false,
         worldclient: false, aevix: false, yuari: false, luna: false, madius: false,
+        emberly: false, fluxusz: false, crescent: false,
+        'yuari-ext': false, 'fluxusz-ext': false, 'vexor-ext': false,
+        'worldclient-ext': false, 'rift-ext': false,
         pottasium: false, 'delta-paid': false, 'real-paid': false,
         volt: false, wave: false, isaeva: false
     };
@@ -43,9 +46,18 @@
         aevix: { url: 'https://vuotnhanh.com/E0W7', filename: 'Aevix.exe' },
         yuari: { url: 'https://vuotnhanh.com/LL57', filename: 'Yuari.exe' },
         luna: { url: 'https://vuotnhanh.com/zTlA', filename: 'Luna.exe' },
-        madius: { url: 'https://vuotnhanh.com/UXW9', filename: 'Madius.exe' }
+        madius: { url: 'https://vuotnhanh.com/UXW9', filename: 'Madius.exe' },
+        emberly: { url: 'https://vuotnhanh.com/OTlM', filename: 'Emberly.exe' },
+        fluxusz: { url: 'https://vuotnhanh.com/EbP1', filename: 'FluxusZ.exe' },
+        crescent: { url: 'https://vuotnhanh.com/2OWG', filename: 'Crescent.exe' },
+        'yuari-ext': { url: 'https://vuotnhanh.com/LL57', filename: 'Yuari-External.exe' },
+        'fluxusz-ext': { url: 'https://vuotnhanh.com/ZXy3', filename: 'FluxusZ-External.exe' },
+        'vexor-ext': { url: 'https://vuotnhanh.com/evzH', filename: 'Vexor-External.exe' },
+        'worldclient-ext': { url: 'https://vuotnhanh.com/rlh8', filename: 'World-Client-External.exe' },
+        'rift-ext': { url: 'https://vuotnhanh.com/gIoA', filename: 'Rift-External.exe' }
     };
 
+    const TABS = ['mobile', 'pc', 'external', 'premium'];
     const THEME_CONFIG = { storageKey: 'theme', labels: { dark: 'Dark', light: 'Light' } };
     const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -53,7 +65,7 @@
     // ĐẾM SỐ CARD CHO BADGE TRÊN TAB
     // ============================================================
     function updateTabCounts() {
-        ['mobile', 'pc', 'premium'].forEach((k) => {
+        TABS.forEach((k) => {
             const grid = document.getElementById('grid-' + k);
             const badge = document.querySelector('[data-count="' + k + '"]');
             if (grid && badge) badge.textContent = grid.querySelectorAll('.card[data-executor]').length;
@@ -136,15 +148,13 @@
     }
 
     // ============================================================
-    // 3. TABS (mobile / pc / premium)
+    // 3. TABS (mobile / pc / external / premium)
     // ============================================================
     function initTabs() {
         const btns = document.querySelectorAll('.tab-btn');
-        const panels = {
-            mobile: document.getElementById('tab-mobile'),
-            pc: document.getElementById('tab-pc'),
-            premium: document.getElementById('tab-premium')
-        };
+        const panels = {};
+        TABS.forEach((k) => { panels[k] = document.getElementById('tab-' + k); });
+
         btns.forEach((btn) => {
             btn.addEventListener('click', () => {
                 const target = btn.dataset.tab;
@@ -153,7 +163,9 @@
                     b.classList.toggle('active', b === btn);
                     b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
                 });
-                Object.keys(panels).forEach((k) => panels[k].classList.toggle('active', k === target));
+                Object.keys(panels).forEach((k) => {
+                    if (panels[k]) panels[k].classList.toggle('active', k === target);
+                });
 
                 // Xóa ô tìm kiếm khi đổi tab
                 const input = document.getElementById('searchInput');
@@ -349,7 +361,6 @@
         const close = () => { overlay.classList.remove('show'); overlay.setAttribute('aria-hidden', 'true'); };
         const open = () => { overlay.classList.add('show'); overlay.setAttribute('aria-hidden', 'false'); };
 
-        // Mọi nút có id="guideOpen" đều mở modal
         document.querySelectorAll('#guideOpen').forEach((b) => b.addEventListener('click', open));
         document.getElementById('guideClose').addEventListener('click', close);
         document.getElementById('guideOk').addEventListener('click', close);
@@ -479,7 +490,7 @@
         const overlay = document.getElementById('infoOverlay');
         if (!overlay) return;
         const INFO = {
-            about: '<p>Phuc03 Executor Hub là trang tổng hợp liên kết Executor/Client Roblox cho Mobile, PC và Premium.</p>',
+            about: '<p>Phuc03 Executor Hub là trang tổng hợp liên kết Executor/Client Roblox cho Mobile, PC, External và Premium.</p>',
             terms: '<p>Sử dụng executor có thể vi phạm Điều khoản dịch vụ của Roblox. Người dùng tự chịu hoàn toàn trách nhiệm và rủi ro.</p>',
             privacy: '<p>Trang chỉ dùng localStorage/sessionStorage để ghi nhớ theme, trạng thái popup và cookie. Không thu thập dữ liệu cá nhân.</p>',
             legal: '<p>Trang web không liên kết với Roblox Corporation. Mọi phần mềm thuộc quyền của nhà phát triển tương ứng.</p>',
