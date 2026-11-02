@@ -13,9 +13,9 @@
         solara: false, xeno: false, umi: false, volcano: false, nam: true, nexomia: true,
         supq: false, zynova: false, saiko: false, vortex: false, yubx: false, codex: false,
         worldclient: false, aevix: false, yuari: false, luna: false, madius: false,
-        emberly: false, fluxusz: false, crescent: false,
+        emberly: false, fluxusz: false, crescent: false, lunar: false, xinject: false,
         'yuari-ext': false, 'fluxusz-ext': false, 'vexor-ext': false,
-        'worldclient-ext': false, 'rift-ext': false,
+        'worldclient-ext': false, 'rift-ext': false, 'erbium-ext': false,
         pottasium: false, 'delta-paid': false, 'real-paid': false,
         volt: false, wave: false, isaeva: false
     };
@@ -50,11 +50,14 @@
         emberly: { url: 'https://vuotnhanh.com/OTlM', filename: 'Emberly.exe' },
         fluxusz: { url: 'https://vuotnhanh.com/EbP1', filename: 'FluxusZ.exe' },
         crescent: { url: 'https://vuotnhanh.com/2OWG', filename: 'Crescent.exe' },
+        lunar: { url: 'https://vuotnhanh.com/jtoy', filename: 'Lunar.exe' },
+        xinject: { url: 'https://vuotnhanh.com/iGlr', filename: 'XInject.exe' },
         'yuari-ext': { url: 'https://vuotnhanh.com/LL57', filename: 'Yuari-External.exe' },
         'fluxusz-ext': { url: 'https://vuotnhanh.com/ZXy3', filename: 'FluxusZ-External.exe' },
         'vexor-ext': { url: 'https://vuotnhanh.com/evzH', filename: 'Vexor-External.exe' },
         'worldclient-ext': { url: 'https://vuotnhanh.com/rlh8', filename: 'World-Client-External.exe' },
-        'rift-ext': { url: 'https://vuotnhanh.com/gIoA', filename: 'Rift-External.exe' }
+        'rift-ext': { url: 'https://vuotnhanh.com/gIoA', filename: 'Rift-External.exe' },
+        'erbium-ext': { url: 'https://vuotnhanh.com/f7HF', filename: 'Erbium-External.exe' }
     };
 
     const TABS = ['mobile', 'pc', 'external', 'premium'];
