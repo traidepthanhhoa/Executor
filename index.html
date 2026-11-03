@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Phuc03 Executor</title>
-    <meta name="description" content="Phuc03 Executor - tổng hợp Executor" />
+    <title>Phuc03 Executor Hub</title>
+    <meta name="description" content="Phuc03 Executor Hub - tổng hợp Executor & Client Roblox cho Mobile, PC, External và Premium." />
     <meta name="theme-color" content="#050510" />
 
     <!-- Áp dụng theme sớm để tránh nháy màn hình -->
@@ -24,6 +24,18 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=JetBrains+Mono:wght@500;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
+    <style>
+        .about-us{max-width:900px;margin:48px auto 24px;padding:0 16px}
+        .about-card{border:1px solid rgba(127,127,127,.25);background:rgba(127,127,127,.08);border-radius:16px;padding:28px 22px;text-align:center}
+        .about-card h2{margin:0 0 10px;font-size:1.5rem}
+        .about-card>p{margin:0 auto 22px;max-width:640px;line-height:1.6;opacity:.85}
+        .about-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:22px}
+        .about-stat{border:1px solid rgba(127,127,127,.25);border-radius:12px;padding:18px 10px;background:rgba(127,127,127,.06)}
+        .about-num{display:block;font-family:'Orbitron','Inter',sans-serif;font-weight:900;font-size:clamp(1.6rem,6vw,2.4rem);line-height:1.1}
+        .about-label{display:block;margin-top:6px;font-size:.9rem;opacity:.8}
+        .about-link{display:inline-block;padding:10px 20px;border-radius:999px;border:1px solid currentColor;text-decoration:none;color:inherit;font-weight:700}
+        .about-link:hover{opacity:.8}
+    </style>
 </head>
 <body>
 
@@ -185,7 +197,7 @@
         <div class="tab-content active" id="tab-mobile" role="tabpanel" aria-labelledby="tab-mobile-btn">
             <section class="hero" id="grid-mobile" aria-label="Executor cho Mobile">
             <!-- DELTA -->
-            <article class="card" data-executor="client" data-name="Delta" data-updated="2026-11-23">
+            <article class="card" data-executor="client" data-name="Delta" data-updated="2026-10-19">
                 <h2>
                     <img class="executor-logo" src="https://i.postimg.cc/0bNDk5kX/1741705989265.webp" alt="Delta logo" loading="lazy" width="28" height="28" />
                     <span>Download Delta</span>
@@ -194,10 +206,10 @@
                 <p>Tải phiên bản mới nhất.</p>
                 <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 19/10/2026</span></p>
                 <button class="btn btn-mobile" data-role="download" type="button">Download</button>
-                <div class="info"><span>Version: 2.745.1142</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+                <div class="info"><span>Version: 2.743.1136</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
             <!-- DELTA FONT MINE -->
-            <article class="card" data-executor="D32" data-name="Delta Font Mine" data-updated="2026-11-3">
+            <article class="card" data-executor="D32" data-name="Delta Font Mine" data-updated="2026-10-19">
                 <h2>
                     <img class="executor-logo" src="https://i.postimg.cc/0bNDk5kX/1741705989265.webp" alt="Delta Font Mine logo" loading="lazy" width="28" height="28" />
                     <span>Download Delta Font Mine</span>
@@ -206,7 +218,7 @@
                 <p>Tải phiên bản font mine mới nhất.</p>
                 <p class="card-updated" data-role="updated"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="updated-text">Cập nhật: 19/10/2026</span></p>
                 <button class="btn btn-mobile" data-role="download" type="button">Download</button>
-                <div class="info"><span>Version: 2.745.1142</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
+                <div class="info"><span>Version: 2.743.1136</span><span data-role="status">Status: <span class="dot online-dot"></span><span class="status-text">Online</span></span></div>
             </article>
         </section>
         </div>
@@ -740,6 +752,19 @@
         </section>
         </div>
     </main>
+
+    <!-- ===== ABOUT US ===== -->
+    <section class="about-us" id="about" aria-labelledby="aboutTitle">
+        <div class="about-card">
+            <h2 id="aboutTitle">ℹ️ About Us</h2>
+            <p>Phuc03 Executor Hub là nơi tổng hợp Executor &amp; Client Roblox cho Mobile, PC, External và Premium, được cập nhật thường xuyên để bạn dễ tìm và tải nhanh.</p>
+            <div class="about-stats">
+                <div class="about-stat"><span class="about-num" data-count-to="1000" data-suffix="+">1.000+</span><span class="about-label">⬇️ Lượt tải</span></div>
+                <div class="about-stat"><span class="about-num" data-count-to="10000" data-suffix="+">10.000+</span><span class="about-label">👥 Visitors</span></div>
+            </div>
+            <a class="about-link" href="https://discord.gg/GrTCy2DHEX" target="_blank" rel="noopener noreferrer">Tham gia Discord</a>
+        </div>
+    </section>
 
     <!-- ===== NỔI: DISCORD & BACK TO TOP ===== -->
     <a class="discord-float" id="discordFloat" href="https://discord.gg/GrTCy2DHEX" target="_blank" rel="noopener noreferrer" aria-label="Tham gia Discord server" title="Tham gia Discord">
