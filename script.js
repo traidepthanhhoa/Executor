@@ -12,7 +12,7 @@
         client: false, D32: false, nx: true, pc: false, px: false, pv: false,
         solara: false, xeno: false, umi: false, volcano: false, nam: true, nexomia: true,
         supq: false, zynova: false, saiko: false, vortex: false, yubx: false, codex: false,
-        worldclient: false, aevix: false, yuari: false, luna: false, madius: false,
+        worldclient: false, aevix: true, yuari: false, luna: false, madius: false,
         emberly: false, fluxusz: false, crescent: false, lunar: false, xinject: false,
         'yuari-ext': false, 'fluxusz-ext': false, 'vexor-ext': false,
         'worldclient-ext': false, 'rift-ext': false, 'erbium-ext': false,
@@ -24,8 +24,8 @@
     // CẤU HÌNH DOWNLOAD
     // ============================================================
     const DOWNLOADS = {
-        client: { url: 'https://vuotnhanh.com/8LD8', filename: 'Delta.apk' },
-        D32: { url: 'https://vuotnhanh.com/Lla1', filename: 'Delta-32.apk' },
+        client: { url: 'https://vuotnhanh.com/E3Vi', filename: 'Delta.apk' },
+        D32: { url: 'https://vuotnhanh.com/H1Nd', filename: 'Delta-32.apk' },
         nx: { url: 'https://vuotnhanh.com/TxPF', filename: 'Roblox-Lite-NX.apk' },
         pc: { url: 'https://vuotnhanh.com/CEGE', filename: 'Executor-Real.zip' },
         px: { url: 'https://vuotnhanh.com/fXSZ', filename: 'Executor-Medium.zip' },
