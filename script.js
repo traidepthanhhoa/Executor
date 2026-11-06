@@ -9,11 +9,11 @@
     // CẤU HÌNH BẢO TRÌ (true = đang bảo trì)
     // ============================================================
     const MAINTENANCE_MODE = {
-        client: false, D32: false, nx: true, pc: false, px: false, pv: false,
+        client: false, D32: false, nx: true, pc: false, px: false, pv: true,
         solara: false, xeno: false, umi: false, volcano: false, nam: true, nexomia: true,
-        supq: false, zynova: false, saiko: false, vortex: false, yubx: false, codex: false,
+        supq: true, zynova: true, saiko: false, vortex: true, yubx: false, codex: false,
         worldclient: false, aevix: true, yuari: false, luna: false, madius: false,
-        emberly: false, fluxusz: false, crescent: false, lunar: false, xinject: false,
+        emberly: true, fluxusz: false, crescent: true, lunar: false, xinject: false,
         'yuari-ext': false, 'fluxusz-ext': false, 'vexor-ext': false,
         'worldclient-ext': false, 'rift-ext': false, 'erbium-ext': false,
         pottasium: false, 'delta-paid': false, 'real-paid': false,
