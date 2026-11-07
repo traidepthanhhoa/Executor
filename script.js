@@ -13,7 +13,7 @@
         solara: false, xeno: false, umi: false, volcano: false, nam: false, nexomia: true,
         supq: true, zynova: false, saiko: false, vortex: false, yubx: false, codex: false,
         worldclient: false, aevix: true, yuari: false, luna: false, madius: false,
-        emberly: true, fluxusz: false, crescent: false, lunar: false, xinject: false, bunni: true,
+        emberly: true, fluxusz: true, crescent: true, lunar: false, xinject: false, bunni: true,
         'yuari-ext': false, 'fluxusz-ext': false, 'vexor-ext': false,
         'worldclient-ext': false, 'rift-ext': false, 'erbium-ext': false,
         pottasium: false, 'delta-paid': false, 'real-paid': false,
