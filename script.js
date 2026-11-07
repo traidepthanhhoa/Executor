@@ -9,11 +9,11 @@
     // CẤU HÌNH BẢO TRÌ (true = đang bảo trì)
     // ============================================================
     const MAINTENANCE_MODE = {
-        client: false, D32: false, nx: true, pc: false, px: false, pv: true,
-        solara: false, xeno: false, umi: false, volcano: false, nam: true, nexomia: true,
-        supq: true, zynova: true, saiko: false, vortex: true, yubx: false, codex: false,
+        client: false, D32: false, nx: true, pc: false, px: false, pv: false,
+        solara: false, xeno: false, umi: false, volcano: false, nam: false, nexomia: true,
+        supq: true, zynova: true, saiko: false, vortex: false, yubx: false, codex: false,
         worldclient: false, aevix: true, yuari: false, luna: false, madius: false,
-        emberly: true, fluxusz: false, crescent: true, lunar: false, xinject: false,
+        emberly: true, fluxusz: false, crescent: false, lunar: false, xinject: false, bunni: true,
         'yuari-ext': false, 'fluxusz-ext': false, 'vexor-ext': false,
         'worldclient-ext': false, 'rift-ext': false, 'erbium-ext': false,
         pottasium: false, 'delta-paid': false, 'real-paid': false,
@@ -24,11 +24,11 @@
     // CẤU HÌNH DOWNLOAD
     // ============================================================
     const DOWNLOADS = {
-        client: { url: 'https://vuotnhanh.com/E3Vi', filename: 'Delta.apk' },
-        D32: { url: 'https://vuotnhanh.com/H1Nd', filename: 'Delta-32.apk' },
+        client: { url: 'https://vuotnhanh.com/8LD8', filename: 'Delta.apk' },
+        D32: { url: 'https://vuotnhanh.com/Lla1', filename: 'Delta-32.apk' },
         nx: { url: 'https://vuotnhanh.com/TxPF', filename: 'Roblox-Lite-NX.apk' },
         pc: { url: 'https://vuotnhanh.com/CEGE', filename: 'Executor-Real.zip' },
-        px: { url: 'https://vuotnhanh.com/fXSZ', filename: 'Executor-Medium.zip' },
+        px: { url: 'https://vuotnhanh.com/WhOz', filename: 'Executor-Medium.zip' },
         pv: { url: 'https://vuotnhanh.com/zij1', filename: 'Executor-Velocity.zip' },
         solara: { url: 'https://4d38a1ec.solaraweb-alj.pages.dev/download/static/files/Bootstrapper.exe', filename: 'Solara.exe' },
         xeno: { url: 'https://xeno.now/', filename: 'Xeno.exe' },
@@ -52,6 +52,7 @@
         crescent: { url: 'https://vuotnhanh.com/2OWG', filename: 'Crescent.exe' },
         lunar: { url: 'https://vuotnhanh.com/jtoy', filename: 'Lunar.exe' },
         xinject: { url: 'https://vuotnhanh.com/iGlr', filename: 'XInject.exe' },
+        bunni: { url: 'https://vuotnhanh.com/OsUf', filename: 'Bunni.exe' },
         'yuari-ext': { url: 'https://vuotnhanh.com/LL57', filename: 'Yuari-External.exe' },
         'fluxusz-ext': { url: 'https://vuotnhanh.com/ZXy3', filename: 'FluxusZ-External.exe' },
         'vexor-ext': { url: 'https://vuotnhanh.com/evzH', filename: 'Vexor-External.exe' },
@@ -96,6 +97,7 @@
         initInfoModal();
         init3DTilt();
         initEscClose();
+        initAboutCounters();
     });
 
     // ============================================================
@@ -532,6 +534,39 @@
             const card = e.target.closest && e.target.closest('.card[data-executor]');
             if (card && !card.contains(e.relatedTarget)) card.style.transform = '';
         });
+    }
+
+    // ============================================================
+    // 16. ABOUT US: đếm số tăng dần khi cuộn tới
+    // ============================================================
+    function initAboutCounters() {
+        const els = document.querySelectorAll('[data-count-to]');
+        if (!els.length) return;
+        const fmt = (n, suffix) => n.toLocaleString('vi-VN') + (suffix || '');
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        const animate = (el) => {
+            const target = Number(el.dataset.countTo) || 0;
+            const suffix = el.dataset.suffix || '';
+            if (reduce) { el.textContent = fmt(target, suffix); return; }
+            const dur = 1500;
+            const start = performance.now();
+            const step = (now) => {
+                const p = Math.min(1, (now - start) / dur);
+                const eased = 1 - Math.pow(1 - p, 3);
+                el.textContent = fmt(Math.round(target * eased), suffix);
+                if (p < 1) requestAnimationFrame(step);
+            };
+            requestAnimationFrame(step);
+        };
+
+        if (!('IntersectionObserver' in window)) { els.forEach((el) => { el.textContent = fmt(Number(el.dataset.countTo), el.dataset.suffix); }); return; }
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach((en) => {
+                if (en.isIntersecting) { animate(en.target); io.unobserve(en.target); }
+            });
+        }, { threshold: 0.4 });
+        els.forEach((el) => io.observe(el));
     }
 
     // ============================================================
