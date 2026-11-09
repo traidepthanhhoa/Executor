@@ -11,9 +11,9 @@
     const MAINTENANCE_MODE = {
         client: false, D32: false, nx: true, pc: false, px: false, pv: false,
         solara: false, xeno: false, umi: false, volcano: false, nam: false, nexomia: true,
-        supq: true, zynova: false, saiko: false, vortex: false, yubx: false, codex: false,
+        supq: false, zynova: false, saiko: false, vortex: false, yubx: false, codex: false,
         worldclient: false, aevix: true, yuari: false, luna: false, madius: false,
-        emberly: true, fluxusz: true, crescent: true, lunar: false, xinject: false, bunni: true,
+        emberly: false, fluxusz: true, crescent: false, lunar: false, xinject: false, bunni: true,
         'yuari-ext': false, 'fluxusz-ext': false, 'vexor-ext': false,
         'worldclient-ext': false, 'rift-ext': false, 'erbium-ext': false,
         pottasium: false, 'delta-paid': false, 'real-paid': false,
