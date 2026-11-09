@@ -32,7 +32,7 @@
         pv: { url: 'https://vuotnhanh.com/zij1', filename: 'Executor-Velocity.zip' },
         solara: { url: 'https://4d38a1ec.solaraweb-alj.pages.dev/download/static/files/Bootstrapper.exe', filename: 'Solara.exe' },
         xeno: { url: 'https://xeno.now/', filename: 'Xeno.exe' },
-        umi: { url: 'https://vuotnhanh.com/KwNa', filename: 'Umi.exe' },
+        umi: { url: 'https://vuotnhanh.com/2cmV', filename: 'Umi.exe' },
         volcano: { url: 'https://vuotnhanh.com/6fMI', filename: 'Volcano.exe' },
         nam: { url: 'https://vuotnhanh.com/U0US', filename: 'Nam.exe' },
         nexomia: { url: 'https://vuotnhanh.com/Krls', filename: 'Nexomia.exe' },
