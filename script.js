@@ -9,7 +9,7 @@
     // CẤU HÌNH BẢO TRÌ (true = đang bảo trì)
     // ============================================================
     const MAINTENANCE_MODE = {
-        client: false, D32: false, nx: true, pc: true, px: false, pv: true,
+        client: false, D32: false, nx: true, pc: true, px: false, pv: false,
         solara: false, xeno: false, umi: true, volcano: false, nam: true, nexomia: true,
         supq: false, zynova: false, saiko: true, vortex: true, yubx: false, codex: false,
         moon: false,
