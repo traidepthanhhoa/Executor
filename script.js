@@ -48,7 +48,7 @@
         yuari: { url: 'https://vuotnhanh.com/vy5b', filename: 'Yuari.exe' },
         luna: { url: 'https://vuotnhanh.com/46UZ', filename: 'Luna.exe' },
         madius: { url: 'https://vuotnhanh.com/UXW9', filename: 'Madius.exe' },
-        emberly: { url: 'https://vuotnhanh.com/OTlM', filename: 'Emberly.exe' },
+        emberly: { url: 'https://vuotnhanh.com/Sxgi', filename: 'Emberly.exe' },
         fluxusz: { url: 'https://vuotnhanh.com/PG0F', filename: 'FluxusZ.exe' },
         crescent: { url: 'https://vuotnhanh.com/2OWG', filename: 'Crescent.exe' },
         lunar: { url: 'https://vuotnhanh.com/jtoy', filename: 'Lunar.exe' },
