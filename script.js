@@ -10,7 +10,7 @@
     // ============================================================
     const MAINTENANCE_MODE = {
         client: false, D32: false, nx: true, pc: false, px: false, pv: false,
-        solara: false, xeno: false, umi: true, volcano: false, nam: true, nexomia: true,
+        solara: false, xeno: false, umi: false, volcano: false, nam: true, nexomia: true,
         supq: false, zynova: false, saiko: false, vortex: false, yubx: false, codex: false,
         moon: false, DJxHax: false,
         worldclient: false, aevix: true, yuari: false, luna: false, madius: false,
