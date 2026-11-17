@@ -25,8 +25,8 @@
     // CẤU HÌNH DOWNLOAD
     // ============================================================
     const DOWNLOADS = {
-        client: { url: 'https://vuotnhanh.com/8LD8', filename: 'Delta.apk' },
-        D32: { url: 'https://vuotnhanh.com/Lla1', filename: 'Delta-32.apk' },
+        client: { url: 'https://vuotnhanh.com/6Ojb', filename: 'Delta.apk' },
+        D32: { url: 'https://vuotnhanh.com/1BjJ', filename: 'Delta-32.apk' },
         nx: { url: 'https://vuotnhanh.com/TxPF', filename: 'Roblox-Lite-NX.apk' },
         pc: { url: 'https://vuotnhanh.com/CEGE', filename: 'Executor-Real.zip' },
         px: { url: 'https://vuotnhanh.com/WhOz', filename: 'Executor-Medium.zip' },
