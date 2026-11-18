@@ -11,7 +11,7 @@
     const MAINTENANCE_MODE = {
         client: false, D32: false, nx: true, pc: false, px: false, pv: false,
         solara: false, xeno: false, umi: true, volcano: false, nam: true, nexomia: true,
-        supq: true, zynova: true, saiko: false, vortex: true, yubx: false, codex: false,
+        supq: true, zynova: false, saiko: false, vortex: false, yubx: false, codex: false,
         moon: false, DJxHax: false, Athena: false,
         worldclient: false, aevix: true, yuari: false, luna: false, madius: false,
         emberly: false, fluxusz: false, lunar: false, xinject: false, bunni: true,
@@ -38,7 +38,7 @@
         nam: { url: 'https://vuotnhanh.com/D58T', filename: 'Nam.exe' },
         nexomia: { url: 'https://vuotnhanh.com/Krls', filename: 'Nexomia.exe' },
         supq: { url: 'https://vuotnhanh.com/A3x1', filename: 'supQ.exe' },
-        zynova: { url: 'https://vuotnhanh.com/J2Lw', filename: 'Zynova.exe' },
+        zynova: { url: 'https://vuotnhanh.com/YQ2l', filename: 'Zynova.exe' },
         saiko: { url: 'https://vuotnhanh.com/Dsaw', filename: 'Saiko.exe' },
         vortex: { url: 'https://vuotnhanh.com/9eA7', filename: 'Vortex.exe' },
         yubx: { url: 'https://vuotnhanh.com/DXWz', filename: 'Yub-X.exe' },
