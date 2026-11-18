@@ -12,7 +12,7 @@
         client: false, D32: false, nx: true, pc: false, px: false, pv: false,
         solara: false, xeno: false, umi: false, volcano: false, nam: true, nexomia: true,
         supq: true, zynova: true, saiko: false, vortex: false, yubx: false, codex: false,
-        moon: false, DJxHax: false, Athena: false
+        moon: false, DJxHax: false, Athena: false,
         worldclient: false, aevix: true, yuari: false, luna: false, madius: false,
         emberly: false, fluxusz: false, lunar: false, xinject: false, bunni: true,
         'yuari-ext': false, 'fluxusz-ext': false, 'vexor-ext': false,
