@@ -1,4 +1,4 @@
-/* ==========================================================
+ ==========================================================
    PHUC03 EXECUTOR HUB - SCRIPT
    Toàn bộ code nằm trong IIFE để không rò rỉ biến global.
    ========================================================== */
@@ -19,6 +19,16 @@
         'worldclient-ext': false, 'rift-ext': false, 'erbium-ext': false,
         pottasium: false, 'delta-paid': false, 'real-paid': false,
         volt: false, wave: false, isaeva: false
+    };
+
+    // ============================================================
+    // CẤU HÌNH UPCOMING (true = sắp ra mắt, chưa cho tải)
+    // Ưu tiên hiển thị: Upcoming > Bảo trì > Online
+    // Ví dụ: const UPCOMING = { Athena: true, 'newexec': true };
+    // Khi executor ra mắt: xóa dòng ở đây và thêm link vào DOWNLOADS.
+    // ============================================================
+    const UPCOMING = {
+        // 'ten-executor': true
     };
 
     // ============================================================
@@ -217,7 +227,7 @@
     }
 
     // ============================================================
-    // 5. BẢO TRÌ
+    // 5. TRẠNG THÁI CARD: UPCOMING / BẢO TRÌ / ONLINE
     // ============================================================
     function applyMaintenanceMode() {
         document.querySelectorAll('.card[data-executor]').forEach((card) => {
@@ -228,17 +238,34 @@
             const statusText = card.querySelector('.status-text');
             if (!btn) return;
 
-            const isMaint = Boolean(MAINTENANCE_MODE[key]);
+            const isUpcoming = Boolean(UPCOMING[key]);
+            const isMaint = !isUpcoming && Boolean(MAINTENANCE_MODE[key]);
             const isPremium = card.classList.contains('card-premium');
+            const disabled = isUpcoming || isMaint;
+
+            card.classList.toggle('is-upcoming', isUpcoming);
+
             btn.classList.toggle('btn-maintenance', isMaint);
-            btn.disabled = isMaint;
-            btn.textContent = isMaint ? '⛔ Đang bảo trì' : (isPremium ? 'Mua ngay' : 'Download');
-            if (badge) badge.style.display = isMaint ? 'inline-flex' : 'none';
-            if (dot) {
-                dot.classList.toggle('online-dot', !isMaint);
-                dot.classList.toggle('maintenance-dot', isMaint);
+            btn.classList.toggle('btn-upcoming', isUpcoming);
+            btn.disabled = disabled;
+            btn.textContent = isUpcoming ? '⏳ Sắp ra mắt'
+                : isMaint ? '⛔ Đang bảo trì'
+                : (isPremium ? 'Mua ngay' : 'Download');
+
+            if (badge) {
+                badge.style.display = disabled ? 'inline-flex' : 'none';
+                badge.classList.toggle('upcoming-badge', isUpcoming);
+                badge.classList.toggle('maintenance-badge', !isUpcoming);
+                badge.textContent = isUpcoming ? '⏳ Upcoming' : '🔧 Bảo trì';
             }
-            if (statusText) statusText.textContent = isMaint ? 'Bảo trì' : 'Online';
+            if (dot) {
+                dot.classList.toggle('upcoming-dot', isUpcoming);
+                dot.classList.toggle('maintenance-dot', isMaint);
+                dot.classList.toggle('online-dot', !disabled);
+            }
+            if (statusText) {
+                statusText.textContent = isUpcoming ? 'Upcoming' : (isMaint ? 'Bảo trì' : 'Online');
+            }
         });
     }
 
@@ -251,7 +278,7 @@
                 const card = btn.closest('.card[data-executor]');
                 const key = card && card.dataset.executor;
                 if (!key) return;
-                if (MAINTENANCE_MODE[key]) return; // đang bảo trì
+                if (MAINTENANCE_MODE[key] || UPCOMING[key]) return; // bảo trì hoặc sắp ra mắt
 
                 if (DOWNLOADS[key]) { handleDownload(key, btn); return; }
 
