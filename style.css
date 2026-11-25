@@ -717,7 +717,8 @@ button {
 .new-badge,
 .paid-badge,
 .pc-icon,
-.maintenance-badge {
+.maintenance-badge,
+.upcoming-badge {
     display: inline-flex;
     align-items: center;
     gap: 4px;
@@ -763,6 +764,16 @@ button {
     background: rgba(255, 42, 109, 0.15);
     color: var(--pink);
     font-family: var(--font-code);
+}
+
+/* Badge UPCOMING (sắp ra mắt) - JS bật bằng style.display */
+.upcoming-badge {
+    display: none;
+    background: linear-gradient(135deg, var(--purple), #3b82f6);
+    color: #fff;
+    font-family: var(--font-code);
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.45);
+    animation: upcomingPulse 2s ease-in-out infinite;
 }
 
 /* ==========================================
@@ -813,6 +824,16 @@ button {
     opacity: 0.7;
 }
 
+/* Nút UPCOMING - độ ưu tiên cao hơn .btn:disabled */
+.btn.btn-upcoming,
+.btn.btn-upcoming:disabled {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(59, 130, 246, 0.25)) !important;
+    color: var(--purple) !important;
+    border: 1px dashed var(--purple);
+    cursor: not-allowed !important;
+    opacity: 0.85;
+}
+
 /* ==========================================
    14. INFO BAR TRONG CARD
    ========================================== */
@@ -851,6 +872,26 @@ button {
 .maintenance-dot {
     background: var(--pink);
     box-shadow: 0 0 8px var(--pink);
+}
+
+.upcoming-dot {
+    background: var(--purple);
+    box-shadow: 0 0 8px var(--purple);
+    animation: upcomingPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes upcomingPulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.55; }
+}
+
+/* Card đang ở trạng thái Upcoming */
+.card.is-upcoming {
+    border-color: rgba(168, 85, 247, 0.45);
+}
+
+.card.is-upcoming .executor-logo {
+    filter: grayscale(0.4);
 }
 
 @keyframes dotPulse {
