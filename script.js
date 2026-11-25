@@ -28,7 +28,7 @@
     // Khi executor ra mắt: xóa dòng ở đây và thêm link vào DOWNLOADS.
     // ============================================================
     const UPCOMING = {
-        aevix: true
+        filipino: true
     };
 
     // ============================================================
