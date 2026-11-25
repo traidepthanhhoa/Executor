@@ -13,7 +13,7 @@
         solara: false, xeno: false, umi: false, volcano: false, nam: true, nexomia: true,
         supq: false, zynova: false, saiko: false, vortex: false, yubx: false, codex: false,
         moon: false, DJxHax: false, Athena: false, rosemary: false,
-        worldclient: false, aevix: true, yuari: false, luna: false, madius: false,
+        worldclient: false, yuari: false, luna: false, madius: false,
         emberly: true, fluxusz: false, lunar: false, xinject: false, bunni: true,
         'yuari-ext': false, 'fluxusz-ext': false, 'vexor-ext': false,
         'worldclient-ext': false, 'rift-ext': false, 'erbium-ext': false,
@@ -28,7 +28,7 @@
     // Khi executor ra mắt: xóa dòng ở đây và thêm link vào DOWNLOADS.
     // ============================================================
     const UPCOMING = {
-        // 'ten-executor': true
+        aevix: true
     };
 
     // ============================================================
