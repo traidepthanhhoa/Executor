@@ -29,7 +29,7 @@
     // Khi executor ra mắt: xóa dòng ở đây và thêm link vào DOWNLOADS.
     // ============================================================
     const UPCOMING = {
-        filipino: true, selina: true, silicate: true
+        filipino: true, selina: true, silicate: true, fox: true
     };
 
     // ============================================================
