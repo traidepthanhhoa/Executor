@@ -57,7 +57,7 @@
         DJxHax: { url: 'https://vuotnhanh.com/56Ch' },
         Athena: { url: 'https://vuotnhanh.com/J7N1' },
         rosemary: { url: 'https://vuotnhanh.com/8dhk' },
-        fluxus: { url: 'https://vuotnhanh.com/niIO' },
+        fluxus: { url: 'https://vuotnhanh.com/JUnK' },
         bytebreaker: { url: 'https://vuotnhanh.com/6n57' },
         arctic: { url: 'https://vuotnhanh.com/lHXv' },
         worldclient: { url: 'https://vuotnhanh.com/xaAE', filename: 'World-Client.exe' },
