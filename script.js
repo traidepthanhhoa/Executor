@@ -15,7 +15,7 @@
         moon: false, DJxHax: false, Athena: false, rosemary: false, fluxus: false, bytebreaker: false,
         arctic: false,
         worldclient: false, yuari: false, luna: false, madius: false,
-        emberly: true, fluxusz: false, lunar: false, xinject: false, bunni: true,
+        emberly: false, fluxusz: false, lunar: false, xinject: false, bunni: true,
         'yuari-ext': false, 'fluxusz-ext': false, 'vexor-ext': false,
         'worldclient-ext': false, 'rift-ext': false, 'erbium-ext': false,
         pottasium: false, 'delta-paid': false, 'real-paid': false,
