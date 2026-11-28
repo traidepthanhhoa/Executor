@@ -9,7 +9,7 @@
     // CẤU HÌNH BẢO TRÌ (true = đang bảo trì)
     // ============================================================
     const MAINTENANCE_MODE = {
-        client: false, D32: false, nx: true, pc: false, px: false, pv: false,
+        client: false, D32: false, fluxusmobile: false, nx: true, pc: false, px: false, pv: false,
         solara: false, xeno: false, umi: false, volcano: false, nam: true, nexomia: true,
         supq: false, zynova: false, saiko: false, vortex: false, yubx: false, codex: false,
         moon: false, DJxHax: false, Athena: false, rosemary: false, fluxus: false, bytebreaker: false,
@@ -38,6 +38,7 @@
     const DOWNLOADS = {
         client: { url: 'https://vuotnhanh.com/6Ojb', filename: 'Delta.apk' },
         D32: { url: 'https://vuotnhanh.com/1BjJ', filename: 'Delta-32.apk' },
+        fluxusmobile: { url: 'https://vuotnhanh.com/GZNp'},
         nx: { url: 'https://vuotnhanh.com/TxPF', filename: 'Roblox-Lite-NX.apk' },
         pc: { url: 'https://vuotnhanh.com/CEGE', filename: 'Executor-Real.zip' },
         px: { url: 'https://vuotnhanh.com/WhOz', filename: 'Executor-Medium.zip' },
